@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.widget.Toast
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.factory.ViewModelFactory
+import app.appworks.school.stylish.factory.ViewModelFactory2
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -21,4 +22,10 @@ fun Activity?.showToast(message: String) {
         setGravity(Gravity.CENTER, 0, 0)
         show()
     }
+}
+
+fun Activity.getVmFactory2(): ViewModelFactory2 {
+    val repository = (applicationContext as StylishApplication).stylishRepository
+    val application = applicationContext as StylishApplication
+    return ViewModelFactory2(repository, application)
 }
