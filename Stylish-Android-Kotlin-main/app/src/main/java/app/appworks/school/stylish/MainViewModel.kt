@@ -34,6 +34,10 @@ import kotlin.random.Random
 class MainViewModel(private val stylishRepository: StylishRepository, private val application: Application) : AndroidViewModel(application) {
 
 
+    // use live data to avoid [SharedPreferences & ABtest which create faster]
+    private val _version = MutableLiveData<String>()
+    val version: LiveData<String>
+        get() = _version
 
     fun abTest() {
         Log.i("ABtest", "MainViewModel called")
@@ -57,12 +61,14 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
             editor.apply()
 
             ABtest.version = selectedVersion
+            _version.value = selectedVersion
 
             Log.i("ABtest", "if called")
             Log.i("ABtest", "ABtest.version: ${ABtest.version}")
             Log.i("ABtest", "selectedVersion: $selectedVersion")
         } else {
             ABtest.version = isVersionExist.toString()
+            _version.value = isVersionExist.toString()
             Log.i("ABtest", "else called")
             Log.i("ABtest", "ABtest.version: ${ABtest.version}")
         }
