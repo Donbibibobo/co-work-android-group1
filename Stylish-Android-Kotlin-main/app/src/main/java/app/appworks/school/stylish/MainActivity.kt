@@ -28,6 +28,7 @@ import app.appworks.school.stylish.databinding.BadgeBottomBinding
 import app.appworks.school.stylish.databinding.NavHeaderDrawerBinding
 import app.appworks.school.stylish.dialog.MessageDialog
 import app.appworks.school.stylish.ext.getVmFactory
+import app.appworks.school.stylish.ext.getVmFactory2
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.util.CurrentFragmentType
 import app.appworks.school.stylish.util.DrawerToggleType
@@ -45,7 +46,7 @@ class MainActivity : BaseActivity() {
     /**
      * Lazily initialize our [MainViewModel].
      */
-    val viewModel by viewModels<MainViewModel> { getVmFactory() }
+    val viewModel by viewModels<MainViewModel> { getVmFactory2() }
 
     private lateinit var binding: ActivityMainBinding
     private var actionBarDrawerToggle: ActionBarDrawerToggle? = null
