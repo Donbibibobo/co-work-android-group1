@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
+import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
 
@@ -39,6 +41,26 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailGallery.adapter = DetailGalleryAdapter()
         binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
         binding.recyclerDetailColor.adapter = DetailColorAdapter()
+        /*----------------add Detail Message Adapter------------------*/
+        val detailMessageAdapter = DetailMessageAdapter()
+        binding.recyclerDetailMessage.adapter = detailMessageAdapter
+
+        val messageMockData = mutableListOf<DetailMessage>()
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        messageMockData.add(DetailMessage("子杰好師"))
+        
+        detailMessageAdapter.submitList(messageMockData)
+        /*----------------add Detail Message Adapter------------------*/
+
 
         val linearSnapHelper = LinearSnapHelper().apply {
             attachToRecyclerView(binding.recyclerDetailGallery)
