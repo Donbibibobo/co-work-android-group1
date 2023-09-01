@@ -12,6 +12,7 @@
             android:background="@color/white"
             tools:context=".detail.DetailFragment">
 
+
         <ScrollView
                 android:id="@+id/recycler_detail"
                 android:layout_width="0dp"
