@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="color" type="app.appworks.school.stylish.data.Color"/>
+        <variable name="viewHolder" type="app.appworks.school.stylish.add2cart.Add2cartColorAdapter.ColorViewHolder"/>
+        <variable name="viewModel" type="app.appworks.school.stylish.add2cart.Add2cartViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_add2cart_color"
+            android:layout_width="@dimen/size_add2cart_select"
+            android:layout_height="@dimen/size_add2cart_select"
+            android:clickable="@{!viewHolder.isSelected}"
+            android:onClick="@{() -> viewModel.selectColor(color, viewHolder.adapterPosition)}">
+
+        <ImageView
+                android:id="@+id/image_add2cart_color"
+                android:layout_width="@dimen/size_add2cart_select"
+                android:layout_height="@dimen/size_add2cart_select"
+                android:background="@drawable/ic_placeholder"
+                android:scaleType="centerCrop"
+                app:color="@{color}"
+                app:selected="@{viewHolder.isSelected}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_placeholder"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

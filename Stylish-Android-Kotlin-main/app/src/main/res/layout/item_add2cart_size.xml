@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="variant" type="app.appworks.school.stylish.data.Variant"/>
+        <variable name="viewHolder" type="app.appworks.school.stylish.add2cart.Add2cartSizeAdapter.SizeViewHolder"/>
+        <variable name="viewModel" type="app.appworks.school.stylish.add2cart.Add2cartViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_add2cart_size"
+            android:layout_width="@dimen/size_add2cart_select"
+            android:layout_height="@dimen/size_add2cart_select"
+            android:clickable="@{variant.stock == 0 ? false : !viewHolder.isSelected}"
+            android:onClick="@{() -> viewModel.selectSize(variant, viewHolder.adapterPosition)}">
+
+        <TextView
+                android:id="@+id/text_add2cart_size"
+                android:layout_width="@dimen/size_add2cart_select"
+                android:layout_height="@dimen/size_add2cart_select"
+                android:background="@color/gray_f0f0f0"
+                android:gravity="center"
+                android:letterSpacing="0.15"
+                android:textColor="@{variant.stock == 0 ? @color/gray_999999 : @color/black_3f3a3a}"
+                android:textSize="16sp"
+                android:text="@{variant.size}"
+                app:selected="@{viewHolder.isSelected}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="XL"/>
+
+        <ImageView
+                android:id="@+id/image_add2cart_no_size"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_no_size"
+                android:visibility="@{variant.stock == 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

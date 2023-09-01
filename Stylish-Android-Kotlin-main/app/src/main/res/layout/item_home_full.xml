@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="product" type="app.appworks.school.stylish.data.Product"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_home_full"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/image_home_main"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{product.mainImage}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_placeholder" app:layout_constraintDimensionRatio="2:1"/>
+
+        <TextView
+                android:id="@+id/text_home_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="1"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="15sp"
+                android:text="@{product.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_home_main"
+                tools:text="Uniqlo 特級超輕羽絨外套"/>
+
+        <TextView
+                android:id="@+id/text_home_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:textColor="@color/gray_646464"
+                android:textSize="15sp"
+                android:text="@{product.description}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_home_title"
+                app:layout_constraintStart_toStartOf="@+id/text_home_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_home_title"
+                tools:text="How 哥推薦喔 Go Go"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

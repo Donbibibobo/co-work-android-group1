@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="color" type="app.appworks.school.stylish.data.Color"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_detail_color"
+            android:layout_width="@dimen/size_detail_color"
+            android:layout_height="@dimen/size_detail_color">
+
+        <ImageView
+                android:id="@+id/image_detail_color"
+                android:layout_width="@dimen/size_detail_color"
+                android:layout_height="@dimen/size_detail_color"
+                android:background="@drawable/ic_placeholder"
+                android:scaleType="centerCrop"
+                app:color="@{color}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_placeholder"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

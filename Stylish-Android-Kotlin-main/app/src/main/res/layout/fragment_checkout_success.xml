@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="app.appworks.school.stylish.checkout.CheckoutSuccessViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_checkout_success_top"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_toolbar"
+                android:background="@color/white"
+                android:elevation="@dimen/elevation_all"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/checkout_success_title"
+                    android:fontFamily="@font/noto_sans"
+                    android:textSize="20sp"
+                    android:textColor="@color/black_3f3a3a"
+                    android:letterSpacing="0.15"
+                    android:textStyle="bold"
+                    android:layout_marginTop="37dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+                android:id="@+id/image_checkout_success"
+                android:layout_width="@dimen/size_checkout_success_icon"
+                android:layout_height="@dimen/size_checkout_success_icon"
+                android:background="@drawable/ic_checkout_success"
+                android:layout_marginTop="120dp"
+                app:layout_constraintTop_toBottomOf="@+id/layout_checkout_success_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                android:id="@+id/text_checkout_success"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/checkout_success"
+                android:fontFamily="@font/noto_sans"
+                android:textSize="18sp"
+                android:textColor="@color/black_3f3a3a"
+                android:letterSpacing="0.15"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@+id/image_checkout_success"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/checkout_success_content"
+                android:fontFamily="@font/noto_sans"
+                android:textSize="15sp"
+                android:textColor="@color/black_3f3a3a"
+                android:letterSpacing="0.15"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/text_checkout_success"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_checkout_success_bottom"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_all_bottom_layout"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                    android:id="@+id/button_checkout_success_shopping"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:letterSpacing="0.15"
+                    android:text="@string/goto_shopping"
+                    android:onClick="@{() -> viewModel.navigateToHome()}"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:background="@drawable/button_add2cart_black_ripple"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

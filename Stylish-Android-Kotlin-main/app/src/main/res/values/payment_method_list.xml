@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="payment_method_list">
+        <item>@string/cash_on_delivery</item>
+        <item>@string/credit_card</item>
+    </string-array>
+</resources>

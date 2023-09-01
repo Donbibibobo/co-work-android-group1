@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.text.TextUtils"/>
+        <variable name="viewModel" type="app.appworks.school.stylish.profile.ProfileViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_profile_header"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_profile_header"
+                android:background="@color/black_3f3a3a"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                    android:id="@+id/image_profile_avatar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/ic_nav_profile"
+                    android:scaleType="centerCrop"
+                    android:outlineProvider="@{viewModel.outlineProvider}"
+                    android:onClick="@{() -> viewModel.challenge()}"
+                    app:imageUrl="@{viewModel.user.picture}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                    android:id="@+id/text_profile_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:maxLines="1"
+                    android:text="@{viewModel.user.name}"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="@{TextUtils.isEmpty(viewModel.user.name) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toTopOf="@+id/text_profile_info"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="@string/profile_default_name"/>
+
+            <TextView
+                    android:id="@+id/text_profile_info"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:maxLines="2"
+                    android:textColor="@color/gray_999999"
+                    android:textSize="13sp"
+                    android:text='@{viewModel.user.email.equals("wayne.swchen@gmail.com") ? @string/aka : viewModel.error != null ? viewModel.error : @string/profile_default_information}'
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile_avatar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_profile_name"
+                    tools:text="@string/profile_default_information"/>
+
+            <ProgressBar
+                    android:theme="@style/ProgressThemeDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:setupApiStatus="@{viewModel.status}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+                android:id="@+id/text_profile_order_title"
+                style="@style/ProfileTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/profile_order_title"
+                app:layout_constraintEnd_toStartOf="@+id/text_profile_see_all"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_profile_header"
+                tools:text="@string/profile_order_title"/>
+
+        <TextView
+                android:id="@+id/text_profile_see_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:drawableRight="@drawable/ic_arrow_right_gray_646464_20dp"
+                android:fontFamily="@font/noto_sans"
+                android:gravity="center"
+                android:letterSpacing="0.15"
+                android:maxLines="1"
+                android:text="@string/profile_see_all"
+                android:textColor="@color/gray_646464"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_profile_order_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/text_profile_order_title"
+                app:layout_constraintTop_toTopOf="@+id/text_profile_order_title"
+                tools:text="@string/profile_see_all"/>
+
+        <Button
+                android:id="@+id/button_profile_awaiting_payment"
+                style="@style/ProfileOrderButton"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:drawableTop="@drawable/ic_awaiting_payment"
+                android:text="@string/awaiting_payment"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_awaiting_shipment"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_order_title"/>
+
+        <Button
+                android:id="@+id/button_profile_awaiting_shipment"
+                style="@style/ProfileOrderButton"
+                android:drawableTop="@drawable/ic_awaiting_shipment"
+                android:text="@string/awaiting_shipment"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_shipped"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_awaiting_payment"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_awaiting_payment"/>
+
+        <Button
+                android:id="@+id/button_profile_shipped"
+                style="@style/ProfileOrderButton"
+                android:drawableTop="@drawable/ic_shipped"
+                android:text="@string/shipped"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_awaiting_review"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_awaiting_shipment"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_awaiting_shipment"/>
+
+        <Button
+                android:id="@+id/button_profile_awaiting_review"
+                style="@style/ProfileOrderButton"
+                android:drawableTop="@drawable/awaiting_review"
+                android:text="@string/awaiting_review"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_exchange"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_shipped"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_shipped"/>
+
+        <Button
+                android:id="@+id/button_profile_exchange"
+                style="@style/ProfileOrderButton"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/exchange"
+                android:text="@string/exchange"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_awaiting_review"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_awaiting_review"/>
+
+        <TextView
+                android:id="@+id/text_profile_service_title"
+                style="@style/ProfileTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/profile_service_title"
+                app:layout_constraintStart_toStartOf="@+id/text_profile_order_title"
+                app:layout_constraintTop_toBottomOf="@+id/button_profile_awaiting_payment"/>
+
+        <Button
+                android:id="@+id/button_profile_starred"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:drawableTop="@drawable/ic_starred"
+                android:text="@string/starred"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_notification"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_profile_service_title"/>
+
+        <Button
+                android:id="@+id/button_profile_notification"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:drawableTop="@drawable/ic_notification"
+                android:text="@string/notification"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_refunded"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_starred"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_starred"/>
+
+        <Button
+                android:id="@+id/button_profile_refunded"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:drawableTop="@drawable/ic_refunded"
+                android:text="@string/refunded"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_address"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_notification"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_notification"/>
+
+        <Button
+                android:id="@+id/button_profile_address"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/ic_address"
+                android:text="@string/address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_refunded"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_refunded"/>
+
+        <Button
+                android:id="@+id/button_profile_customer_service"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:drawableTop="@drawable/ic_customer_service"
+                android:text="@string/customer_service"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_system_feedback"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_profile_starred"/>
+
+        <Button
+                android:id="@+id/button_profile_system_feedback"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:drawableTop="@drawable/ic_system_feedback"
+                android:text="@string/system_feedback"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_register_phone"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_customer_service"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_customer_service"/>
+
+        <Button
+                android:id="@+id/button_profile_register_phone"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:drawableTop="@drawable/ic_register_phone"
+                android:text="@string/register_phone"
+                app:layout_constraintEnd_toStartOf="@+id/button_profile_settings"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_system_feedback"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_system_feedback"/>
+
+        <Button
+                android:id="@+id/button_profile_settings"
+                style="@style/ProfileServiceButton"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:drawableTop="@drawable/ic_settings"
+                android:text="@string/settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_profile_register_phone"
+                app:layout_constraintTop_toTopOf="@+id/button_profile_register_phone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

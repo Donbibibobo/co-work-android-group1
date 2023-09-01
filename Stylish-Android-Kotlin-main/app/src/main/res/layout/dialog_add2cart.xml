@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="app.appworks.school.stylish.add2cart.Add2cartViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{() -> viewModel.leave()}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_add2cart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_dialog_corner"
+                android:onClick="@{() -> viewModel.nothing()}"
+                app:layout_constraintBottom_toTopOf="@id/layout_add2cart_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                    android:id="@+id/text_add2cart_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:maxLines="2"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="18sp"
+                    android:text="@{viewModel.product.title}"
+                    app:layout_constraintEnd_toStartOf="@+id/button_add2cart_close"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Uniqlo 超輕羽絨外套"/>
+
+            <TextView
+                    android:id="@+id/text_add2cart_price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:maxLines="2"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="18sp"
+                    app:price="@{viewModel.product.price}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_add2cart_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_title"
+                    tools:text="NT$9527"/>
+
+            <View
+                    android:id="@+id/view_add2cart_top_separation"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_price"/>
+
+
+            <TextView
+                    android:id="@+id/text_add2cart_select_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/select_color"
+                    android:textColor="@color/gray_646464"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_add2cart_top_separation"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_add2cart_color_selector"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:addDecoration="@{viewModel.decoration}"
+                    app:colors="@{viewModel.product.colors}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_color">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                    android:id="@+id/text_add2cart_select_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/select_size"
+                    android:textColor="@color/gray_646464"
+                    android:textSize="14sp"
+                    android:visibility="@{(viewModel.selectedColor != null ? View.VISIBLE : View.GONE)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_add2cart_color_selector"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_add2cart_size_selector"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:addDecoration="@{viewModel.decoration}"
+                    app:sizes="@{viewModel.variantsBySelectedColor}"
+                    app:viewModel="@{viewModel}"
+                    android:visibility="@{(viewModel.selectedColor != null ? View.VISIBLE : View.GONE)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_size">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                    android:id="@+id/text_add2cart_select_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/select_amount"
+                    android:textColor="@{(viewModel.amount > viewModel.selectedVariant.stock) ? @color/red_d0021b : @color/gray_646464}"
+                    android:textSize="14sp"
+                    android:visibility="@{(viewModel.selectedVariant != null ? View.VISIBLE : View.GONE)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_add2cart_size_selector"/>
+
+            <TextView
+                    android:id="@+id/text_add2cart_current_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:textColor="@{(viewModel.amount > viewModel.selectedVariant.stock) ? @color/red_d0021b : @color/gray_646464}"
+                    android:textSize="14sp"
+                    android:text="@{@string/stock_ + String.valueOf(viewModel.selectedVariant.stock)}"
+                    android:visibility="@{(viewModel.selectedVariant != null ? View.VISIBLE : View.GONE)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_add2cart_size_selector"/>
+
+            <TextView
+                    android:id="@+id/text_add2cart_stock_not_enough"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/noto_sans"
+                    android:letterSpacing="0.15"
+                    android:text="@string/stock_not_enough"
+                    android:textColor="@color/red_d0021b"
+                    android:textSize="14sp"
+                    android:visibility="@{(viewModel.selectedVariant == null ? View.GONE : (viewModel.amount > viewModel.selectedVariant.stock) ? View.VISIBLE : View.GONE)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_add2cart_amount_editor"/>
+
+            <ImageButton
+                    android:id="@+id/button_add2cart_decrease"
+                    android:layout_width="@dimen/size_add2cart_select"
+                    android:layout_height="@dimen/size_add2cart_select"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/ic_sub"
+                    android:visibility="@{(viewModel.selectedVariant != null ? View.VISIBLE : View.GONE)}"
+                    android:onClick="@{() -> viewModel.decreaseAmount()}"
+                    app:editorControllerStatus="@{viewModel.selectedVariant.stock > 1 &amp;&amp; viewModel.amount > 1}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_amount"/>
+
+            <ImageButton
+                    android:id="@+id/button_add2cart_increase"
+                    android:layout_width="@dimen/size_add2cart_select"
+                    android:layout_height="@dimen/size_add2cart_select"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_add"
+                    android:visibility="@{(viewModel.selectedVariant != null ? View.VISIBLE : View.GONE)}"
+                    android:onClick="@{() -> viewModel.increaseAmount()}"
+                    app:editorControllerStatus="@{viewModel.amount &lt; viewModel.selectedVariant.stock}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_amount"/>
+
+            <EditText
+                    android:id="@+id/edit_add2cart_amount_editor"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/height_add2cart_select_amount"
+                    android:layout_marginStart="47dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="47dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/white"
+                    android:fontFamily="@font/noto_sans"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:letterSpacing="0.15"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/black_3f3a3a"
+                    android:textSize="16sp"
+                    android:text="@={viewModel.convertLongToString(viewModel.amount)}"
+                    android:visibility="@{(viewModel.selectedVariant != null ? View.VISIBLE : View.INVISIBLE)}"
+                    app:amount="@{viewModel.amount}"
+                    app:stock="@{viewModel.selectedVariant.stock}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/button_add2cart_increase"
+                    app:layout_constraintStart_toStartOf="@+id/button_add2cart_decrease"
+                    app:layout_constraintTop_toBottomOf="@+id/text_add2cart_select_amount"/>
+
+            <ImageButton
+                    android:id="@+id/button_add2cart_close"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/button_dialog_close_ripple"
+                    android:onClick="@{() -> viewModel.leave()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_add2cart_bottom"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/height_all_bottom_layout"
+                android:background="@color/white"
+                android:onClick="@{() -> viewModel.nothing()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                    android:id="@+id/view_add2cart_bottom_separation"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/gray_cccccc"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                    android:id="@+id/button_add2cart"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:letterSpacing="0.15"
+                    android:text="@string/add2cart"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:clickable="@{viewModel.selectedVariant == null ? false : viewModel.amount &lt;= viewModel.selectedVariant.stock ? true : false}"
+                    android:background="@{viewModel.selectedVariant == null ? @drawable/button_add2cart_gray_ripple : viewModel.amount &lt;= viewModel.selectedVariant.stock ? @drawable/button_add2cart_black_ripple : @drawable/button_add2cart_gray_ripple}"
+                    android:onClick="@{() -> viewModel.insertToCart()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

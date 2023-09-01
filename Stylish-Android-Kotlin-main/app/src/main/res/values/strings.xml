@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">STYLiSH</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Facebook SDK -->
+    <string name="facebook_app_id">368446190389666</string>
+    <string name="facebook_client_token">48b8ffcc0c8d76897816914a2f271578</string>
+    <string name="fb_login_protocol_scheme">fb368446190389666</string>
+
+    <!-- Login Dialog -->
+    <string name="login_title">請先登入會員</string>
+    <string name="login_description">登入會員後即可使用個人功能。</string>
+    <string name="login_facebook_text">Facebook 登入</string>
+    <string name="login_native_text">會員帳號登入</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="email_cannot_be_empty">Email 不可為空。</string>
+    <string name="password_cannot_be_empty">Password 不可為空。</string>
+
+    <!-- IMessage Dialog -->
+    <string name="login_success">登入成功</string>
+    <string name="addto_success">加入成功</string>
+
+    <!-- Profile -->
+    <string name="profile_default_name">Loading…</string>
+    <string name="profile_default_information">Do you wanna build a snowman?</string>
+    <string name="profile_mystic_information">Into the Unknown~</string>
+    <string name="profile_order_title">我的訂單</string>
+    <string name="profile_see_all">查看全部</string>
+    <string name="awaiting_payment">待付款</string>
+    <string name="awaiting_shipment">待出貨</string>
+    <string name="shipped">待簽收</string>
+    <string name="awaiting_review">待評價</string>
+    <string name="exchange">退換貨</string>
+    <string name="profile_service_title">更多服務</string>
+    <string name="starred">收藏</string>
+    <string name="notification">貨到通知</string>
+    <string name="refunded">帳戶退款</string>
+    <string name="address">地址</string>
+    <string name="customer_service">客服訊息</string>
+    <string name="system_feedback">系統回饋</string>
+    <string name="register_phone">手機綁定</string>
+    <string name="settings">設定</string>
+
+    <!-- Detail -->
+    <string name="color">顏色</string>
+    <string name="size">尺寸</string>
+    <string name="stock">庫存</string>
+    <string name="texture">材質</string>
+    <string name="wash">洗滌</string>
+    <string name="place">產地</string>
+    <string name="note">備註</string>
+    <string name="add2cart">加入購物車</string>
+    <string name="select_color">選擇顏色</string>
+    <string name="select_size">選擇尺寸</string>
+    <string name="select_amount">選擇數量</string>
+    <string name="stock_not_enough">庫存不足</string>
+
+    <!-- Cart -->
+    <string name="goto_checkout">前往結帳</string>
+    <string name="remove">移除</string>
+    <string name="no_products">目前購物車沒有商品。</string>
+    <string name="product_exist">此商品已存在購物車中。</string>
+
+    <!-- Payment -->
+    <string name="_payment_amount">x%d</string>
+    <string name="checkout_product">結帳商品</string>
+    <string name="recipient_info">收件資訊</string>
+    <string name="recipient_name">收件人姓名</string>
+    <string name="recipient_email">Email</string>
+    <string name="recipient_phone">手機號碼</string>
+    <string name="recipient_address">地址</string>
+    <string name="shipping_time">配送時間</string>
+    <string name="shipping_morning">08:00-12:00</string>
+    <string name="shipping_afternoon">14:00-18:00</string>
+    <string name="shipping_anytime">不指定</string>
+    <string name="payment_detail">付款詳情</string>
+    <string name="cash_on_delivery">貨到付款</string>
+    <string name="credit_card">信用卡付款</string>
+    <string name="select_payment_method">選擇付款方式</string>
+    <string name="total_price">商品總金額</string>
+    <string name="total_freight">運費總金額</string>
+    <string name="total_products">總計 (%d樣商品)</string>
+    <string name="tpd_card_number_error">Invalid Card Number</string>
+    <string name="tpd_expiration_date_error">Invalid Expiration Date</string>
+    <string name="tpd_ccv_error">Invalid CCV</string>
+    <string name="tpd_empty">Credit Card cannot be empty</string>
+    <string name="tpd_general_error">Credit Card information error</string>
+    <string name="no_pay_by_cash">目前不支援貨到付款喔 ^.&#60;</string>
+
+    <!-- Check Out Success -->
+    <string name="checkout_success_title">結帳結果</string>
+    <string name="checkout_success">結帳成功</string>
+    <string name="checkout_success_content">我們收到您的訂單了！將以最快的速度為您安排出貨。</string>
+    <string name="goto_shopping">再去逛逛</string>
+
+    <!-- General -->
+    <string name="nt_dollars_">NT$%d</string>
+    <string name="_dash_">%s - %s</string>
+    <string name="catalog">型錄</string>
+    <string name="cart">購物車</string>
+    <string name="profile">個人</string>
+    <string name="payment">結帳</string>
+    <string name="stock_">庫存：</string>
+    <string name="aka">AKA 小安老師</string>
+    <string name="internet_not_connected">您尚未連接 Internet</string>
+    <string name="you_know_nothing">You know nothing</string>
+    <string name="love_u_3000">Love you 3000</string>
+
+    <!-- Check Out Key -->
+    <string name="tp_app_id">12348</string>
+    <string name="tp_app_key">app_pa1pQcKoY22IlnSXq5m5WP5jFKzoRG58VEXpT7wU62ud7mMbDOGzCYIlzzLF</string>
+    <string name="morning">morning</string>
+    <string name="afternoon">afternoon</string>
+    <string name="anytime">anytime</string>
+</resources>

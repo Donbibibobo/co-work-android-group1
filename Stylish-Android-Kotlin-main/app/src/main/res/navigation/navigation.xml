@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/navigation"
+            app:startDestination="@+id/homeFragment">
+
+    <fragment
+            android:id="@+id/homeFragment"
+            android:name="app.appworks.school.stylish.home.HomeFragment"
+            android:label="HomeFragment"
+            tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+            android:id="@+id/catalogFragment"
+            android:name="app.appworks.school.stylish.catalog.CatalogFragment"
+            android:label="CatalogFragment"
+            tools:layout="@layout/fragment_catalog">
+    </fragment>
+
+    <fragment
+            android:id="@+id/cartFragment"
+            android:name="app.appworks.school.stylish.cart.CartFragment"
+            android:label="CartFragment"
+            tools:layout="@layout/fragment_cart">
+
+        <action android:id="@+id/navigate_to_payment_fragment"
+                app:destination="@id/paymentFragment"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/profileFragment"
+            android:name="app.appworks.school.stylish.profile.ProfileFragment"
+            android:label="ProfileFragment"
+            tools:layout="@layout/fragment_profile">
+
+        <argument android:name="userKey"
+                  app:argType="app.appworks.school.stylish.data.User"
+                  app:nullable="true"
+                  android:defaultValue="@null"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/detailFragment"
+            android:name="app.appworks.school.stylish.detail.DetailFragment"
+            android:label="DetailFragment"
+            tools:layout="@layout/fragment_detail">
+
+        <argument android:name="productKey"
+                  app:argType="app.appworks.school.stylish.data.Product"
+                  app:nullable="false"/>
+    </fragment>
+
+    <fragment android:id="@+id/paymentFragment"
+              android:name="app.appworks.school.stylish.payment.PaymentFragment"
+              android:label="PaymentFragment"
+              tools:layout="@layout/fragment_payment"/>
+
+    <fragment android:id="@+id/checkoutSuccessFragment"
+              android:name="app.appworks.school.stylish.checkout.CheckoutSuccessFragment"
+              android:label="CheckoutSuccessFragment"
+              tools:layout="@layout/fragment_checkout_success"/>
+
+    <dialog
+            android:id="@+id/loginDialog"
+            android:name="app.appworks.school.stylish.login.LoginDialog"
+            android:label="LoginDialog"
+            tools:layout="@layout/dialog_login">
+    </dialog>
+
+    <dialog android:id="@+id/messageDialog"
+            android:name="app.appworks.school.stylish.dialog.MessageDialog"
+            android:label="MessageDialog"
+            tools:layout="@layout/dialog_message">
+
+        <argument android:name="messageTypeKey"
+                  app:argType="app.appworks.school.stylish.dialog.MessageDialog$MessageType"
+                  app:nullable="false"/>
+    </dialog>
+
+    <dialog android:id="@+id/add2cartDialog"
+            android:name="app.appworks.school.stylish.add2cart.Add2cartDialog"
+            android:label="Add2cartDialog"
+            tools:layout="@layout/dialog_add2cart">
+
+        <argument android:name="productKey"
+                  app:argType="app.appworks.school.stylish.data.Product"
+                  app:nullable="false"/>
+    </dialog>
+
+    <action android:id="@+id/navigate_to_profile_fragment" app:destination="@id/profileFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_catalog_fragment" app:destination="@id/catalogFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_cart_fragment" app:destination="@id/cartFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_home_fragment" app:destination="@id/homeFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
+    <action android:id="@+id/navigate_to_checkout_success_fragment" app:destination="@id/checkoutSuccessFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true"/>
+    <action android:id="@+id/navigate_to_detail_fragment" app:destination="@id/detailFragment"/>
+    <action android:id="@+id/navigate_to_login_dialog" app:destination="@id/loginDialog"/>
+    <action android:id="@+id/navigate_to_message_dialog" app:destination="@id/messageDialog"/>
+    <action android:id="@+id/navigate_to_add2cart_dialog" app:destination="@id/add2cartDialog"/>
+</navigation>

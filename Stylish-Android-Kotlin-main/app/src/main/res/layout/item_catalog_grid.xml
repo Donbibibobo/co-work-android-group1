@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="product" type="app.appworks.school.stylish.data.Product"/>
+        <variable name="itemPosition" type="Integer"/>
+        <variable name="itemCount" type="Integer"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_catalog_grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:itemPosition="@{itemPosition}"
+            app:itemCount="@{itemCount}">
+
+        <ImageView
+                android:id="@+id/image_catalog_main"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_placeholder"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{product.mainImage}"
+                app:layout_constraintDimensionRatio="5:7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_placeholder" />
+
+        <TextView
+                android:id="@+id/text_catalog_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="15sp"
+                android:text="@{product.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_catalog_main"
+                tools:text="Uniqlo 特級超輕羽絨外套"/>
+
+        <TextView
+                android:id="@+id/text_catalog_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:lines="1"
+                android:textColor="@color/gray_646464"
+                android:textSize="15sp"
+                app:price="@{product.price}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_catalog_title"
+                app:layout_constraintStart_toStartOf="@+id/text_catalog_title"
+                app:layout_constraintTop_toBottomOf="@+id/text_catalog_title"
+                tools:text="NT$9999"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
