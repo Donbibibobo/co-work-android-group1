@@ -29,21 +29,6 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
 
 
 
-    private val _version = MutableLiveData<String>()
-    val version: LiveData<String>
-        get() = _version
-
-    init {
-        abTest()
-    }
-    fun abTest() {
-        when (ABtest.version) {
-            "A" -> _version.value = ABtest.version
-            "B" -> _version.value = ABtest.version
-            else -> throw IllegalArgumentException("PaymentViewModel: ABtest.version doesn't exist")
-        }
-    }
-
 
 
 

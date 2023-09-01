@@ -43,12 +43,11 @@ class PaymentFragment : Fragment() {
 
 
         // AB test
-        viewModel.version.observe(viewLifecycleOwner){
-            when (ABtest.version) {
-                "A" -> binding.shipment.visibility = View.GONE
-                "B" -> binding.shipment.visibility = View.VISIBLE
-                else -> throw IllegalArgumentException("PaymentViewModel: ABtest.version doesn't exist")
-            }
+
+        when (ABtest.version) {
+            "A" -> binding.shipment.visibility = View.GONE
+            "B" -> binding.shipment.visibility = View.VISIBLE
+            else -> throw IllegalArgumentException("PaymentViewModel: ABtest.version doesn't exist")
         }
 
 
