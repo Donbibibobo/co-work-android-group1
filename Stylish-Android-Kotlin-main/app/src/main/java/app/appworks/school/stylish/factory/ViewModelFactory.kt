@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.factory
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.appworks.school.stylish.MainViewModel
@@ -23,8 +24,8 @@ class ViewModelFactory constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(MainViewModel::class.java) ->
-                    MainViewModel(stylishRepository)
+//                isAssignableFrom(MainViewModel::class.java) ->
+//                    MainViewModel(stylishRepository)
 
                 isAssignableFrom(HomeViewModel::class.java) ->
                     HomeViewModel(stylishRepository)
@@ -40,6 +41,23 @@ class ViewModelFactory constructor(
 
                 isAssignableFrom(CheckoutSuccessViewModel::class.java) ->
                     CheckoutSuccessViewModel(stylishRepository)
+                else ->
+                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
+        } as T
+}
+
+@Suppress("UNCHECKED_CAST")
+class ViewModelFactory2 constructor(
+    private val stylishRepository: StylishRepository,
+    private val application: Application
+) : ViewModelProvider.NewInstanceFactory() {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        with(modelClass) {
+            when {
+                isAssignableFrom(MainViewModel::class.java) ->
+                    MainViewModel(stylishRepository, application)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
