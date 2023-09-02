@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -25,6 +26,11 @@ class DetailViewModel(
     private val arguments: Product
 ) : ViewModel() {
 
+    /*----------------add Detail Message fun------------------*/
+    private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
+    val messageMockData : LiveData<MutableList<DetailMessage>>
+        get() = _messageMockData
+    /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
         value = arguments
@@ -126,4 +132,15 @@ class DetailViewModel(
     fun leaveDetail() {
         _leaveDetail.value = true
     }
+    /*----------------add Detail Message fun------------------*/
+    fun addMockMessage(editMessage : String){
+        val messageList = _messageMockData.value ?: mutableListOf()
+        messageList.add(DetailMessage(editMessage))
+        _messageMockData.value = messageList
+
+        Log.i("addmessage" , "${editMessage}")
+        Log.i("addmessage" , "messageMockData : ${_messageMockData.value}")
+
+    }
+    /*----------------add Detail Message fun------------------*/
 }
