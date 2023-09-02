@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="product"
+                type="app.appworks.school.stylish.data.Product" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <ImageView
+                android:id="@+id/image_payment_main"
+                android:layout_width="82dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/ic_placeholder"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{product.mainImage}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_placeholder" />
+
+        <TextView
+                android:id="@+id/text_payment_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="2"
+                android:text="@{product.title}"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="15sp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/image_payment_main"
+                app:layout_constraintTop_toTopOf="@+id/image_payment_main"
+                tools:text="Uniqlo 特級超輕羽絨外套" />
+
+<!--        <ImageView-->
+<!--                android:id="@+id/image_payment_color"-->
+<!--                android:layout_width="@dimen/size_cart_color"-->
+<!--                android:layout_height="@dimen/size_cart_color"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:background="@drawable/ic_placeholder"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                app:color="@{product.selectedVariant.colorCode}"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/text_payment_title"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/text_payment_title"-->
+<!--                tools:src="@drawable/ic_placeholder" />-->
+
+<!--        <View-->
+<!--                android:id="@+id/view_payment_separation"-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="14dp"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:background="@color/gray_cccccc"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/image_payment_color"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/image_payment_color"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/image_payment_color" -->
+<!--                />-->
+
+<!--        <TextView-->
+<!--                android:id="@+id/text_payment_size"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:fontFamily="@font/noto_sans"-->
+<!--                android:gravity="center"-->
+<!--                android:letterSpacing="0.15"-->
+<!--                android:text="@{product.selectedVariant.size}"-->
+<!--                android:textColor="@color/black_3f3a3a"-->
+<!--                android:textSize="15sp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/view_payment_separation"-->
+<!--                app:layout_constraintStart_toEndOf="@+id/view_payment_separation"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/view_payment_separation"-->
+<!--                tools:text="XL" />-->
+
+        <TextView
+                android:id="@+id/text_payment_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans"
+                android:letterSpacing="0.15"
+                android:maxLines="1"
+                android:textColor="@color/black_3f3a3a"
+                android:textSize="15sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@id/text_payment_title"
+                app:layout_constraintTop_toBottomOf="@id/text_payment_title"
+                app:price="@{product.price}"
+                tools:text="NT$9527" />
+
+
+
+<!--        <TextView-->
+<!--                android:id="@+id/text_payment_amount"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:ellipsize="end"-->
+<!--                android:fontFamily="@font/noto_sans"-->
+<!--                android:letterSpacing="0.15"-->
+<!--                android:maxLines="1"-->
+<!--                android:text="@{String.format(@string/_payment_amount, product.amount)}"-->
+<!--                android:textColor="@color/black_3f3a3a"-->
+<!--                android:textSize="15sp"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/image_payment_color"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/image_payment_color"-->
+<!--                tools:text="x9527" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
