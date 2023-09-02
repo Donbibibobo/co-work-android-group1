@@ -44,30 +44,18 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailColor.adapter = DetailColorAdapter()
         /*----------------add Detail Message Adapter------------------*/
         val detailMessageAdapter = DetailMessageAdapter()
+        val messageList = viewModel.messageMockData
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
 
-        val messageMockData = mutableListOf<DetailMessage>()
 
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-        messageMockData.add(DetailMessage("子杰好師"))
-
-        detailMessageAdapter.submitList(messageMockData)
+        detailMessageAdapter.submitList(messageList.value)
 
         binding.buttonDetailMessage.setOnClickListener {
-            val addMessageMockData = mutableListOf<DetailMessage>()
             val editMessage = binding.messageInput.text
-            addMessageMockData.add(DetailMessage(editMessage.toString()))
-            Log.i("add" , "${editMessage.toString()}")
-            detailMessageAdapter.submitList(addMessageMockData)
+            Log.i("editMessage", "$editMessage")
+            viewModel.addMockMessage(editMessage.toString())
+            detailMessageAdapter.submitList(messageList.value)
+            detailMessageAdapter.notifyDataSetChanged()
         }
         /*----------------add Detail Message Adapter------------------*/
 
