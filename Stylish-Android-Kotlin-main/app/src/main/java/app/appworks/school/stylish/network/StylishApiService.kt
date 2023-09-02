@@ -19,16 +19,15 @@ private const val HOST_NAME = "api.appworks-school.tw"
 private const val API_VERSION = "1.0"
 private const val BASE_URL = "https://$HOST_NAME/api/$API_VERSION/"
 
-
 // data api
 private const val DATA_HOST_NAME = "54.66.20.75:8080"
 private const val DATA_API_VERSION = "1.0"
 private const val DATA_BASE_URL = "http://$DATA_HOST_NAME/api/$DATA_API_VERSION/"
 
 // user tracking api
-//private const val USER_HOST_NAME = "54.66.20.75:8080"
-//private const val USER_API_VERSION = "1.0"
-//private const val USER_BASE_URL = "http://$USER_HOST_NAME/api/$USER_API_VERSION/"
+private const val USER_HOST_NAME = "54.66.20.75"
+private const val USER_API_VERSION = "1.0"
+private const val USER_BASE_URL = "https://$USER_HOST_NAME/api/$USER_API_VERSION/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -69,11 +68,11 @@ private val dataRetrofit = Retrofit.Builder()
     .build()
 
 // user tracking api
-//private val userRetrofit = Retrofit.Builder()
-//    .addConverterFactory(MoshiConverterFactory.create(moshi))
-//    .baseUrl(USER_BASE_URL)
-//    .client(client)
-//    .build()
+private val userRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(USER_BASE_URL)
+    .client(client)
+    .build()
 
 /**
  * A public interface that exposes the [getMarketingHots], [getProductList], [getUserProfile],
@@ -143,6 +142,8 @@ interface StylishApiService {
 
 
 
+
+
     // user tracking api
     @POST("user/tracking")
     @FormUrlEncoded
@@ -179,6 +180,6 @@ object DataStylishApi {
 }
 
 // user tracking
-//object UserStylishApi {
-//    val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
-//}
+object UserStylishApi {
+    val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
+}

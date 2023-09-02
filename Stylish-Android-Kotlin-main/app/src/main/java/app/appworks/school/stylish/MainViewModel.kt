@@ -17,6 +17,7 @@ import app.appworks.school.stylish.data.UserTrackingRequestBody
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.CurrentFragmentType
 import app.appworks.school.stylish.util.DrawerToggleType
@@ -112,6 +113,7 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
         abTest()
     }
 
+    // user tracking: login
     fun userTrackOpenApp(){
         viewModelScope.launch {
         //
@@ -125,8 +127,9 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
             eventDetail.put("checkout_item", checkoutItemArray)
 
             Log.i("ABtest", "eventDetail: ${eventDetail.toString()}")
+            Log.i("ABtest", "currentDateTime: ${ABtest.getCurrentDateTime()}")
 
-//            UserStylishApi.retrofitService.userTracking(ABtest.userId, "login", eventDetail.toString(),"2023/09/02", ABtest.version)
+//            UserStylishApi.retrofitService.userTracking(ABtest.userId, "login", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
 
 
 //            val request = UserTrackingRequestBody("UUID", "login", eventDetail,"2023/09/02", "A")
