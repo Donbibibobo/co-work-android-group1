@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +47,7 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
 
         val messageMockData = mutableListOf<DetailMessage>()
+
         messageMockData.add(DetailMessage("子杰好師"))
         messageMockData.add(DetailMessage("子杰好師"))
         messageMockData.add(DetailMessage("子杰好師"))
@@ -57,8 +59,16 @@ class DetailFragment : Fragment() {
         messageMockData.add(DetailMessage("子杰好師"))
         messageMockData.add(DetailMessage("子杰好師"))
         messageMockData.add(DetailMessage("子杰好師"))
-        
+
         detailMessageAdapter.submitList(messageMockData)
+
+        binding.buttonDetailMessage.setOnClickListener {
+            val addMessageMockData = mutableListOf<DetailMessage>()
+            val editMessage = binding.messageInput.text
+            addMessageMockData.add(DetailMessage(editMessage.toString()))
+            Log.i("add" , "${editMessage.toString()}")
+            detailMessageAdapter.submitList(addMessageMockData)
+        }
         /*----------------add Detail Message Adapter------------------*/
 
 
@@ -107,7 +117,6 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
-
 //    override fun onDestroy() {
 //        super.onDestroy()
 //        previousCurrentFragmentType?.let {
