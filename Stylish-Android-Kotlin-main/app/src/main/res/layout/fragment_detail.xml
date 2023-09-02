@@ -359,12 +359,58 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="24dp"
                         android:text="@{viewModel.product.note}"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/view_detail_note_separation"
                         app:layout_constraintTop_toTopOf="@+id/text_detail_note_title" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/messageInputBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:hint="請輸入留言"
+                        app:placeholderText="請輸入留言"
+                        android:textSize="20sp"
+                        android:padding="8dp"
+                        android:background="@drawable/round_stroke_gray"
+                        android:inputType="textEmailAddress"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_detail_note">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/messageInput"
+                            android:inputType="text"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                        android:id="@+id/button_detail_message"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="7dp"
+                        android:background="@drawable/rounded_button"
+                        android:padding="6dp"
+                        android:elevation="4dp"
+                        android:drawableLeft="@drawable/baseline_arrow_upward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/messageInputBox"
+                        app:layout_constraintEnd_toEndOf="@+id/messageInputBox"
+                        app:layout_constraintTop_toTopOf="@+id/messageInputBox" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_detail_message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/messageInputBox" />
+
 
                 <ImageButton
                         android:id="@+id/button_detail_close"
@@ -376,6 +422,8 @@
                         android:onClick="@{() -> viewModel.leaveDetail()}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
