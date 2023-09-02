@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="app.appworks.school.stylish.detail.DetailViewModel"/>
+
+        <variable
+                name="viewModel"
+                type="app.appworks.school.stylish.detail.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,10 +20,10 @@
                 android:id="@+id/recycler_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/layout_detail_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/layout_detail_bottom">
+                app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_detail"
@@ -31,8 +35,8 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/height_detail_gallery"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:images="@{viewModel.product.images}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -45,12 +49,25 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:addDecoration="@{viewModel.decoration}"
                         app:count="@{viewModel.product.images.size}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/recycler_detail_gallery"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
+
+
+                <ImageButton
+                        android:id="@+id/button_starred"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:background=""
+                        android:src="@drawable/heart"
+                        app:layout_constraintBottom_toBottomOf="@id/recycler_detail_gallery"
+                        app:layout_constraintEnd_toEndOf="@id/recycler_detail_gallery" />
+
 
                 <TextView
                         android:id="@+id/text_detail_title"
@@ -63,9 +80,9 @@
                         android:fontFamily="@font/noto_sans"
                         android:letterSpacing="0.15"
                         android:lines="2"
+                        android:text="@{viewModel.product.title}"
                         android:textColor="@color/black_3f3a3a"
                         android:textSize="18sp"
-                        android:text="@{viewModel.product.title}"
                         app:layout_constraintEnd_toStartOf="@+id/text_detail_price"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintHorizontal_chainStyle="packed"
@@ -85,11 +102,11 @@
                         android:lines="1"
                         android:textColor="@color/black_3f3a3a"
                         android:textSize="18sp"
-                        app:price="@{viewModel.product.price}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/text_detail_title"
                         app:layout_constraintTop_toTopOf="@+id/text_detail_title"
+                        app:price="@{viewModel.product.price}"
                         tools:text="NT$9527" />
 
                 <TextView
@@ -103,9 +120,9 @@
                         android:fontFamily="@font/noto_sans"
                         android:letterSpacing="0.15"
                         android:lines="1"
+                        android:text="@{String.valueOf(viewModel.product.id)}"
                         android:textColor="@color/gray_888888"
                         android:textSize="14sp"
-                        android:text="@{String.valueOf(viewModel.product.id)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/text_detail_title"
@@ -121,9 +138,9 @@
                         android:fontFamily="@font/noto_sans"
                         android:letterSpacing="0.15"
                         android:lineSpacingExtra="12sp"
+                        android:text="@{viewModel.product.story}"
                         android:textColor="@color/gray_646464"
                         android:textSize="15sp"
-                        android:text="@{viewModel.product.story}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/text_detail_id"
@@ -156,9 +173,9 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:addDecoration="@{viewModel.decoration}"
                         app:colors="@{viewModel.product.colors}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@+id/view_detail_color_separation"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/view_detail_color_separation"
@@ -384,31 +401,31 @@
                 android:id="@+id/layout_detail_bottom"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/height_all_bottom_layout"
-                android:elevation="@dimen/elevation_all"
                 android:background="@color/white"
+                android:elevation="@dimen/elevation_all"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
             <Button
                     android:id="@+id/button_detail_add"
+                    style="@style/Base.Widget.AppCompat.Button.Borderless"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_add2cart_black_ripple"
+                    android:letterSpacing="0.15"
+                    android:onClick="@{() -> viewModel.navigateToAdd2cart(viewModel.product)}"
+                    android:text="@string/add2cart"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:letterSpacing="0.15"
-                    android:text="@string/add2cart"
-                    android:background="@drawable/button_add2cart_black_ripple"
-                    android:onClick="@{() -> viewModel.navigateToAdd2cart(viewModel.product)}"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
