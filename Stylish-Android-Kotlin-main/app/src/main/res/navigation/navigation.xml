@@ -107,4 +107,11 @@
     <action android:id="@+id/navigate_to_login_dialog" app:destination="@id/loginDialog"/>
     <action android:id="@+id/navigate_to_message_dialog" app:destination="@id/messageDialog"/>
     <action android:id="@+id/navigate_to_add2cart_dialog" app:destination="@id/add2cartDialog"/>
+    <fragment
+            android:id="@+id/wishlistFragment"
+            android:name="app.appworks.school.stylish.wishlist.WishlistFragment"
+            android:label="WishlistFragment"
+            tools:layout="@layout/fragment_wishlist"/>
+
+    <action android:id="@+id/navigate_to_wishlist_fragment" app:destination="@id/wishlistFragment"/>
 </navigation>

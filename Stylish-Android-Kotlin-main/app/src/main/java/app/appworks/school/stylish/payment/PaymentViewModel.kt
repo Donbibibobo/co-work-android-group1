@@ -32,10 +32,6 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
 
 
 
-
-
-
-
     // get products in cart from Room database
     val products: LiveData<List<Product>> = stylishRepository.getProductsInCart()
 

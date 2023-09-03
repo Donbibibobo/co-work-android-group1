@@ -26,6 +26,7 @@ class DetailViewModel(
     private val arguments: Product
 ) : ViewModel() {
 
+
     /*----------------add Detail Message fun------------------*/
     private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
     val messageMockData : LiveData<MutableList<DetailMessage>>
@@ -132,6 +133,7 @@ class DetailViewModel(
     fun leaveDetail() {
         _leaveDetail.value = true
     }
+
     /*----------------add Detail Message fun------------------*/
     fun addMockMessage(editMessage : String){
         val messageList = _messageMockData.value ?: mutableListOf()

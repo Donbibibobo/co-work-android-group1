@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.data.*
 import app.appworks.school.stylish.data.source.StylishDataSource
+import app.appworks.school.stylish.network.DataStylishApi
 import app.appworks.school.stylish.network.StylishApi
 import app.appworks.school.stylish.util.Logger
 import app.appworks.school.stylish.util.Util.getString
@@ -24,7 +25,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
         return try {
             // this will run on a thread managed by Retrofit
-            val listResult = StylishApi.retrofitService.getMarketingHots()
+            val listResult = DataStylishApi.retrofitService.getMarketingHots()
 
             listResult.error?.let {
                 return Result.Fail(it)
@@ -44,7 +45,7 @@ object StylishRemoteDataSource : StylishDataSource {
 
         return try {
             // this will run on a thread managed by Retrofit
-            val listResult = StylishApi.retrofitService.getProductList(type = type, paging = paging)
+            val listResult = DataStylishApi.retrofitService.getProductList(type = type, paging = paging)
 
             listResult.error?.let {
                 return Result.Fail(it)
