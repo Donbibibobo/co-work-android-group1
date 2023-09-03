@@ -29,6 +29,7 @@ class DetailViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
+
     /*----------------add Detail Message fun------------------*/
     private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
     val messageMockData: LiveData<MutableList<DetailMessage>>
