@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -36,7 +37,11 @@ class DetailViewModel(
         when (it.sizes.size) {
             0 -> ""
             1 -> it.sizes.first()
-            else -> StylishApplication.instance.getString(R.string._dash_, it.sizes.first(), it.sizes.last())
+            else -> StylishApplication.instance.getString(
+                R.string._dash_,
+                it.sizes.first(),
+                it.sizes.last()
+            )
         }
     }
 
@@ -77,7 +82,8 @@ class DetailViewModel(
             if (parent.getChildLayoutPosition(view) == 0) {
                 outRect.left = 0
             } else {
-                outRect.left = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
+                outRect.left =
+                    StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
             }
         }
     }
@@ -124,5 +130,27 @@ class DetailViewModel(
 
     fun leaveDetail() {
         _leaveDetail.value = true
+    }
+
+
+    //set up star function
+    var isStarred = true
+    val wishlist = mutableListOf<Product>()
+
+    fun add2Wishlist(product: Product) {
+        if (!isStarred) {
+            wishlist.add(product)
+            isStarred = true
+            Log.i("STARRED2",wishlist.toString())
+        }
+    }
+
+
+    fun removeFromWishlist(product: Product){
+        if (isStarred){
+            wishlist.remove(product)
+            isStarred = false
+            Log.i("STARRED2",wishlist.toString())
+        }
     }
 }
