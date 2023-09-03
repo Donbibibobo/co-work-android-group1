@@ -121,14 +121,19 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
     private fun loadWishList() {
         val wishListFileName = "wishList.txt"
 
-        val fileContent = application?.openFileInput(wishListFileName)?.bufferedReader().use {
-            it?.readText()
+        try {
+            val fileContent = application?.openFileInput(wishListFileName)?.bufferedReader().use {
+                it?.readText()
+            }
+
+            val productList = adapterWishList.fromJson(fileContent)
+            if (productList != null) {
+                ABtest.wishlist = productList.productList.toMutableList()
+            }
+        } catch (e: Exception) {
+            Log.i("loadWishList", "wishList.txt doesn't exist")
         }
 
-        val productList = adapterWishList.fromJson(fileContent)
-        if (productList != null) {
-            ABtest.wishlist = productList.productList.toMutableList()
-        }
     }
 
 
