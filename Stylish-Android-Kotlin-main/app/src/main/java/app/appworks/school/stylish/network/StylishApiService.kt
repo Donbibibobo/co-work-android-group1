@@ -3,6 +3,7 @@ package app.appworks.school.stylish.network
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -14,6 +15,7 @@ import retrofit2.http.*
 /**
  * Created by Wayne Chen in Jul. 2019.
  */
+
 // school api
 private const val HOST_NAME = "api.appworks-school.tw"
 private const val API_VERSION = "1.0"
@@ -48,6 +50,10 @@ private val client = OkHttpClient.Builder()
     )
     .build()
 
+
+data class ProductList(val productList: List<Product>)
+val adapterWishList = moshi.adapter(ProductList::class.java)
+
 /**
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
  * object.
@@ -66,6 +72,7 @@ private val dataRetrofit = Retrofit.Builder()
     .baseUrl(DATA_BASE_URL)
     .client(client)
     .build()
+
 
 // user tracking api
 private val userRetrofit = Retrofit.Builder()
