@@ -3,6 +3,7 @@ package app.appworks.school.stylish.network
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -14,9 +15,21 @@ import retrofit2.http.*
 /**
  * Created by Wayne Chen in Jul. 2019.
  */
+
+// school api
 private const val HOST_NAME = "api.appworks-school.tw"
 private const val API_VERSION = "1.0"
 private const val BASE_URL = "https://$HOST_NAME/api/$API_VERSION/"
+
+// data api
+private const val DATA_HOST_NAME = "54.66.20.75:8080"
+private const val DATA_API_VERSION = "1.0"
+private const val DATA_BASE_URL = "http://$DATA_HOST_NAME/api/$DATA_API_VERSION/"
+
+// user tracking api
+private const val USER_HOST_NAME = "54.66.20.75"
+private const val USER_API_VERSION = "1.0"
+private const val USER_BASE_URL = "https://$USER_HOST_NAME/api/$USER_API_VERSION/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -37,13 +50,34 @@ private val client = OkHttpClient.Builder()
     )
     .build()
 
+
+data class ProductList(val productList: List<Product>)
+val adapterWishList = moshi.adapter(ProductList::class.java)
+
 /**
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
  * object.
  */
+
+// school api
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
+    .client(client)
+    .build()
+
+// data api
+private val dataRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(DATA_BASE_URL)
+    .client(client)
+    .build()
+
+
+// user tracking api
+private val userRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(USER_BASE_URL)
     .client(client)
     .build()
 
@@ -112,11 +146,47 @@ interface StylishApiService {
         @Header("Authorization") token: String,
         @Body orderDetail: OrderDetail
     ): CheckoutOrderResult
+
+
+
+
+
+    // user tracking api
+    @POST("user/tracking")
+    @FormUrlEncoded
+    suspend fun userTracking(
+        @Field("userID") userId: String,
+        @Field("event_type") eventType: String,
+        @Field("event_detail") eventDetail: String,
+        @Field("timestamp") timestamp: String,
+        @Field("version") version: String
+    ): Unit
+
+//    @Headers("Content-type: application/json")
+//    @POST("user/tracking")
+//    suspend fun userTracking2(
+//        @Body request: UserTrackingRequestBody,
+//    ): Unit
+
+
+
+
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
+// school
 object StylishApi {
     val retrofitService: StylishApiService by lazy { retrofit.create(StylishApiService::class.java) }
+}
+
+// data
+object DataStylishApi {
+    val retrofitService: StylishApiService by lazy { dataRetrofit.create(StylishApiService::class.java) }
+}
+
+// user tracking
+object UserStylishApi {
+    val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
 }

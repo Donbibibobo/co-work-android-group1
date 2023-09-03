@@ -17,6 +17,7 @@ import app.appworks.school.stylish.payment.PaymentViewModel.Companion.CHECKOUT_F
 import app.appworks.school.stylish.payment.PaymentViewModel.Companion.CREDIT_CART_FORMAT_INCORRECT
 import app.appworks.school.stylish.payment.PaymentViewModel.Companion.CREDIT_CART_PRIME_FAIL
 import app.appworks.school.stylish.payment.PaymentViewModel.Companion.NOT_SUPPORT_CASH_ON_DELIVERY
+import app.appworks.school.stylish.util.ABtest
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -39,6 +40,24 @@ class PaymentFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recyclerPayment.adapter = PaymentAdapter(viewModel)
         binding.viewModel = viewModel
+
+
+        // AB test
+
+        when (ABtest.version) {
+            "A" -> binding.shipment.visibility = View.GONE
+            "B" -> binding.shipment.visibility = View.VISIBLE
+            else -> throw IllegalArgumentException("PaymentViewModel: ABtest.version doesn't exist")
+        }
+
+
+
+
+
+
+
+
+
 
         viewModel.checkoutSuccess.observe(
             viewLifecycleOwner,

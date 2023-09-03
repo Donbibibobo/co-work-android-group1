@@ -9,7 +9,9 @@ import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.databinding.ItemWishlistBinding
 
 
-class WishlistAdapter(private val onClickListener: OnClickListener) : ListAdapter<Product, WishlistAdapter.ProductViewHolder>(DiffCallback) {
+class WishlistAdapter(
+    private val onClickListener: OnClickListener
+    ) : ListAdapter<Product, WishlistAdapter.ProductViewHolder>(DiffCallback) {
 
     class ProductViewHolder(private var binding: ItemWishlistBinding) : RecyclerView.ViewHolder(binding.root) {
 
