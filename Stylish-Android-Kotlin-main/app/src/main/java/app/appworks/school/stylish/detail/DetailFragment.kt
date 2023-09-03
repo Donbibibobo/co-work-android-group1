@@ -53,6 +53,7 @@ class DetailFragment : Fragment() {
         val starredBtn = binding.buttonStarred
         val unStarredBtn = binding.buttonUnstarred
 
+        starredBtn.visibility = GONE
 
         starredBtn.setOnClickListener {
             starredBtn.visibility = View.GONE
@@ -66,34 +67,6 @@ class DetailFragment : Fragment() {
             starredBtn.visibility = View.VISIBLE
             viewModel.add2Wishlist(viewModel.product.value!!)
         }
-//
-//        starredBtn.setOnClickListener {
-//            if (isStarred) {
-//                starredBtn.visibility = View.GONE
-//                unStarredBtn.visibility = View.VISIBLE
-//                wishList.remove(viewModel.product.value)
-//                Log.i("STARRED1", wishList.toString())
-//            }
-//            isStarred = !isStarred
-//        }
-//
-//        unStarredBtn.setOnClickListener {
-//            if (!isStarred) {
-//                unStarredBtn.visibility = View.GONE
-//                starredBtn.visibility = View.VISIBLE
-//                wishList.add(viewModel.product.value!!)
-//                Log.i("STARRED2", wishList.toString())
-//            }
-//            isStarred = !isStarred
-//        }
-//
-//        if (isStarred){
-//            starredBtn.visibility = View.VISIBLE
-//            unStarredBtn.visibility = View.GONE
-//        } else {
-//            starredBtn.visibility = View.GONE
-//            unStarredBtn.visibility = View.VISIBLE
-//        }
 
 
         binding.recyclerDetailGallery.adapter = DetailGalleryAdapter()

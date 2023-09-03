@@ -14,9 +14,23 @@ import retrofit2.http.*
 /**
  * Created by Wayne Chen in Jul. 2019.
  */
+
+//school api
 private const val HOST_NAME = "api.appworks-school.tw"
 private const val API_VERSION = "1.0"
 private const val BASE_URL = "https://$HOST_NAME/api/$API_VERSION/"
+
+
+//school api
+private const val DATA_HOST_NAME = "54.66.20.75:8080"
+private const val DATA_API_VERSION = "1.0"
+private const val DATA_BASE_URL = "https://$DATA_HOST_NAME/api/$DATA_API_VERSION/"
+
+//user tracking
+private const val USER_HOST_NAME = "54.66.20.75"
+private const val USER_API_VERSION = "1.0"
+private const val USER_BASE_URL = "https://$USER_HOST_NAME/api/$USER_API_VERSION/"
+
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -41,9 +55,26 @@ private val client = OkHttpClient.Builder()
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
  * object.
  */
+
+//school api
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
+    .client(client)
+    .build()
+
+
+//school api
+private val dataRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(DATA_BASE_URL)
+    .client(client)
+    .build()
+
+//school api
+private val userRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(USER_BASE_URL)
     .client(client)
     .build()
 
@@ -119,4 +150,12 @@ interface StylishApiService {
  */
 object StylishApi {
     val retrofitService: StylishApiService by lazy { retrofit.create(StylishApiService::class.java) }
+}
+
+object DataStylishApi {
+    val retrofitService: StylishApiService by lazy { dataRetrofit.create(StylishApiService::class.java) }
+}
+
+object UserStylishApi {
+    val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
 }

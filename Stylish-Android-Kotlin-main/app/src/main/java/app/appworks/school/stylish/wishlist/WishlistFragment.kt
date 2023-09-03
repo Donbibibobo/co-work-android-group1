@@ -24,12 +24,14 @@ class WishlistFragment : Fragment() {
 //        return inflater.inflate(R.layout.fragment_wishlist, container, false)
         val binding = FragmentWishlistBinding.inflate(inflater, container, false)
 
-        val onClickListener = WishlistAdapter.OnClickListener { productId ->
-            val action = WishlistFragmentDirections.navigateToDetailFragment(productId)
-            findNavController().navigate(action)
-        }
 
-        val adapter = WishlistAdapter(onClickListener)
+
+//        val onClickListener = WishlistAdapter.OnClickListener { productId ->
+//            val action = WishlistFragmentDirections.navigateToDetailFragment(productId)
+//            findNavController().navigate(action)
+//        }
+
+        val adapter = WishlistAdapter()
         binding.wishlistRecyclerView.adapter = adapter
         adapter.submitList(mockDataList)
 

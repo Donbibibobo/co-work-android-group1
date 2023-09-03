@@ -135,6 +135,7 @@ class DetailViewModel(
 
     //set up star function
     var isStarred = true
+
     val wishlist = mutableListOf<Product>()
 
     fun add2Wishlist(product: Product) {
