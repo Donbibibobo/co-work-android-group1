@@ -73,11 +73,6 @@ class MainActivity : BaseActivity() {
         }
 
 
-        // when version and id create, sent api
-        viewModel.userId.observe(this) {
-            viewModel.userTrackOpenApp()
-        }
-
 
 
 

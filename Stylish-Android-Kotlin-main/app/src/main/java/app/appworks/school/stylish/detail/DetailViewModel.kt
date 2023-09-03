@@ -24,6 +24,7 @@ class DetailViewModel(
     private val arguments: Product
 ) : ViewModel() {
 
+
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
         value = arguments
@@ -125,4 +126,5 @@ class DetailViewModel(
     fun leaveDetail() {
         _leaveDetail.value = true
     }
+
 }
