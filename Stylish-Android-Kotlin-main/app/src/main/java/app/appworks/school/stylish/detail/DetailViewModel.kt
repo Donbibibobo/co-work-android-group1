@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.detail
 
+import android.app.Application
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -11,6 +12,7 @@ import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,13 +25,16 @@ import kotlinx.coroutines.Job
  */
 class DetailViewModel(
     private val stylishRepository: StylishRepository,
-    private val arguments: Product
-) : ViewModel() {
+    private val arguments: Product,
+    private val application: Application
+) : AndroidViewModel(application) {
+
 
     /*----------------add Detail Message fun------------------*/
     private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
-    val messageMockData : LiveData<MutableList<DetailMessage>>
+    val messageMockData: LiveData<MutableList<DetailMessage>>
         get() = _messageMockData
+
     /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -43,7 +48,11 @@ class DetailViewModel(
         when (it.sizes.size) {
             0 -> ""
             1 -> it.sizes.first()
-            else -> StylishApplication.instance.getString(R.string._dash_, it.sizes.first(), it.sizes.last())
+            else -> StylishApplication.instance.getString(
+                R.string._dash_,
+                it.sizes.first(),
+                it.sizes.last()
+            )
         }
     }
 
@@ -84,7 +93,8 @@ class DetailViewModel(
             if (parent.getChildLayoutPosition(view) == 0) {
                 outRect.left = 0
             } else {
-                outRect.left = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
+                outRect.left =
+                    StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
             }
         }
     }
@@ -132,14 +142,87 @@ class DetailViewModel(
     fun leaveDetail() {
         _leaveDetail.value = true
     }
+
+    //set up star function
+    fun isStarred(product: Product): Boolean {
+        return wishlist.any { it.id == product.id }
+    }
+
+    fun add2Wishlist(product: Product) {
+
+        if (!isStarred(product)) {
+            wishlist.add(product)
+//            isStarred = true
+//        }
+
+//        Log.i("STARRED2", wishlist.toString())
+
+
+//            wishListFile(product)
+
+//        // internal storage files
+//            var inputStream: String? = ""
+//            try {
+//                inputStream = application.openFileInput(wishListFileName)?.bufferedReader()
+//                    ?.useLines { lines ->
+//                        lines.fold("") { some, text ->
+//                            "$some\n$text"
+//                        }
+//                    }
+//                Log.i("DataToString", "try called")
+//
+//                val wishListJson = adapterWishList.toJson(wishlist)
+//
+//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//                    it?.write(wishListJson.toByteArray())
+//                }
+////                val marketingHots = adapterDataClass.fromJson(inputStream.toString())
+////                Log.i("DataToString", "3: $marketingHots")
+////                marketingHots?.let { createList(it) }
+//
+//            } catch (e : Exception) {
+//                Log.i("DataToString", "e: $e")
+//
+//                // create file
+//                val wishListJson = adapterWishList.toJson(wishlist)
+//
+//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//                    it?.write(wishListJson.toByteArray())
+//                }
+        }
+    }
+
+
+    fun removeFromWishlist(product: Product) {
+        if (isStarred(product))
+            wishlist.remove(product)
+//        isStarred = false
+    }
+
+
+//    fun wishListFile(product: Product) {
+//        var inputStream: String? = ""
+//        val wishListFileName = "wishList.txt"
+//
+//        val productList = ProductList(wishlist)
+//
+//        val wishListJson = adapterWishList.toJson(productList)
+//
+//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//            it?.write(wishListJson.toByteArray())
+//        }
+//
+//    }
+
+
     /*----------------add Detail Message fun------------------*/
-    fun addMockMessage(editMessage : String){
+    fun addMockMessage(editMessage: String) {
         val messageList = _messageMockData.value ?: mutableListOf()
         messageList.add(DetailMessage(editMessage))
         _messageMockData.value = messageList
 
-        Log.i("addmessage" , "${editMessage}")
-        Log.i("addmessage" , "messageMockData : ${_messageMockData.value}")
+        Log.i("addmessage", "${editMessage}")
+        Log.i("addmessage", "messageMockData : ${_messageMockData.value}")
 
     }
     /*----------------add Detail Message fun------------------*/

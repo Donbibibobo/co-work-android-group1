@@ -27,7 +27,6 @@ import app.appworks.school.stylish.databinding.ActivityMainBinding
 import app.appworks.school.stylish.databinding.BadgeBottomBinding
 import app.appworks.school.stylish.databinding.NavHeaderDrawerBinding
 import app.appworks.school.stylish.dialog.MessageDialog
-import app.appworks.school.stylish.ext.getVmFactory
 import app.appworks.school.stylish.ext.getVmFactory2
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.util.CurrentFragmentType
@@ -63,6 +62,26 @@ class MainActivity : BaseActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // to show hide the shipment
+        viewModel.version.observe(this) {
+            if (it == "B") {
+                binding.shipment.visibility = View.GONE
+            } else {
+                binding.shipment.visibility = View.VISIBLE
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
@@ -211,6 +230,7 @@ class MainActivity : BaseActivity() {
                 R.id.detailFragment -> CurrentFragmentType.DETAIL
                 R.id.paymentFragment -> CurrentFragmentType.PAYMENT
                 R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
+                R.id.wishlistFragment -> CurrentFragmentType.WISHLIST
                 else -> viewModel.currentFragmentType.value
             }
         }
@@ -340,3 +360,4 @@ class MainActivity : BaseActivity() {
         }
     }
 }
+

@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.payment
 
+import androidx.core.os.trace
 import androidx.lifecycle.*
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
@@ -8,6 +9,7 @@ import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.ext.toOrderProductList
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.Logger
 import app.appworks.school.stylish.util.Util.getColor
 import app.appworks.school.stylish.util.Util.getString
@@ -24,6 +26,11 @@ import tech.cherri.tpdirect.model.TPDStatus
  * The [ViewModel] that is attached to the [PaymentFragment].
  */
 class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewModel() {
+
+
+
+
+
 
     // get products in cart from Room database
     val products: LiveData<List<Product>> = stylishRepository.getProductsInCart()

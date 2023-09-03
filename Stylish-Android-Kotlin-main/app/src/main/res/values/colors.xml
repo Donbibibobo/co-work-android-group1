@@ -42,4 +42,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- shipment block background color-->
+    <color name="colorGray">#6B6B6B</color>
+
 </resources>
