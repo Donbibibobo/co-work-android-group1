@@ -15,6 +15,7 @@ import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.ProductList
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.network.adapterWishList
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -167,6 +168,7 @@ class DetailViewModel(
         }
     }
 
+    var versionAB = ABtest.version.toCharArray()[0]
 
     private fun wishListFile() {
         Log.i("wishListFile", "wishListFile called")
