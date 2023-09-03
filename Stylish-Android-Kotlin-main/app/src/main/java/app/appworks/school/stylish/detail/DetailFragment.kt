@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
+import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
 
@@ -39,6 +42,23 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailGallery.adapter = DetailGalleryAdapter()
         binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
         binding.recyclerDetailColor.adapter = DetailColorAdapter()
+        /*----------------add Detail Message Adapter------------------*/
+        val detailMessageAdapter = DetailMessageAdapter()
+        val messageList = viewModel.messageMockData
+        binding.recyclerDetailMessage.adapter = detailMessageAdapter
+
+
+        detailMessageAdapter.submitList(messageList.value)
+
+        binding.buttonDetailMessage.setOnClickListener {
+            val editMessage = binding.messageInput.text
+            Log.i("editMessage", "$editMessage")
+            viewModel.addMockMessage(editMessage.toString())
+            detailMessageAdapter.submitList(messageList.value)
+            detailMessageAdapter.notifyDataSetChanged()
+        }
+        /*----------------add Detail Message Adapter------------------*/
+
 
         val linearSnapHelper = LinearSnapHelper().apply {
             attachToRecyclerView(binding.recyclerDetailGallery)
@@ -85,7 +105,6 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
-
 //    override fun onDestroy() {
 //        super.onDestroy()
 //        previousCurrentFragmentType?.let {
