@@ -52,7 +52,6 @@ private val client = OkHttpClient.Builder()
     )
     .build()
 
-val wishlist = mutableListOf<Product>()
 
 data class ProductList(val productList: List<Product>)
 val adapterWishList = moshi.adapter(ProductList::class.java)

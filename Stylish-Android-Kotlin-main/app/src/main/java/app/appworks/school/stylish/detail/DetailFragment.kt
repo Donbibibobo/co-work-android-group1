@@ -13,14 +13,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
-import app.appworks.school.stylish.network.wishlist
+import app.appworks.school.stylish.util.ABtest.wishlist
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -56,14 +58,14 @@ class DetailFragment : Fragment() {
         val starredBtn = binding.buttonStarred
         val unStarredBtn = binding.buttonUnstarred
 
-        starredBtn.visibility = GONE
-
-        starredBtn.setOnClickListener {
-            starredBtn.visibility = View.GONE
-            unStarredBtn.visibility = View.VISIBLE
-            viewModel.removeFromWishlist(viewModel.product.value!!)
-            Log.i("STARRED2", wishlist.toString())
+        if (wishlist.any { it.id == viewModel.product.value?.id }){
+            unStarredBtn.visibility = GONE
+            starredBtn.visibility = VISIBLE
+        }else{
+            unStarredBtn.visibility = VISIBLE
+            starredBtn.visibility = GONE
         }
+
 
         unStarredBtn.setOnClickListener {
             unStarredBtn.visibility = View.GONE
@@ -72,10 +74,35 @@ class DetailFragment : Fragment() {
             Log.i("STARRED3",wishlist.toString())
         }
 
+        starredBtn.setOnClickListener {
+            starredBtn.visibility = View.GONE
+            unStarredBtn.visibility = View.VISIBLE
+            viewModel.removeFromWishlist(viewModel.product.value!!)
+            Log.i("STARRED2", wishlist.toString())
+        }
+
 
         binding.recyclerDetailGallery.adapter = DetailGalleryAdapter()
         binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
         binding.recyclerDetailColor.adapter = DetailColorAdapter()
+
+        /*----------------add Detail Message Adapter------------------*/
+        val detailMessageAdapter = DetailMessageAdapter()
+        val messageList = viewModel.messageMockData
+        binding.recyclerDetailMessage.adapter = detailMessageAdapter
+
+
+        detailMessageAdapter.submitList(messageList.value)
+
+        binding.buttonDetailMessage.setOnClickListener {
+            val editMessage = binding.messageInput.text
+            Log.i("editMessage", "$editMessage")
+            viewModel.addMockMessage(editMessage.toString())
+            detailMessageAdapter.submitList(messageList.value)
+            detailMessageAdapter.notifyDataSetChanged()
+        }
+        /*----------------add Detail Message Adapter------------------*/
+
 
         val linearSnapHelper = LinearSnapHelper().apply {
             attachToRecyclerView(binding.recyclerDetailGallery)
@@ -127,7 +154,6 @@ class DetailFragment : Fragment() {
 
         return binding.root
     }
-
 //    override fun onDestroy() {
 //        super.onDestroy()
 //        previousCurrentFragmentType?.let {

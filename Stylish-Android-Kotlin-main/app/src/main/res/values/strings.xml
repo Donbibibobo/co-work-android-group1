@@ -119,4 +119,9 @@
 
     <!-- Wishlist -->
     <string name="wishlist">慾望清單</string>
+
+    <!-- shipment text-->
+    <string name="shipment">全\n館\n滿\n4\n0\n0\n0\n免\n運\n!</string>
+
+
 </resources>

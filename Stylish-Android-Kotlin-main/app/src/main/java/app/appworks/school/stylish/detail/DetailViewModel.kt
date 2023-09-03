@@ -1,7 +1,6 @@
 package app.appworks.school.stylish.detail
 
 import android.app.Application
-import android.content.Context
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -10,16 +9,14 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
+import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.source.StylishRepository
-import app.appworks.school.stylish.network.ProductList
-import app.appworks.school.stylish.network.adapterWishList
-import app.appworks.school.stylish.network.wishlist
+import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.selects.whileSelect
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -32,6 +29,12 @@ class DetailViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
 
+    /*----------------add Detail Message fun------------------*/
+    private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
+    val messageMockData: LiveData<MutableList<DetailMessage>>
+        get() = _messageMockData
+
+    /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
         value = arguments
@@ -141,22 +144,15 @@ class DetailViewModel(
 
     //set up star function
     fun isStarred(product: Product): Boolean {
-        var a: Boolean = false
-        wishlist.forEach {
-            if(it.id == product.id){
-                a = true
-            }
-        }
-        return a
+        return wishlist.any { it.id == product.id }
     }
 
     fun add2Wishlist(product: Product) {
 
-        if (isStarred(product)) {
+        if (!isStarred(product)) {
             wishlist.add(product)
-            Log.i("STARRED ADD","SUCCEEDED")
 //            isStarred = true
-        }
+//        }
 
 //        Log.i("STARRED2", wishlist.toString())
 
@@ -192,13 +188,13 @@ class DetailViewModel(
 //                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
 //                    it?.write(wishListJson.toByteArray())
 //                }
-//            }
+        }
     }
 
 
     fun removeFromWishlist(product: Product) {
-        if (!isStarred(product))
-        wishlist.remove(product)
+        if (isStarred(product))
+            wishlist.remove(product)
 //        isStarred = false
     }
 
@@ -218,4 +214,15 @@ class DetailViewModel(
 //    }
 
 
+    /*----------------add Detail Message fun------------------*/
+    fun addMockMessage(editMessage: String) {
+        val messageList = _messageMockData.value ?: mutableListOf()
+        messageList.add(DetailMessage(editMessage))
+        _messageMockData.value = messageList
+
+        Log.i("addmessage", "${editMessage}")
+        Log.i("addmessage", "messageMockData : ${_messageMockData.value}")
+
+    }
+    /*----------------add Detail Message fun------------------*/
 }

@@ -1,5 +1,9 @@
 package app.appworks.school.stylish
 
+import android.app.Application
+import android.content.Context
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +15,7 @@ import app.appworks.school.stylish.data.User
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.CurrentFragmentType
 import app.appworks.school.stylish.util.DrawerToggleType
 import app.appworks.school.stylish.util.Logger
@@ -19,13 +24,72 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 /**
  * Created by Wayne Chen in Jul. 2019.
  *
  * The [ViewModel] that is attached to the [MainActivity].
  */
-class MainViewModel(private val stylishRepository: StylishRepository) : ViewModel() {
+class MainViewModel(private val stylishRepository: StylishRepository, private val application: Application) : AndroidViewModel(application) {
+
+
+    // use live data to avoid [SharedPreferences & ABtest which create faster]
+    private val _version = MutableLiveData<String>()
+    val version: LiveData<String>
+        get() = _version
+
+    fun abTest() {
+        Log.i("ABtest", "MainViewModel called")
+        val pref = application.getSharedPreferences("ABtest", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+
+        val isVersionExist : String? = pref.getString("ABtest_Version", "noVersion")
+
+        if (isVersionExist == "noVersion"){
+
+            val versionA = "A"
+            val versionB = "B"
+
+            // create a random number 0 & 1
+            val randomChoice = Random.nextInt(0, 2)
+
+            // create a random version A & B
+            val selectedVersion = if (randomChoice == 0) versionA else versionB
+
+            editor.putString("ABtest_Version", selectedVersion)
+            editor.apply()
+
+            ABtest.version = selectedVersion
+            _version.value = selectedVersion
+
+            Log.i("ABtest", "if called")
+            Log.i("ABtest", "ABtest.version: ${ABtest.version}")
+            Log.i("ABtest", "selectedVersion: $selectedVersion")
+        } else {
+            ABtest.version = isVersionExist.toString()
+            _version.value = isVersionExist.toString()
+            Log.i("ABtest", "else called")
+            Log.i("ABtest", "ABtest.version: ${ABtest.version}")
+        }
+    }
+
+    init {
+        abTest()
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // user: MainViewModel has User info to provide Drawer UI
     private val _user = MutableLiveData<User>()

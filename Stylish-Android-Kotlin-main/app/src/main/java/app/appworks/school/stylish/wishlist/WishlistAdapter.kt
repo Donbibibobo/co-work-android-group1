@@ -10,7 +10,7 @@ import app.appworks.school.stylish.databinding.ItemWishlistBinding
 
 
 class WishlistAdapter(
-//    private val onClickListener: OnClickListener
+    private val onClickListener: OnClickListener
     ) : ListAdapter<Product, WishlistAdapter.ProductViewHolder>(DiffCallback) {
 
     class ProductViewHolder(private var binding: ItemWishlistBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -43,12 +43,12 @@ class WishlistAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val name = getItem(position)
         holder.bind(name)
-//        holder.itemView.setOnClickListener {
-//            onClickListener.onClick(name)
-//        }
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(name)
+        }
     }
 
-//    class OnClickListener(val clickListener: (name: Product) -> Unit) {
-//        fun onClick(name: Product) = clickListener(name)
-//    }
+    class OnClickListener(val clickListener: (name: Product) -> Unit) {
+        fun onClick(name: Product) = clickListener(name)
+    }
 }
