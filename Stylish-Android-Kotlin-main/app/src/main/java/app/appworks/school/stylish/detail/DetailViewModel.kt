@@ -1,5 +1,7 @@
 package app.appworks.school.stylish.detail
 
+import android.app.Application
+import android.content.Context
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -10,10 +12,14 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.ProductList
+import app.appworks.school.stylish.network.adapterWishList
+import app.appworks.school.stylish.network.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.selects.whileSelect
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -22,8 +28,9 @@ import kotlinx.coroutines.Job
  */
 class DetailViewModel(
     private val stylishRepository: StylishRepository,
-    private val arguments: Product
-) : ViewModel() {
+    private val arguments: Product,
+    private val application: Application
+) : AndroidViewModel(application) {
 
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -132,26 +139,83 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
-
     //set up star function
-    var isStarred = true
-
-    val wishlist = mutableListOf<Product>()
+    fun isStarred(product: Product): Boolean {
+        var a: Boolean = false
+        wishlist.forEach {
+            if(it.id == product.id){
+                a = true
+            }
+        }
+        return a
+    }
 
     fun add2Wishlist(product: Product) {
-        if (!isStarred) {
+
+        if (isStarred(product)) {
             wishlist.add(product)
-            isStarred = true
-            Log.i("STARRED2",wishlist.toString())
+            Log.i("STARRED ADD","SUCCEEDED")
+//            isStarred = true
         }
+
+//        Log.i("STARRED2", wishlist.toString())
+
+
+//            wishListFile(product)
+
+//        // internal storage files
+//            var inputStream: String? = ""
+//            try {
+//                inputStream = application.openFileInput(wishListFileName)?.bufferedReader()
+//                    ?.useLines { lines ->
+//                        lines.fold("") { some, text ->
+//                            "$some\n$text"
+//                        }
+//                    }
+//                Log.i("DataToString", "try called")
+//
+//                val wishListJson = adapterWishList.toJson(wishlist)
+//
+//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//                    it?.write(wishListJson.toByteArray())
+//                }
+////                val marketingHots = adapterDataClass.fromJson(inputStream.toString())
+////                Log.i("DataToString", "3: $marketingHots")
+////                marketingHots?.let { createList(it) }
+//
+//            } catch (e : Exception) {
+//                Log.i("DataToString", "e: $e")
+//
+//                // create file
+//                val wishListJson = adapterWishList.toJson(wishlist)
+//
+//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//                    it?.write(wishListJson.toByteArray())
+//                }
+//            }
     }
 
 
-    fun removeFromWishlist(product: Product){
-        if (isStarred){
-            wishlist.remove(product)
-            isStarred = false
-            Log.i("STARRED2",wishlist.toString())
-        }
+    fun removeFromWishlist(product: Product) {
+        if (!isStarred(product))
+        wishlist.remove(product)
+//        isStarred = false
     }
+
+
+//    fun wishListFile(product: Product) {
+//        var inputStream: String? = ""
+//        val wishListFileName = "wishList.txt"
+//
+//        val productList = ProductList(wishlist)
+//
+//        val wishListJson = adapterWishList.toJson(productList)
+//
+//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+//            it?.write(wishListJson.toByteArray())
+//        }
+//
+//    }
+
+
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.compose.runtime.LaunchedEffect
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
@@ -18,6 +19,8 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
+import app.appworks.school.stylish.ext.getVmFactoryWithContext
+import app.appworks.school.stylish.network.wishlist
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -28,7 +31,7 @@ class DetailFragment : Fragment() {
      * Lazily initialize our [DetailViewModel].
      */
     private val viewModel by viewModels<DetailViewModel> {
-        getVmFactory(
+        getVmFactoryWithContext(
             DetailFragmentArgs.fromBundle(
                 requireArguments()
             ).productKey
@@ -59,13 +62,14 @@ class DetailFragment : Fragment() {
             starredBtn.visibility = View.GONE
             unStarredBtn.visibility = View.VISIBLE
             viewModel.removeFromWishlist(viewModel.product.value!!)
-
+            Log.i("STARRED2", wishlist.toString())
         }
 
         unStarredBtn.setOnClickListener {
             unStarredBtn.visibility = View.GONE
             starredBtn.visibility = View.VISIBLE
             viewModel.add2Wishlist(viewModel.product.value!!)
+            Log.i("STARRED3",wishlist.toString())
         }
 
 

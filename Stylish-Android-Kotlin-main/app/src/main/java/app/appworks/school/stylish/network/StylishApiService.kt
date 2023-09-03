@@ -3,6 +3,7 @@ package app.appworks.school.stylish.network
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -50,6 +51,11 @@ private val client = OkHttpClient.Builder()
         }
     )
     .build()
+
+val wishlist = mutableListOf<Product>()
+
+data class ProductList(val productList: List<Product>)
+val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
