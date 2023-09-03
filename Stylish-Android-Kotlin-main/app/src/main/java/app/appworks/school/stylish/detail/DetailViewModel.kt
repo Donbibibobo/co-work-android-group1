@@ -1,12 +1,14 @@
 package app.appworks.school.stylish.detail
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
+import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.util.Logger
@@ -25,6 +27,11 @@ class DetailViewModel(
 ) : ViewModel() {
 
 
+    /*----------------add Detail Message fun------------------*/
+    private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
+    val messageMockData : LiveData<MutableList<DetailMessage>>
+        get() = _messageMockData
+    /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
         value = arguments
@@ -127,4 +134,15 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
+    /*----------------add Detail Message fun------------------*/
+    fun addMockMessage(editMessage : String){
+        val messageList = _messageMockData.value ?: mutableListOf()
+        messageList.add(DetailMessage(editMessage))
+        _messageMockData.value = messageList
+
+        Log.i("addmessage" , "${editMessage}")
+        Log.i("addmessage" , "messageMockData : ${_messageMockData.value}")
+
+    }
+    /*----------------add Detail Message fun------------------*/
 }
