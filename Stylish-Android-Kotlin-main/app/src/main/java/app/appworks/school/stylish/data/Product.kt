@@ -57,3 +57,5 @@ data class Product(
     var selectedVariant: Variant = Variant("", "", -1)
     var amount: Long? = null
 }
+
+data class ProductList(val productList: List<Product>)

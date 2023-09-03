@@ -51,7 +51,6 @@ private val client = OkHttpClient.Builder()
     .build()
 
 
-data class ProductList(val productList: List<Product>)
 val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
@@ -160,7 +159,7 @@ interface StylishApiService {
         @Field("event_detail") eventDetail: String,
         @Field("timestamp") timestamp: String,
         @Field("version") version: String
-    ): Unit
+    )
 
 //    @Headers("Content-type: application/json")
 //    @POST("user/tracking")

@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import app.appworks.school.stylish.component.ProfileAvatarOutlineProvider
 import app.appworks.school.stylish.data.Hots
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.ProductList
 import app.appworks.school.stylish.data.Result
 import app.appworks.school.stylish.data.User
 import app.appworks.school.stylish.data.UserTrackingRequestBody
@@ -19,6 +20,7 @@ import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
 import app.appworks.school.stylish.network.UserStylishApi
+import app.appworks.school.stylish.network.adapterWishList
 import app.appworks.school.stylish.network.moshi
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.CurrentFragmentType
@@ -48,7 +50,7 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
         get() = _version
 
 
-    fun abTest() {
+    private fun abTest() {
         Log.i("ABtest", "MainViewModel called")
         val pref = application.getSharedPreferences("ABtest", Context.MODE_PRIVATE)
         val editor = pref.edit()
@@ -112,10 +114,26 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
 
     init {
         abTest()
+        loadWishList()
     }
 
+    // load wishList from sharePreference and give it to ABtest.wishList
+    private fun loadWishList() {
+        val wishListFileName = "wishList.txt"
+
+        val fileContent = application?.openFileInput(wishListFileName)?.bufferedReader().use {
+            it?.readText()
+        }
+
+        val productList = adapterWishList.fromJson(fileContent)
+        if (productList != null) {
+            ABtest.wishlist = productList.productList.toMutableList()
+        }
+    }
+
+
     // user tracking: login
-    fun userTrackOpenApp(){
+    private fun userTrackOpenApp(){
         viewModelScope.launch {
         //
             val eventDetail = JSONObject()
@@ -141,39 +159,6 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
 
         }
     }
-
-
-
-//
-//
-//    /////// for DetailViewModel
-//    val wishLsit = mutableListOf<Product>()
-//
-//
-//    fun wishListFile() {
-//        val wishListFileName = "wishList.txt"
-//
-//        data class ProductList(val productList: List<Product>) //all
-//
-//        val productList = ProductList(wishLsit)
-//
-//        val adapterDataClass = moshi.adapter(ProductList::class.java) // all
-//
-//        val wishListJson = adapterDataClass.toJson(productList)
-//
-//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//            it?.write(wishListJson.toByteArray())
-//        }
-//
-//    }
-
-
-
-
-
-
-
-
 
 
 

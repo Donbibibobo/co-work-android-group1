@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -11,7 +12,9 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.ProductList
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.adapterWishList
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -152,67 +155,31 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
-//            isStarred = true
-//        }
-
-//        Log.i("STARRED2", wishlist.toString())
-
-
-//            wishListFile(product)
-
-//        // internal storage files
-//            var inputStream: String? = ""
-//            try {
-//                inputStream = application.openFileInput(wishListFileName)?.bufferedReader()
-//                    ?.useLines { lines ->
-//                        lines.fold("") { some, text ->
-//                            "$some\n$text"
-//                        }
-//                    }
-//                Log.i("DataToString", "try called")
-//
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
-////                val marketingHots = adapterDataClass.fromJson(inputStream.toString())
-////                Log.i("DataToString", "3: $marketingHots")
-////                marketingHots?.let { createList(it) }
-//
-//            } catch (e : Exception) {
-//                Log.i("DataToString", "e: $e")
-//
-//                // create file
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
+            wishListFile()
         }
     }
 
 
     fun removeFromWishlist(product: Product) {
-        if (isStarred(product))
+        if (isStarred(product)) {
             wishlist.remove(product)
-//        isStarred = false
+            wishListFile()
+        }
     }
 
 
-//    fun wishListFile(product: Product) {
-//        var inputStream: String? = ""
-//        val wishListFileName = "wishList.txt"
-//
-//        val productList = ProductList(wishlist)
-//
-//        val wishListJson = adapterWishList.toJson(productList)
-//
-//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//            it?.write(wishListJson.toByteArray())
-//        }
-//
-//    }
+    private fun wishListFile() {
+        Log.i("wishListFile", "wishListFile called")
+
+        val wishListFileName = "wishList.txt"
+        val productList = ProductList(wishlist)
+        val wishListJson = adapterWishList.toJson(productList)
+
+        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+            it?.write(wishListJson.toByteArray())
+        }
+
+    }
 
 
     /*----------------add Detail Message fun------------------*/

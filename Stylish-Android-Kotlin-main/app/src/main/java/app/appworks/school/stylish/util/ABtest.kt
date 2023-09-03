@@ -7,7 +7,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object ABtest {
-    val wishlist = mutableListOf<Product>()
+    var wishlist = mutableListOf<Product>()
 
     var version = ""
 
