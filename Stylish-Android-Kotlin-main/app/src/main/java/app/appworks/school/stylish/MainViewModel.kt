@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import app.appworks.school.stylish.component.ProfileAvatarOutlineProvider
-import app.appworks.school.stylish.data.Hots
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.Result
 import app.appworks.school.stylish.data.User
@@ -19,7 +18,7 @@ import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
 import app.appworks.school.stylish.network.UserStylishApi
-import app.appworks.school.stylish.network.moshi
+import app.appworks.school.stylish.network.adapterWishList
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.CurrentFragmentType
 import app.appworks.school.stylish.util.DrawerToggleType
@@ -29,8 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.UUID
 import kotlin.random.Random
 
@@ -48,7 +45,7 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
         get() = _version
 
 
-    fun abTest() {
+    private fun abTest() {
         Log.i("ABtest", "MainViewModel called")
         val pref = application.getSharedPreferences("ABtest", Context.MODE_PRIVATE)
         val editor = pref.edit()
@@ -86,7 +83,7 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
 
             Log.i("ABtest", "ABtest.userId: ${ABtest.userId}")
 
-            userTrackOpenApp()
+            userTrackingApiOpenApp()
 
         } else {
             Log.i("ABtest", "else called")
@@ -105,75 +102,46 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
 
             Log.i("ABtest", "ABtest.userId: ${ABtest.userId}")
 
-            userTrackOpenApp()
+            userTrackingApiOpenApp()
 
         }
     }
 
     init {
         abTest()
+        loadWishList()
     }
+
+    // load wishList from sharePreference and give it to ABtest.wishList
+    private fun loadWishList() {
+        val wishListFileName = "wishList.txt"
+
+        try {
+            val fileContent = application?.openFileInput(wishListFileName)?.bufferedReader().use {
+                it?.readText()
+            }
+
+            val productList = adapterWishList.fromJson(fileContent)
+            if (productList != null) {
+                ABtest.wishlist = productList.productList.toMutableList()
+            }
+        } catch (e: Exception) {
+            Log.i("loadWishList", "wishList.txt doesn't exist")
+        }
+
+    }
+
 
     // user tracking: login
-    fun userTrackOpenApp(){
+    private fun userTrackingApiOpenApp(){
         viewModelScope.launch {
-        //
-            val eventDetail = JSONObject()
-            val checkoutItemArray = JSONArray()
-
-            checkoutItemArray.put("ada1212")
-            checkoutItemArray.put("asd231231")
-            checkoutItemArray.put("asdasd444")
-
-            eventDetail.put("checkout_item", checkoutItemArray)
-
-            Log.i("ABtest", "eventDetail: ${eventDetail.toString()}")
-
-            Log.i("ABtest", "currentDateTime: ${ABtest.getCurrentDateTime()}")
-
-
-
-//            UserStylishApi.retrofitService.userTracking(ABtest.userId, "login", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
-
-
-//            val request = UserTrackingRequestBody("UUID", "login", eventDetail,"2023/09/02", "A")
-//            UserStylishApi.retrofitService.userTracking2(request)
-
+            // TODO login
+            val request = UserTrackingRequestBody(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
+            val response = UserStylishApi.retrofitService.userTracking(request)
+            Log.i("userTracking", "[login]: ${response.message}")
+            Log.i("userTracking", "[login_content]: $request")
         }
     }
-
-
-
-//
-//
-//    /////// for DetailViewModel
-//    val wishLsit = mutableListOf<Product>()
-//
-//
-//    fun wishListFile() {
-//        val wishListFileName = "wishList.txt"
-//
-//        data class ProductList(val productList: List<Product>) //all
-//
-//        val productList = ProductList(wishLsit)
-//
-//        val adapterDataClass = moshi.adapter(ProductList::class.java) // all
-//
-//        val wishListJson = adapterDataClass.toJson(productList)
-//
-//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//            it?.write(wishListJson.toByteArray())
-//        }
-//
-//    }
-
-
-
-
-
-
-
-
 
 
 

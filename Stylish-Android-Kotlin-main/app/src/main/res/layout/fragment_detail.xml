@@ -67,7 +67,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
                         android:background="@color/transparent"
-                        android:src="@drawable/heart_fill"
+                        android:src="@{viewModel.versionAB == 'B' ? @drawable/heart_fill : @drawable/star_fill}"
                         app:layout_constraintBottom_toBottomOf="@id/recycler_detail_gallery"
                         app:layout_constraintEnd_toEndOf="@id/recycler_detail_gallery" />
                 <ImageButton
@@ -77,7 +77,7 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
                         android:background="@color/transparent"
-                        android:src="@drawable/heart"
+                        android:src="@{viewModel.versionAB == 'B' ? @drawable/heart : @drawable/star}"
                         app:layout_constraintBottom_toBottomOf="@id/recycler_detail_gallery"
                         app:layout_constraintEnd_toEndOf="@id/recycler_detail_gallery" />
 
