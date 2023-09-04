@@ -7,6 +7,7 @@ import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.User
 import app.appworks.school.stylish.factory.CatalogItemViewModelFactory
 import app.appworks.school.stylish.factory.ProductViewModelFactory
+import app.appworks.school.stylish.factory.ProductViewModelFactoryWithContext
 import app.appworks.school.stylish.factory.ProfileViewModelFactory
 import app.appworks.school.stylish.factory.ViewModelFactory
 
@@ -32,4 +33,13 @@ fun Fragment.getVmFactory(product: Product): ProductViewModelFactory {
 
 fun Fragment.getVmFactory(catalogType: CatalogTypeFilter): CatalogItemViewModelFactory {
     return CatalogItemViewModelFactory(catalogType)
+}
+
+
+
+
+fun Fragment.getVmFactoryWithContext(product: Product): ProductViewModelFactoryWithContext {
+    val repository = (requireContext().applicationContext as StylishApplication).stylishRepository
+    val application = requireContext().applicationContext as StylishApplication
+    return ProductViewModelFactoryWithContext(repository, product, application)
 }

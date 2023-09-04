@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.factory
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import app.appworks.school.stylish.add2cart.Add2cartViewModel
@@ -21,11 +22,33 @@ class ProductViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(DetailViewModel::class.java) ->
-                    DetailViewModel(stylishRepository, product)
+//                isAssignableFrom(DetailViewModel::class.java) ->
+//                    DetailViewModel(stylishRepository, product)
 
                 isAssignableFrom(Add2cartViewModel::class.java) ->
                     Add2cartViewModel(stylishRepository, product)
+                else ->
+                    throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
+            }
+        } as T
+}
+
+
+@Suppress("UNCHECKED_CAST")
+class ProductViewModelFactoryWithContext(
+    private val stylishRepository: StylishRepository,
+    private val product: Product,
+    private val application: Application,
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        with(modelClass) {
+            when {
+                isAssignableFrom(DetailViewModel::class.java) ->
+                    DetailViewModel(stylishRepository, product, application)
+//
+//                isAssignableFrom(Add2cartViewModel::class.java) ->
+//                    Add2cartViewModel(stylishRepository, product)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }

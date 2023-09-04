@@ -4,17 +4,26 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.compose.runtime.LaunchedEffect
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
+import app.appworks.school.stylish.R
+import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
+import app.appworks.school.stylish.ext.getVmFactoryWithContext
+import app.appworks.school.stylish.util.ABtest
+import app.appworks.school.stylish.util.ABtest.wishlist
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -24,7 +33,13 @@ class DetailFragment : Fragment() {
     /**
      * Lazily initialize our [DetailViewModel].
      */
-    private val viewModel by viewModels<DetailViewModel> { getVmFactory(DetailFragmentArgs.fromBundle(requireArguments()).productKey) }
+    private val viewModel by viewModels<DetailViewModel> {
+        getVmFactoryWithContext(
+            DetailFragmentArgs.fromBundle(
+                requireArguments()
+            ).productKey
+        )
+    }
 
 //    private var previousCurrentFragmentType: CurrentFragmentType? = null
 
@@ -39,9 +54,47 @@ class DetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+
+        //activate star button
+        if (ABtest.version == "A"){
+            binding.buttonStarred
+            binding.buttonUnstarred
+        } else {
+            binding.buttonStarred
+            binding.buttonUnstarred
+        }
+
+        val starredBtn = binding.buttonStarred
+        val unStarredBtn = binding.buttonUnstarred
+
+        if (wishlist.any { it.id == viewModel.product.value?.id }){
+            unStarredBtn.visibility = GONE
+            starredBtn.visibility = VISIBLE
+        }else{
+            unStarredBtn.visibility = VISIBLE
+            starredBtn.visibility = GONE
+        }
+
+
+        unStarredBtn.setOnClickListener {
+            unStarredBtn.visibility = View.GONE
+            starredBtn.visibility = View.VISIBLE
+            viewModel.add2Wishlist(viewModel.product.value!!)
+            Log.i("STARRED3",wishlist.toString())
+        }
+
+        starredBtn.setOnClickListener {
+            starredBtn.visibility = View.GONE
+            unStarredBtn.visibility = View.VISIBLE
+            viewModel.removeFromWishlist(viewModel.product.value!!)
+            Log.i("STARRED2", wishlist.toString())
+        }
+
+
         binding.recyclerDetailGallery.adapter = DetailGalleryAdapter()
         binding.recyclerDetailCircles.adapter = DetailCircleAdapter()
         binding.recyclerDetailColor.adapter = DetailColorAdapter()
+
         /*----------------add Detail Message Adapter------------------*/
         val detailMessageAdapter = DetailMessageAdapter()
         val messageList = viewModel.messageMockData
@@ -79,7 +132,8 @@ class DetailFragment : Fragment() {
             viewModel.snapPosition.observe(
                 viewLifecycleOwner,
                 Observer {
-                    (binding.recyclerDetailCircles.adapter as DetailCircleAdapter).selectedPosition.value = (it % product.images.size)
+                    (binding.recyclerDetailCircles.adapter as DetailCircleAdapter).selectedPosition.value =
+                        (it % product.images.size)
                 }
             )
         }
@@ -88,7 +142,11 @@ class DetailFragment : Fragment() {
             viewLifecycleOwner,
             Observer {
                 it?.let {
-                    findNavController().navigate(NavigationDirections.navigateToAdd2cartDialog(it))
+                    findNavController().navigate(
+                        NavigationDirections.navigateToAdd2cartDialog(
+                            it
+                        )
+                    )
                     viewModel.onAdd2cartNavigated()
                 }
             }

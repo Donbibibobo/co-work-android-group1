@@ -1,5 +1,7 @@
 package app.appworks.school.stylish.detail
 
+import android.app.Application
+import android.content.Context
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -10,11 +12,20 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.ProductList
+import app.appworks.school.stylish.data.UserTrackingRequestBody
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.UserStylishApi
+import app.appworks.school.stylish.network.adapterWishList
+import app.appworks.school.stylish.util.ABtest
+import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -23,14 +34,16 @@ import kotlinx.coroutines.Job
  */
 class DetailViewModel(
     private val stylishRepository: StylishRepository,
-    private val arguments: Product
-) : ViewModel() {
+    private val arguments: Product,
+    private val application: Application
+) : AndroidViewModel(application) {
 
 
     /*----------------add Detail Message fun------------------*/
     private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
-    val messageMockData : LiveData<MutableList<DetailMessage>>
+    val messageMockData: LiveData<MutableList<DetailMessage>>
         get() = _messageMockData
+
     /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -44,7 +57,11 @@ class DetailViewModel(
         when (it.sizes.size) {
             0 -> ""
             1 -> it.sizes.first()
-            else -> StylishApplication.instance.getString(R.string._dash_, it.sizes.first(), it.sizes.last())
+            else -> StylishApplication.instance.getString(
+                R.string._dash_,
+                it.sizes.first(),
+                it.sizes.last()
+            )
         }
     }
 
@@ -85,7 +102,8 @@ class DetailViewModel(
             if (parent.getChildLayoutPosition(view) == 0) {
                 outRect.left = 0
             } else {
-                outRect.left = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
+                outRect.left =
+                    StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_detail_circle)
             }
         }
     }
@@ -134,14 +152,71 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
+    //set up star function
+    fun isStarred(product: Product): Boolean {
+        return wishlist.any { it.id == product.id }
+    }
+
+    fun add2Wishlist(product: Product) {
+
+        if (!isStarred(product)) {
+            wishlist.add(product)
+            wishListFile()
+        }
+    }
+
+
+    fun removeFromWishlist(product: Product) {
+        if (isStarred(product)) {
+            wishlist.remove(product)
+            wishListFile()
+        }
+    }
+
+    var versionAB = ABtest.version.toCharArray()[0]
+
+    private fun wishListFile() {
+        Log.i("wishListFile", "wishListFile called")
+
+        val wishListFileName = "wishList.txt"
+        val productList = ProductList(wishlist)
+        val wishListJson = adapterWishList.toJson(productList)
+
+        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+            it?.write(wishListJson.toByteArray())
+        }
+
+    }
+
+    private fun userTrackingApiCollect(action: String, productId: String) {
+        viewModelScope.launch {
+            // TODO collect
+
+            val eventDetail = JSONObject()
+            val checkoutItemArray = JSONArray()
+
+            eventDetail.put("action", action)
+            eventDetail.put("collect_item", productId)
+
+            Log.i("ABtest", "eventDetail: ${eventDetail.toString()}")
+
+
+            val request = UserTrackingRequestBody(ABtest.userId, "collect", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
+            val response = UserStylishApi.retrofitService.userTracking(request)
+            Log.i("userTracking", "[collect]: ${response.message}")
+            Log.i("userTracking", "[collect_content]: $request")
+        }
+    }
+
+
     /*----------------add Detail Message fun------------------*/
-    fun addMockMessage(editMessage : String){
+    fun addMockMessage(editMessage: String) {
         val messageList = _messageMockData.value ?: mutableListOf()
         messageList.add(DetailMessage(editMessage))
         _messageMockData.value = messageList
 
-        Log.i("addmessage" , "${editMessage}")
-        Log.i("addmessage" , "messageMockData : ${_messageMockData.value}")
+        Log.i("addmessage", "${editMessage}")
+        Log.i("addmessage", "messageMockData : ${_messageMockData.value}")
 
     }
     /*----------------add Detail Message fun------------------*/
