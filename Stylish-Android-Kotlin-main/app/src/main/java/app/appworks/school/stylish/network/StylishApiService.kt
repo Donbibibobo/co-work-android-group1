@@ -2,7 +2,6 @@ package app.appworks.school.stylish.network
 
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
-import app.appworks.school.stylish.data.source.ReviewSubmit
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -159,15 +158,21 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
     // user Review api
+//    @POST("review/submit")
+//    @FormUrlEncoded
+//    suspend fun reviewSubmit(
+//        @Field("userID") userId: String,
+//        @Field("product_id") productId: Long,
+//        @Field("review") review: String,
+//        @Field("timestamp") timestamp: String,
+//        @Field("version") version: String
+//    ): ReviewSubmitRequestBody
+
+//    @Headers("Content-Type: application/json")
     @POST("review/submit")
-    @FormUrlEncoded
     suspend fun reviewSubmit(
-        @Field("userID") userId: String,
-        @Field("product_id") productId: Long,
-        @Field("review") review: String,
-        @Field("timestamp") timestamp: String,
-        @Field("version") version: String
-    ): ReviewSubmit
+        @Body request: ReviewSubmitRequestBody,
+    )
 
 //    // user tracking api
 //    @POST("user/tracking")

@@ -12,6 +12,7 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.ProductList
+import app.appworks.school.stylish.data.ReviewSubmitRequestBody
 import app.appworks.school.stylish.data.UserTrackingRequestBody
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.network.ReviewStylishApi
@@ -211,7 +212,19 @@ class DetailViewModel(
     /*---------------- Review Submit POST API fun------------------*/
     fun reviewSubmit(editMessage: String){
         viewModelScope.launch {
-            ReviewStylishApi.retrofitService.reviewSubmit(ABtest.userId, _product.value!!.id, editMessage, ABtest.getCurrentDateTime(), ABtest.version)
+            try {
+                val messagePost = ReviewSubmitRequestBody(
+                    ABtest.userId,
+                    _product.value!!.id,
+                    editMessage,
+                    ABtest.getCurrentDateTime(),
+                    ABtest.version
+                )
+               ReviewStylishApi.retrofitService.reviewSubmit(messagePost)
+                Log.i("vvvvvv" , "$messagePost")
+            } catch (e: Exception) {
+                println("error: ${e.message}")
+            }
             Log.i("sadsdaa" , "${editMessage}")
         }
     }
