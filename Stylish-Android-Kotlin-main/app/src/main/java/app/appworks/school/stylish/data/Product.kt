@@ -34,6 +34,12 @@ data class Product(
     val note: String,
     @ColumnInfo(name = "product_story")
     val story: String,
+    //message
+    @ColumnInfo(name = "keywords")
+    val keywords: List<String?>,
+    //message
+    @ColumnInfo(name = "reviews")
+    val reviews: List<String>,
     @ColumnInfo(name = "product_colors")
     val colors: List<Color>,
     @ColumnInfo(name = "product_sizes")

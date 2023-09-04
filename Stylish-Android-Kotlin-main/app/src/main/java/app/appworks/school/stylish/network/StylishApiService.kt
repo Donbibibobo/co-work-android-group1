@@ -2,6 +2,7 @@ package app.appworks.school.stylish.network
 
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
+import app.appworks.school.stylish.data.source.ReviewSubmit
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -30,6 +31,11 @@ private const val DATA_BASE_URL = "http://$DATA_HOST_NAME/api/$DATA_API_VERSION/
 private const val USER_HOST_NAME = "54.66.20.75"
 private const val USER_API_VERSION = "1.0"
 private const val USER_BASE_URL = "https://$USER_HOST_NAME/api/$USER_API_VERSION/"
+
+// data api
+private const val REVIEW_HOST_NAME = "54.66.20.75:8080"
+private const val REVIEW_API_VERSION = "1.0"
+private const val REVIEW_BASE_URL = "http://$REVIEW_HOST_NAME/api/$REVIEW_API_VERSION/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -78,6 +84,13 @@ private val dataRetrofit = Retrofit.Builder()
 private val userRetrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(USER_BASE_URL)
+    .client(client)
+    .build()
+
+// review api
+private val reviewRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(REVIEW_BASE_URL)
     .client(client)
     .build()
 
@@ -162,6 +175,17 @@ interface StylishApiService {
         @Field("version") version: String
     ): Unit
 
+    // user Review api
+    @POST("review/submit")
+    @FormUrlEncoded
+    suspend fun reviewSubmit(
+        @Field("userID") userId: String,
+        @Field("product_id") productId: Long,
+        @Field("review") review: String,
+        @Field("timestamp") timestamp: String,
+        @Field("version") version: String
+    ): ReviewSubmit
+
 //    @Headers("Content-type: application/json")
 //    @POST("user/tracking")
 //    suspend fun userTracking2(
@@ -189,4 +213,9 @@ object DataStylishApi {
 // user tracking
 object UserStylishApi {
     val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
+}
+
+// review submit
+object ReviewStylishApi {
+    val retrofitService: StylishApiService by lazy { reviewRetrofit.create(StylishApiService::class.java) }
 }

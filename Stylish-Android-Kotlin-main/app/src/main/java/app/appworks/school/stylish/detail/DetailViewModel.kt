@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
-import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.ReviewStylishApi
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -28,13 +30,10 @@ class DetailViewModel(
     private val arguments: Product,
     private val application: Application
 ) : AndroidViewModel(application) {
-
-
     /*----------------add Detail Message fun------------------*/
-    private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
-    val messageMockData: LiveData<MutableList<DetailMessage>>
-        get() = _messageMockData
-
+    private val _message = MutableLiveData<List<String?>>()
+    val message: LiveData<List<String?>>
+        get() = _message
     /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -112,6 +111,8 @@ class DetailViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]$this")
         Logger.i("------------------------------------")
+        _message.value = arguments.reviews
+        Log.i("asdfasdf", "${_message.value}")
     }
 
     /**
@@ -215,15 +216,12 @@ class DetailViewModel(
 //    }
 
 
-    /*----------------add Detail Message fun------------------*/
-    fun addMockMessage(editMessage: String) {
-        val messageList = _messageMockData.value ?: mutableListOf()
-        messageList.add(DetailMessage(editMessage))
-        _messageMockData.value = messageList
-
-        Log.i("addmessage", "${editMessage}")
-        Log.i("addmessage", "messageMockData : ${_messageMockData.value}")
-
+    /*---------------- Review Submit POST API fun------------------*/
+    fun reviewSubmit(editMessage: String){
+        viewModelScope.launch {
+            ReviewStylishApi.retrofitService.reviewSubmit(ABtest.userId, _product.value!!.id, editMessage, ABtest.getCurrentDateTime(), ABtest.version)
+            Log.i("sadsdaa" , "${editMessage}")
+        }
     }
-    /*----------------add Detail Message fun------------------*/
+    /*---------------- Review Submit POST API fun------------------*/
 }
