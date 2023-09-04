@@ -2,6 +2,8 @@ package app.appworks.school.stylish.network
 
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
+import app.appworks.school.stylish.history.History
+import app.appworks.school.stylish.payment.OrderDataClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -52,6 +54,7 @@ private val client = OkHttpClient.Builder()
 
 
 data class ProductList(val productList: List<Product>)
+
 val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
@@ -112,6 +115,7 @@ interface StylishApiService {
      */
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method
@@ -148,9 +152,6 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
 
-
-
-
     // user tracking api
     @POST("user/tracking")
     @FormUrlEncoded
@@ -162,13 +163,25 @@ interface StylishApiService {
         @Field("version") version: String
     ): Unit
 
-//    @Headers("Content-type: application/json")
-//    @POST("user/tracking")
-//    suspend fun userTracking2(
-//        @Body request: UserTrackingRequestBody,
-//    ): Unit
 
+    // user order api
+//    @POST("user/order")
+//    @FormUrlEncoded
+//    suspend fun insertOrderHistory(
+//        @Field("userID") userId: String,
+//        @Field("checkout_date") checkoutDate: String,
+//        @Field("order_number") orderNumber: String,
+//        @Field("total_price") totalPrice: String,
+//        @Field("version") version: String,
+//        @Field("checkout_item") checkoutItem: List<String>,
+//        @Field("comment") comment: String
+//    ): History
 
+    @Headers("Content-type: application/json")
+    @POST("user/order")
+    suspend fun insertOrderHistory(
+        @Body request: OrderDataClass
+    )
 
 
 }

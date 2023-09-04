@@ -231,6 +231,7 @@ class MainActivity : BaseActivity() {
                 R.id.paymentFragment -> CurrentFragmentType.PAYMENT
                 R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
                 R.id.wishlistFragment -> CurrentFragmentType.WISHLIST
+                R.id.historyFragment -> CurrentFragmentType.HISTORY
                 else -> viewModel.currentFragmentType.value
             }
         }

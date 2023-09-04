@@ -113,5 +113,12 @@
             android:label="WishlistFragment"
             tools:layout="@layout/fragment_wishlist"/>
     <action android:id="@+id/navigate_to_wishlist_fragment" app:destination="@id/wishlistFragment" />
+    <fragment
+            android:id="@+id/historyFragment"
+            android:name="app.appworks.school.stylish.history.HistoryFragment"
+            android:label="HistoryFragment"
+            tools:layout="@layout/fragment_history"/>
+    <action android:id="@+id/navigate_to_history_fragment" app:destination="@id/historyFragment"/>
+
 
 </navigation>

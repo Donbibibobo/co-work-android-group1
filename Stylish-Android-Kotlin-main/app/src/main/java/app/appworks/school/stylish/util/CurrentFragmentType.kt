@@ -11,5 +11,6 @@ enum class CurrentFragmentType(val value: String) {
     PAYMENT(getString(R.string.payment)),
     DETAIL(""),
     CHECKOUT_SUCCESS(getString(R.string.checkout_success_title)),
-    WISHLIST(getString(R.string.wishlist))
+    WISHLIST(getString(R.string.wishlist)),
+    HISTORY(getString(R.string.history))
 }
