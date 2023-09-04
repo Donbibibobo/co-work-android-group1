@@ -10,6 +10,7 @@ import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.databinding.ItemHomeCollageBinding
 import app.appworks.school.stylish.databinding.ItemHomeFullBinding
 import app.appworks.school.stylish.databinding.ItemHomeTitleBinding
+import app.appworks.school.stylish.util.ABtest
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -35,6 +36,7 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
 
             binding.title = title
             binding.executePendingBindings()
+
         }
     }
 
@@ -44,7 +46,11 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
         fun bind(product: Product, onClickListener: OnClickListener) {
 
             binding.product = product
-            binding.root.setOnClickListener { onClickListener.onClick(product) }
+            binding.root.setOnClickListener {
+                onClickListener.onClick(product)
+                // TODO view_item
+                ABtest.userTrackingApiViewItemScope(product.id)
+            }
             binding.executePendingBindings()
         }
     }
@@ -54,7 +60,11 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
         fun bind(product: Product, onClickListener: OnClickListener) {
 
             binding.product = product
-            binding.root.setOnClickListener { onClickListener.onClick(product) }
+            binding.root.setOnClickListener {
+                onClickListener.onClick(product)
+                // TODO view_item
+                ABtest.userTrackingApiViewItemScope(product.id)
+            }
             binding.executePendingBindings()
         }
     }
@@ -118,4 +128,14 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
             is HomeItem.CollageProduct -> ITEM_VIEW_TYPE_PRODUCT_COLLAGE
         }
     }
+
+    // user tracking: login
+//    private fun userTrackOpenApp(){
+//        viewModelScope.launch {
+//            // TODO
+//            val request = UserTrackingRequestBody(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
+//            val response = UserStylishApi.retrofitService.userTracking(request)
+//            Log.i("userTracking", "[login]: ${response.message}")
+//        }
+//    }
 }
