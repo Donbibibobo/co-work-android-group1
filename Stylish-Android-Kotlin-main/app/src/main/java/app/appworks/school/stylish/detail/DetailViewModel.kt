@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.detail
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
@@ -11,12 +12,20 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.ProductList
+import app.appworks.school.stylish.data.UserTrackingRequestBody
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.UserStylishApi
+import app.appworks.school.stylish.network.adapterWishList
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -152,67 +161,52 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
-//            isStarred = true
-//        }
-
-//        Log.i("STARRED2", wishlist.toString())
-
-
-//            wishListFile(product)
-
-//        // internal storage files
-//            var inputStream: String? = ""
-//            try {
-//                inputStream = application.openFileInput(wishListFileName)?.bufferedReader()
-//                    ?.useLines { lines ->
-//                        lines.fold("") { some, text ->
-//                            "$some\n$text"
-//                        }
-//                    }
-//                Log.i("DataToString", "try called")
-//
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
-////                val marketingHots = adapterDataClass.fromJson(inputStream.toString())
-////                Log.i("DataToString", "3: $marketingHots")
-////                marketingHots?.let { createList(it) }
-//
-//            } catch (e : Exception) {
-//                Log.i("DataToString", "e: $e")
-//
-//                // create file
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
+            wishListFile()
         }
     }
 
 
     fun removeFromWishlist(product: Product) {
-        if (isStarred(product))
+        if (isStarred(product)) {
             wishlist.remove(product)
-//        isStarred = false
+            wishListFile()
+        }
     }
 
+    var versionAB = ABtest.version.toCharArray()[0]
 
-//    fun wishListFile(product: Product) {
-//        var inputStream: String? = ""
-//        val wishListFileName = "wishList.txt"
-//
-//        val productList = ProductList(wishlist)
-//
-//        val wishListJson = adapterWishList.toJson(productList)
-//
-//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//            it?.write(wishListJson.toByteArray())
-//        }
-//
-//    }
+    private fun wishListFile() {
+        Log.i("wishListFile", "wishListFile called")
+
+        val wishListFileName = "wishList.txt"
+        val productList = ProductList(wishlist)
+        val wishListJson = adapterWishList.toJson(productList)
+
+        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
+            it?.write(wishListJson.toByteArray())
+        }
+
+    }
+
+    private fun userTrackingApiCollect(action: String, productId: String) {
+        viewModelScope.launch {
+            // TODO collect
+
+            val eventDetail = JSONObject()
+            val checkoutItemArray = JSONArray()
+
+            eventDetail.put("action", action)
+            eventDetail.put("collect_item", productId)
+
+            Log.i("ABtest", "eventDetail: ${eventDetail.toString()}")
+
+
+            val request = UserTrackingRequestBody(ABtest.userId, "collect", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
+            val response = UserStylishApi.retrofitService.userTracking(request)
+            Log.i("userTracking", "[collect]: ${response.message}")
+            Log.i("userTracking", "[collect_content]: $request")
+        }
+    }
 
 
     /*----------------add Detail Message fun------------------*/
