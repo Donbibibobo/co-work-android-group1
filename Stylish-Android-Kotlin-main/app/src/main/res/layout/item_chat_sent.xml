@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="app.appworks.school.stylish.chat.ChatDataClass" />
+                type="app.appworks.school.stylish.chat.ChatDataClass.Sent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,13 +21,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_sent_message"
-                android:text="@{viewModel.toString()}"
                 android:textSize="20sp"
                 android:padding="16dp"
+                android:text="@{viewModel.product.toString()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.8"
-                tools:text="嗨" />
+                tools:text="wo are you" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

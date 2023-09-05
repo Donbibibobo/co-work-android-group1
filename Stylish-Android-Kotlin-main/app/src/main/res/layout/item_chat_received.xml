@@ -7,7 +7,7 @@
 
         <variable
                 name="viewModel"
-                type="app.appworks.school.stylish.chat.ChatDataClass" />
+                type="app.appworks.school.stylish.chat.ChatDataClass.Received" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,12 +33,12 @@
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_received_message"
                 android:padding="16dp"
-                android:text="@{viewModel.toString()}"
                 android:textSize="20sp"
+                android:text=""
                 app:layout_constraintStart_toEndOf="@id/gpt_thumbnail"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.8"
-                tools:text="嗨" />
+                tools:text="hi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
