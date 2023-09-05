@@ -144,7 +144,6 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
             } catch (e: Exception){
                 Log.i("userTracking", "[login fail]: $e")
             }
-
         }
     }
 

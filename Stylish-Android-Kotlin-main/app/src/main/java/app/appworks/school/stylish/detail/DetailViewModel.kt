@@ -10,17 +10,23 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
-import app.appworks.school.stylish.data.DetailMessage
+import app.appworks.school.stylish.data.HomeItem
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.ProductList
+import app.appworks.school.stylish.data.ReviewSubmitRequestBody
 import app.appworks.school.stylish.data.UserTrackingCollect
 import app.appworks.school.stylish.data.UserTrackingRequestBodyCollect
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.DataStylishApi
+import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.network.ReviewStylishApi
 import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.network.adapterWishList
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
+import app.appworks.school.stylish.util.ServiceLocator
+import app.appworks.school.stylish.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -36,13 +42,10 @@ class DetailViewModel(
     private val arguments: Product,
     private val application: Application
 ) : AndroidViewModel(application) {
-
-
     /*----------------add Detail Message fun------------------*/
-    private val _messageMockData = MutableLiveData<MutableList<DetailMessage>>()
-    val messageMockData: LiveData<MutableList<DetailMessage>>
-        get() = _messageMockData
-
+    val _message = MutableLiveData<List<String?>>()
+    val message: LiveData<List<String?>>
+        get() = _message
     /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -120,6 +123,9 @@ class DetailViewModel(
         Logger.i("------------------------------------")
         Logger.i("[${this::class.simpleName}]$this")
         Logger.i("------------------------------------")
+        _message.value = arguments.reviews
+        Log.i("asdfasdf", "${_message.value}")
+//        getMarketingHotsResult(true)
     }
 
     /**
@@ -208,19 +214,52 @@ class DetailViewModel(
                 Log.i("userTracking", "[collect fail]: $e")
             }
 
+
         }
     }
 
 
-    /*----------------add Detail Message fun------------------*/
-    fun addMockMessage(editMessage: String) {
-        val messageList = _messageMockData.value ?: mutableListOf()
-        messageList.add(DetailMessage(editMessage))
-        _messageMockData.value = messageList
-
-        Log.i("addmessage", "${editMessage}")
-        Log.i("addmessage", "messageMockData : ${_messageMockData.value}")
-
+    /*---------------- Review Submit POST API fun------------------*/
+    fun reviewSubmit(editMessage: String){
+        viewModelScope.launch {
+            try {
+                val messagePost = ReviewSubmitRequestBody(
+                    ABtest.userId,
+                    _product.value!!.id,
+                    editMessage,
+                    ABtest.getCurrentDateTime(),
+                    ABtest.version
+                )
+               ReviewStylishApi.retrofitService.reviewSubmit(messagePost)
+                Log.i("vvvvvv" , "$messagePost")
+            } catch (e: Exception) {
+                println("error: ${e.message}")
+            }
+            Log.i("sadsdaa" , "${editMessage}")
+        }
     }
-    /*----------------add Detail Message fun------------------*/
+
+//    fun getMarketingHotsResult(isInitial: Boolean = false) {
+//        var dataList = mutableListOf<ReviewSubmit>()
+//
+//        Log.i("REVIEW ORDER3","test")
+//        viewModelScope.launch {
+//            try {
+//                val result2 = ReviewStylishApi.retrofitService.getDetailReview(arguments.id)
+//                Log.i("REVIEW ORDER2","$result2")
+//                _message.value = result2.data.reviews
+//                Log.i("Jimmy","${_message.value}")
+////                dataList.add(result2)
+//
+////                _product.value
+//            }catch (e:Exception){
+//                Log.i("REVIEW ORDER","${e.message}")
+//
+//            }
+//        }
+//    }
+
+
+
+    /*---------------- Review Submit POST API fun------------------*/
 }
