@@ -126,8 +126,7 @@
 
     <!-- History -->
     <string name="history">歷史紀錄</string>
-
-
-
-
+    <string name="enter_message">請輸入留言</string>
+    <string name="no_rating">無評分</string>
+    <string name="message_area">留言區</string>
 </resources>

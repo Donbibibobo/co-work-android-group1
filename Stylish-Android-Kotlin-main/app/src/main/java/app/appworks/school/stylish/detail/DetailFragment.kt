@@ -111,6 +111,7 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
 
 
+
         binding.messageInput.doAfterTextChanged {
             if (it.toString() != "") {
                 binding.buttonDetailMessage.isEnabled = true

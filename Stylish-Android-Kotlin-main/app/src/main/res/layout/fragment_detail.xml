@@ -17,7 +17,7 @@
             tools:context=".detail.DetailFragment">
 
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
                 android:id="@+id/recycler_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -423,6 +423,18 @@
                         app:layout_constraintStart_toEndOf="@+id/view_detail_note_separation"
                         app:layout_constraintTop_toTopOf="@+id/text_detail_note_title" />
 
+                <TextView
+                        android:id="@+id/text_detail_message_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        android:text="@string/message_area"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_detail_note" />
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/messageInputBox"
                         android:layout_width="0dp"
@@ -431,14 +443,14 @@
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/round_stroke_gray"
-                        android:hint="請輸入留言"
+                        android:hint="@string/enter_message"
                         android:inputType="textEmailAddress"
                         android:padding="8dp"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_detail_note"
-                        app:placeholderText="請輸入留言">
+                        app:layout_constraintTop_toBottomOf="@+id/text_detail_message_area"
+                        app:placeholderText="@string/enter_message">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/messageInput"
@@ -486,7 +498,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_detail_bottom"
