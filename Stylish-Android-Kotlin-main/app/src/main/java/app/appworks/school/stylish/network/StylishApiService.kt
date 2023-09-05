@@ -5,7 +5,6 @@ import app.appworks.school.stylish.data.*
 import app.appworks.school.stylish.history.History
 import app.appworks.school.stylish.payment.OrderDataClass
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.adapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -29,9 +28,9 @@ private const val DATA_API_VERSION = "1.0"
 private const val DATA_BASE_URL = "http://$DATA_HOST_NAME/api/$DATA_API_VERSION/"
 
 // user tracking api
-private const val USER_HOST_NAME = "54.66.20.75"
+private const val USER_HOST_NAME = "54.66.20.75:8080"
 private const val USER_API_VERSION = "1.0"
-private const val USER_BASE_URL = "https://$USER_HOST_NAME/api/$USER_API_VERSION/"
+private const val USER_BASE_URL = "http://$USER_HOST_NAME/api/$USER_API_VERSION/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -53,8 +52,11 @@ private val client = OkHttpClient.Builder()
     .build()
 
 
-data class ProductList(val productList: List<Product>)
-
+//<<<<<<< HEAD
+//data class ProductList(val productList: List<Product>)
+//
+//=======
+//>>>>>>> pull
 val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
@@ -159,17 +161,39 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
 
-    // user tracking api
-    @POST("user/tracking")
-    @FormUrlEncoded
-    suspend fun userTracking(
-        @Field("userID") userId: String,
-        @Field("event_type") eventType: String,
-        @Field("event_detail") eventDetail: String,
-        @Field("timestamp") timestamp: String,
-        @Field("version") version: String
-    ): Unit
+//<<<<<<< HEAD
+//    // user tracking api
+//    @POST("user/tracking")
+//    @FormUrlEncoded
+//    suspend fun userTracking(
+//        @Field("userID") userId: String,
+//        @Field("event_type") eventType: String,
+//        @Field("event_detail") eventDetail: String,
+//        @Field("timestamp") timestamp: String,
+//        @Field("version") version: String
+//    ): Unit
+//
+//=======
 
+
+
+//    // user tracking api
+//    @POST("user/tracking")
+//    @FormUrlEncoded
+//    suspend fun userTracking(
+//        @Field("userID") userId: String,
+//        @Field("event_type") eventType: String,
+//        @Field("event_detail") eventDetail: String,
+//        @Field("timestamp") timestamp: String,
+//        @Field("version") version: String
+//    )
+
+    @Headers("Content-type: application/json")
+    @POST("user/tracking")
+    suspend fun userTracking(
+        @Body request: UserTrackingRequestBody,
+    ): UserTracking
+//>>>>>>> pull
 
     // user order api
 //    @POST("user/order")

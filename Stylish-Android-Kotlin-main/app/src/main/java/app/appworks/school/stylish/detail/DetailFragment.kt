@@ -22,6 +22,7 @@ import app.appworks.school.stylish.data.DetailMessage
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactory
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 
 /**
@@ -55,6 +56,14 @@ class DetailFragment : Fragment() {
 
 
         //activate star button
+        if (ABtest.version == "A"){
+            binding.buttonStarred
+            binding.buttonUnstarred
+        } else {
+            binding.buttonStarred
+            binding.buttonUnstarred
+        }
+
         val starredBtn = binding.buttonStarred
         val unStarredBtn = binding.buttonUnstarred
 
