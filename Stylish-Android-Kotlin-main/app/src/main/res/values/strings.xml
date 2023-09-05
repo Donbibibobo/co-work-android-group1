@@ -33,7 +33,7 @@
     <string name="awaiting_payment">待付款</string>
     <string name="awaiting_shipment">待出貨</string>
     <string name="shipped">待簽收</string>
-    <string name="awaiting_review">待評價</string>
+    <string name="awaiting_review">購買記錄</string>
     <string name="exchange">退換貨</string>
     <string name="profile_service_title">更多服務</string>
     <string name="starred">收藏</string>
@@ -124,6 +124,8 @@
     <!-- shipment text-->
     <string name="shipment">全\n館\n滿\n4\n0\n0\n0\n免\n運\n!</string>
 
+    <!-- History -->
+    <string name="history">歷史紀錄</string>
 
 
 

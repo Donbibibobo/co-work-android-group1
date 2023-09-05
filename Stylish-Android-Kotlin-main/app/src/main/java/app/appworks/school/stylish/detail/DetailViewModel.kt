@@ -13,11 +13,9 @@ import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.HomeItem
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.ProductList
-import app.appworks.school.stylish.data.ProductListResult
-import app.appworks.school.stylish.data.Result
-import app.appworks.school.stylish.data.ReviewSubmit
 import app.appworks.school.stylish.data.ReviewSubmitRequestBody
-import app.appworks.school.stylish.data.UserTrackingRequestBody
+import app.appworks.school.stylish.data.UserTrackingCollect
+import app.appworks.school.stylish.data.UserTrackingRequestBodyCollect
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.network.DataStylishApi
 import app.appworks.school.stylish.network.LoadApiStatus
@@ -33,8 +31,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.json.JSONArray
-import org.json.JSONObject
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -161,7 +157,10 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
-    //set up star function
+
+
+
+    /*----------------set up star function------------------*/
     fun isStarred(product: Product): Boolean {
         return wishlist.any { it.id == product.id }
     }
@@ -170,15 +169,20 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
+
             wishListFile()
+            userTrackingApiCollect("add",product.id.toString())
+
         }
     }
-
 
     fun removeFromWishlist(product: Product) {
         if (isStarred(product)) {
             wishlist.remove(product)
+
             wishListFile()
+
+            userTrackingApiCollect("remove",product.id.toString())
         }
     }
 
@@ -200,20 +204,17 @@ class DetailViewModel(
     private fun userTrackingApiCollect(action: String, productId: String) {
         viewModelScope.launch {
             // TODO collect
+            try {
+                val eventDetail = UserTrackingCollect(action,productId)
+                val request = UserTrackingRequestBodyCollect(ABtest.userId, "collect", eventDetail, ABtest.getCurrentDateTime(), ABtest.version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[collect]: ${response.message}")
+                Log.i("userTracking", "[collect_content]: $request")
+            } catch (e: Exception){
+                Log.i("userTracking", "[collect fail]: $e")
+            }
 
-            val eventDetail = JSONObject()
-            val checkoutItemArray = JSONArray()
 
-            eventDetail.put("action", action)
-            eventDetail.put("collect_item", productId)
-
-            Log.i("ABtest", "eventDetail: ${eventDetail.toString()}")
-
-
-            val request = UserTrackingRequestBody(ABtest.userId, "collect", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
-//            val response = UserStylishApi.retrofitService.userTracking(request)
-//            Log.i("userTracking", "[collect]: ${response.message}")
-//            Log.i("userTracking", "[collect_content]: $request")
         }
     }
 

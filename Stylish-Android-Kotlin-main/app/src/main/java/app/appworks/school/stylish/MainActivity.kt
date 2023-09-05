@@ -79,9 +79,6 @@ class MainActivity : BaseActivity() {
 
 
 
-
-
-
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
@@ -139,6 +136,10 @@ class MainActivity : BaseActivity() {
                 }
             }
         )
+
+        binding.imageToolbarMagnifying.setOnClickListener {
+            findNavController(R.id.myNavHostFragment).navigate(R.id.navigate_to_chat_fragment)
+        }
 
         viewModel.navigateToProfileByBottomNav.observe(
             this,
@@ -231,6 +232,7 @@ class MainActivity : BaseActivity() {
                 R.id.paymentFragment -> CurrentFragmentType.PAYMENT
                 R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
                 R.id.wishlistFragment -> CurrentFragmentType.WISHLIST
+                R.id.historyFragment -> CurrentFragmentType.HISTORY
                 else -> viewModel.currentFragmentType.value
             }
         }
