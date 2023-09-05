@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.add2cart
 
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.databinding.InverseMethod
 import androidx.lifecycle.LiveData
@@ -12,8 +13,11 @@ import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
 import app.appworks.school.stylish.data.Color
 import app.appworks.school.stylish.data.Product
+import app.appworks.school.stylish.data.UserTrackingRequestBodyString
 import app.appworks.school.stylish.data.Variant
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.UserStylishApi
+import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -129,6 +133,12 @@ class Add2cartViewModel(
                         stylishRepository.insertProductInCart(it)
                         _navigateToAddedSuccess.value = it
                     }
+
+                    // TODO add_to_car
+                    val request = UserTrackingRequestBodyString(ABtest.userId, "add_to_cart", it.id.toString(), ABtest.getCurrentDateTime(), ABtest.version)
+                    val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                    Log.i("userTracking", "[add_to_cart]: ${response.message}")
+                    Log.i("userTracking", "[add_to_cart_content]: $request")
                 }
             }
         }

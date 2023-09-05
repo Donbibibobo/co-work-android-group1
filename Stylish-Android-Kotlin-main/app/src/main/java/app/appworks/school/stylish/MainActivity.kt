@@ -82,6 +82,7 @@ class MainActivity : BaseActivity() {
 
 
 
+
         installSplashScreen()
         super.onCreate(savedInstanceState)
 

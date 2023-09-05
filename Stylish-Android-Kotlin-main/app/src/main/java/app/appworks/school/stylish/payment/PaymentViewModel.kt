@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.payment
 
+import android.util.Log
 import androidx.core.os.trace
 import androidx.lifecycle.*
 import app.appworks.school.stylish.R
@@ -9,7 +10,9 @@ import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.ext.toOrderProductList
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.util.ABtest
+import app.appworks.school.stylish.util.ABtest.userTrackingApiCheckoutScope
 import app.appworks.school.stylish.util.Logger
 import app.appworks.school.stylish.util.Util.getColor
 import app.appworks.school.stylish.util.Util.getString
@@ -18,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import tech.cherri.tpdirect.api.*
+import tech.cherri.tpdirect.callback.dto.TPDCardInfoDto
+import tech.cherri.tpdirect.callback.dto.TPDMerchantReferenceInfoDto
 import tech.cherri.tpdirect.model.TPDStatus
 
 /**
@@ -26,9 +31,6 @@ import tech.cherri.tpdirect.model.TPDStatus
  * The [ViewModel] that is attached to the [PaymentFragment].
  */
 class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewModel() {
-
-
-
 
 
 
@@ -210,6 +212,7 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
             else -> {
                 _navigateToLogin.value = true
                 _status.value = LoadApiStatus.DONE
+                Log.i("aassddff", "open")
             }
         }
     }
@@ -233,9 +236,14 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
 
             _checkoutSuccess.value = when (result) {
                 is Result.Success -> {
+
+                    //TODO checkout
+                    userTrackingApiCheckoutScope(products.value!!)
+
                     stylishRepository.clearProductInCart()
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    Log.i("aassddff", "open")
                     result.data
                 }
                 is Result.Fail -> {
@@ -271,9 +279,10 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
     }
 
     // it will occur when get prime success
-    private val tpdTokenSuccessCallback = { token: String, _: TPDCardInfo, _: String ->
-        checkout(token)
-    }
+    private val tpdTokenSuccessCallback =
+        { prime: String, cardInfo: TPDCardInfoDto, cardIdentifier: String, merchantReferenceInfo: TPDMerchantReferenceInfoDto ->
+            checkout(prime)
+        }
 
     // it will occur when get prime failure
     private val tpdTokenFailureCallback = { status: Int, reportMsg: String ->
