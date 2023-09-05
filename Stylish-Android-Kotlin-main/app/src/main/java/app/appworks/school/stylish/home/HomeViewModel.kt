@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,6 +83,8 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
      * track [StylishRepository.getMarketingHots]: -> [DefaultStylishRepository] : [StylishRepository] -> [StylishRemoteDataSource] : [StylishDataSource]
      */
     private fun getMarketingHotsResult(isInitial: Boolean = false) {
+        Log.i("asdfasdf", "getMarketingHotsResult called")
+
 
         coroutineScope.launch {
 
@@ -95,16 +98,19 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
                     if (isInitial) _status.value = LoadApiStatus.DONE
                     result.data
                 }
+
                 is Result.Fail -> {
                     _error.value = result.error
                     if (isInitial) _status.value = LoadApiStatus.ERROR
                     null
                 }
+
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     if (isInitial) _status.value = LoadApiStatus.ERROR
                     null
                 }
+
                 else -> {
                     _error.value = getString(R.string.you_know_nothing)
                     if (isInitial) _status.value = LoadApiStatus.ERROR
@@ -116,8 +122,12 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
     }
 
     fun refresh() {
-        if (status.value != LoadApiStatus.LOADING) {
-            getMarketingHotsResult()
+        try {
+            if (status.value != LoadApiStatus.LOADING) {
+                getMarketingHotsResult()
+            }
+        } catch (e: Exception) {
+            println("errorHome: ${e.message}")
         }
     }
 

@@ -134,18 +134,19 @@
                         android:id="@+id/rate_number"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:text="@{}"
+                        android:text="@{String.valueOf(viewModel.product.ratings)}"
                         app:layout_constraintStart_toEndOf="@id/rate_star_icon"
                         app:layout_constraintTop_toTopOf="@id/rate_star_icon"
                         app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
-                        tools:text="asda"/>
+                        tools:text="asda"
+                        app:ratings="@{String.valueOf(viewModel.product.ratings)}"/>
 
                 <TextView
                         android:id="@+id/rate_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
-                        android:text="@{}"
+                        app:rateAmount="@{viewModel.product.reviews.size()}"
                         app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
                         app:layout_constraintStart_toEndOf="@id/rate_number"
                         app:layout_constraintTop_toTopOf="@id/rate_star_icon"

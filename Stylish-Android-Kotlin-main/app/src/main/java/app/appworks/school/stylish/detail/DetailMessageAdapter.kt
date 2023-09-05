@@ -5,15 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.appworks.school.stylish.data.DetailMessage
-import app.appworks.school.stylish.databinding.ItemDetailColorBinding
 import app.appworks.school.stylish.databinding.ItemDetailMessageBinding
 
-class DetailMessageAdapter : ListAdapter<DetailMessage, DetailMessageAdapter.MessageViewHolder>(DiffCallback()) {
+class DetailMessageAdapter : ListAdapter<String, DetailMessageAdapter.MessageViewHolder>(DiffCallback()) {
 
     class MessageViewHolder(val binding: ItemDetailMessageBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(messageData: DetailMessage) {
+        fun bind(messageData: String) {
             messageData.let {
                 binding.message = it
                 binding.executePendingBindings()
@@ -34,17 +32,17 @@ class DetailMessageAdapter : ListAdapter<DetailMessage, DetailMessageAdapter.Mes
     }
 }
 
-class DiffCallback : DiffUtil.ItemCallback<DetailMessage>() {
+class DiffCallback : DiffUtil.ItemCallback<String>() {
     override fun areItemsTheSame(
-        oldItem: DetailMessage,
-        newItem: DetailMessage
+        oldItem: String,
+        newItem: String
     ): Boolean {
-        return oldItem.message == newItem.message
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(
-        oldItem: DetailMessage,
-        newItem: DetailMessage
+        oldItem: String,
+        newItem: String
     ): Boolean {
         return oldItem == newItem
     }
