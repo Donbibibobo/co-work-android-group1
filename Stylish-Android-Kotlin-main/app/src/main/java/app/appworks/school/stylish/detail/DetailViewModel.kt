@@ -143,7 +143,10 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
-    //set up star function
+
+
+
+    /*----------------set up star function------------------*/
     fun isStarred(product: Product): Boolean {
         return wishlist.any { it.id == product.id }
     }
@@ -152,67 +155,15 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
-//            isStarred = true
-//        }
-
-//        Log.i("STARRED2", wishlist.toString())
-
-
-//            wishListFile(product)
-
-//        // internal storage files
-//            var inputStream: String? = ""
-//            try {
-//                inputStream = application.openFileInput(wishListFileName)?.bufferedReader()
-//                    ?.useLines { lines ->
-//                        lines.fold("") { some, text ->
-//                            "$some\n$text"
-//                        }
-//                    }
-//                Log.i("DataToString", "try called")
-//
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
-////                val marketingHots = adapterDataClass.fromJson(inputStream.toString())
-////                Log.i("DataToString", "3: $marketingHots")
-////                marketingHots?.let { createList(it) }
-//
-//            } catch (e : Exception) {
-//                Log.i("DataToString", "e: $e")
-//
-//                // create file
-//                val wishListJson = adapterWishList.toJson(wishlist)
-//
-//                application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//                    it?.write(wishListJson.toByteArray())
-//                }
         }
     }
 
-
     fun removeFromWishlist(product: Product) {
-        if (isStarred(product))
+        if (isStarred(product)) {
             wishlist.remove(product)
-//        isStarred = false
+        }
     }
-
-
-//    fun wishListFile(product: Product) {
-//        var inputStream: String? = ""
-//        val wishListFileName = "wishList.txt"
-//
-//        val productList = ProductList(wishlist)
-//
-//        val wishListJson = adapterWishList.toJson(productList)
-//
-//        application?.openFileOutput(wishListFileName, Context.MODE_PRIVATE).use {
-//            it?.write(wishListJson.toByteArray())
-//        }
-//
-//    }
+    /*----------------set up star function------------------*/
 
 
     /*----------------add Detail Message fun------------------*/
