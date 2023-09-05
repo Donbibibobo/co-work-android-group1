@@ -79,9 +79,6 @@ class MainActivity : BaseActivity() {
 
 
 
-
-
-
         installSplashScreen()
         super.onCreate(savedInstanceState)
 
@@ -139,6 +136,10 @@ class MainActivity : BaseActivity() {
                 }
             }
         )
+
+        binding.imageToolbarMagnifying.setOnClickListener {
+            findNavController(R.id.myNavHostFragment).navigate(R.id.navigate_to_chat_fragment)
+        }
 
         viewModel.navigateToProfileByBottomNav.observe(
             this,
