@@ -58,6 +58,7 @@ fun bindRecyclerViewWithProducts(recyclerView: RecyclerView, products: List<Prod
                         else -> submitList(it)
                     }
                 }
+
                 is PaymentAdapter -> submitProducts(products)
             }
         }
@@ -159,7 +160,7 @@ fun drawColorSquareBySelected(imageView: ImageView, color: Color?, isSelected: B
 
 
 
-            ColorSquare("#${it.code}", isSelected = isSelected)
+        ColorSquare("#${it.code}", isSelected = isSelected)
     }
 }
 
@@ -196,6 +197,7 @@ fun bindAdd2cartEditorStatus(editText: EditText, amount: Long, stock: Int) {
                 backgroundTintList = ColorStateList.valueOf(getColor(R.color.gray_999999))
                 setTextColor(getColor(R.color.gray_999999))
             }
+
             else -> {
                 isClickable = true
                 isFocusable = true
@@ -272,6 +274,7 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
                 true -> {
                     paint.style = Paint.Style.FILL
                 }
+
                 false -> {
                     paint.style = Paint.Style.STROKE
                     paint.strokeWidth = StylishApplication.instance.resources
@@ -292,37 +295,94 @@ fun bindDetailCircleStatus(imageView: ImageView, isSelected: Boolean = false) {
 @BindingAdapter("itemPosition", "itemCount")
 fun setupPaddingForGridItems(layout: ConstraintLayout, position: Int, count: Int) {
 
-    val outsideHorizontal = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_horizontal_catalog_item)
-    val insideHorizontal = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_catalog_item)
-    val outsideVertical = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_vertical_catalog_item)
-    val insideVertical = StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_vertical_catalog_item)
+    val outsideHorizontal =
+        StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_horizontal_catalog_item)
+    val insideHorizontal =
+        StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_horizontal_catalog_item)
+    val outsideVertical =
+        StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_outside_vertical_catalog_item)
+    val insideVertical =
+        StylishApplication.instance.resources.getDimensionPixelSize(R.dimen.space_inside_vertical_catalog_item)
 
-    val layoutParams = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+    val layoutParams = ConstraintLayout.LayoutParams(
+        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+        ConstraintLayout.LayoutParams.WRAP_CONTENT
+    )
 
     when {
         position == 0 -> { // first item and confirm whether only 1 row
-            layoutParams.setMargins(outsideHorizontal, outsideVertical, insideHorizontal, if (count > 2) insideVertical else outsideVertical)
+            layoutParams.setMargins(
+                outsideHorizontal,
+                outsideVertical,
+                insideHorizontal,
+                if (count > 2) insideVertical else outsideVertical
+            )
         }
+
         position == 1 -> { // second item and confirm whether only 1 row
-            layoutParams.setMargins(insideHorizontal, outsideVertical, outsideHorizontal, if (count > 2) insideVertical else outsideVertical)
+            layoutParams.setMargins(
+                insideHorizontal,
+                outsideVertical,
+                outsideHorizontal,
+                if (count > 2) insideVertical else outsideVertical
+            )
         }
+
         count % 2 == 0 && position == count - 1 -> { // count more than 2 and item count is even
-            layoutParams.setMargins(insideHorizontal, insideVertical, outsideHorizontal, outsideVertical)
+            layoutParams.setMargins(
+                insideHorizontal,
+                insideVertical,
+                outsideHorizontal,
+                outsideVertical
+            )
         }
+
         (count % 2 == 1 && position == count - 1) || (count % 2 == 0 && position == count - 2) -> {
-            layoutParams.setMargins(outsideHorizontal, insideVertical, insideHorizontal, outsideVertical)
+            layoutParams.setMargins(
+                outsideHorizontal,
+                insideVertical,
+                insideHorizontal,
+                outsideVertical
+            )
         }
+
         position % 2 == 0 -> { // even
             when (position) {
-                count - 1 -> layoutParams.setMargins(insideHorizontal, insideVertical, outsideHorizontal, outsideVertical) // last 1
-                count - 2 -> layoutParams.setMargins(outsideHorizontal, insideVertical, insideHorizontal, outsideVertical) // last 2
-                else -> layoutParams.setMargins(outsideHorizontal, insideVertical, insideHorizontal, insideVertical)
+                count - 1 -> layoutParams.setMargins(
+                    insideHorizontal,
+                    insideVertical,
+                    outsideHorizontal,
+                    outsideVertical
+                ) // last 1
+                count - 2 -> layoutParams.setMargins(
+                    outsideHorizontal,
+                    insideVertical,
+                    insideHorizontal,
+                    outsideVertical
+                ) // last 2
+                else -> layoutParams.setMargins(
+                    outsideHorizontal,
+                    insideVertical,
+                    insideHorizontal,
+                    insideVertical
+                )
             }
         }
+
         position % 2 == 1 -> { // odd
             when (position) {
-                count - 1 -> layoutParams.setMargins(outsideHorizontal, insideVertical, insideHorizontal, outsideVertical) // last 1
-                else -> layoutParams.setMargins(insideHorizontal, insideVertical, outsideHorizontal, insideVertical)
+                count - 1 -> layoutParams.setMargins(
+                    outsideHorizontal,
+                    insideVertical,
+                    insideHorizontal,
+                    outsideVertical
+                ) // last 1
+                else -> layoutParams.setMargins(
+                    insideHorizontal,
+                    insideVertical,
+                    outsideHorizontal,
+                    insideVertical
+                )
             }
         }
     }
@@ -395,6 +455,7 @@ fun bindApiErrorMessage(view: TextView, message: String?) {
         null, "" -> {
             view.visibility = View.GONE
         }
+
         else -> {
             view.text = message
             view.visibility = View.VISIBLE
@@ -429,13 +490,24 @@ fun bindColorByColorCode(imageView: ImageView, colorCode: String?) {
 @BindingAdapter("ratings")
 fun bindRatings(textView: TextView, ratings: String?) {
     ratings?.let {
-        val floatValue = it.toFloat()
-        val roundedValue = Math.round(floatValue * 10.0) / 10.0
-        textView.text = roundedValue.toString()
+        if (it != "-1") {
+            val floatValue = it.toFloat()
+            val roundedValue = Math.round(floatValue * 10.0) / 10.0
+            textView.text = roundedValue.toString()
+        } else {
+            textView.text = "無評分"
+        }
     }
 }
 
 @BindingAdapter("rateAmount")
 fun bindRateAmount(textView: TextView, rateAmount: Int?) {
-    rateAmount?.let { textView.text = StylishApplication.instance.getString(R.string.rate_amount, it) }
+    rateAmount?.let {
+        if(it != 0){
+        textView.text = StylishApplication.instance.getString(R.string.rate_amount, it)
+    }
+        else{
+            textView.text = ""
+        }
+    }
 }

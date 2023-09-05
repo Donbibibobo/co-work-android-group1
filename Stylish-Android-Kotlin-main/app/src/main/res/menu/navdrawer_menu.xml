@@ -25,10 +25,6 @@
                 android:id="@+id/nav_exchange"
                 android:icon="@drawable/exchange"
                 android:title="待退貨" />
-            <item
-                    android:id="@+id/categorySearch"
-                    android:icon="@drawable/baseline_category_24"
-                    android:title="類別搜索" />
         </menu>
     </item>
 </menu>
