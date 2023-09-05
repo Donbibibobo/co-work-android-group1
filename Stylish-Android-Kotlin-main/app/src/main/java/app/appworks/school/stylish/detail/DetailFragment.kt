@@ -11,13 +11,22 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
+import app.appworks.school.stylish.R
+import app.appworks.school.stylish.data.Result
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
+import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.network.ReviewStylishApi
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
+import app.appworks.school.stylish.util.ServiceLocator.stylishRepository
+import app.appworks.school.stylish.util.Util
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -51,6 +60,10 @@ class DetailFragment : Fragment() {
         binding.viewModel = viewModel
 
 
+//        viewModel.getMarketingHotsResult()
+
+
+
         //activate star button
         if (ABtest.version == "A"){
             binding.buttonStarred
@@ -70,7 +83,6 @@ class DetailFragment : Fragment() {
             unStarredBtn.visibility = VISIBLE
             starredBtn.visibility = GONE
         }
-
 
         unStarredBtn.setOnClickListener {
             unStarredBtn.visibility = View.GONE
@@ -93,7 +105,8 @@ class DetailFragment : Fragment() {
 
         /*----------------add Detail Message Adapter------------------*/
         val detailMessageAdapter = DetailMessageAdapter()
-        val messageList = viewModel.message.value
+        var messageList:MutableList<String> = viewModel.message.value as MutableList<String>
+
         val editMessage = binding.messageInput.text
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
 
@@ -110,17 +123,19 @@ class DetailFragment : Fragment() {
 
         binding.buttonDetailMessage.setOnClickListener {
             Log.i("editMessage", "$editMessage")
-            detailMessageAdapter.submitList(messageList)
+            messageList.add(editMessage.toString())
             viewModel.reviewSubmit(editMessage.toString())
+            Log.i("teeee", "$messageList")
             detailMessageAdapter.notifyDataSetChanged()
         }
 
+
         viewModel.message.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
                 detailMessageAdapter.submitList(messageList)
-            }
         })
         /*----------------add Detail Message Adapter------------------*/
+
+
 
 
         val linearSnapHelper = LinearSnapHelper().apply {

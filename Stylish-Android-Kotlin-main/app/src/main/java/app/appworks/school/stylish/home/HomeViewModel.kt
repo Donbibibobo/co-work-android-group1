@@ -1,5 +1,6 @@
 package app.appworks.school.stylish.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,6 +83,8 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
      * track [StylishRepository.getMarketingHots]: -> [DefaultStylishRepository] : [StylishRepository] -> [StylishRemoteDataSource] : [StylishDataSource]
      */
     private fun getMarketingHotsResult(isInitial: Boolean = false) {
+        Log.i("asdfasdf", "getMarketingHotsResult called")
+
 
         coroutineScope.launch {
 

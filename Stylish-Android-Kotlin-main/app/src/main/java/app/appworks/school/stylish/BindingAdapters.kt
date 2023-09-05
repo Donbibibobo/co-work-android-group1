@@ -425,3 +425,17 @@ fun bindColorByColorCode(imageView: ImageView, colorCode: String?) {
         })
     }
 }
+
+@BindingAdapter("ratings")
+fun bindRatings(textView: TextView, ratings: String?) {
+    ratings?.let {
+        val floatValue = it.toFloat()
+        val roundedValue = Math.round(floatValue * 10.0) / 10.0
+        textView.text = roundedValue.toString()
+    }
+}
+
+@BindingAdapter("rateAmount")
+fun bindRateAmount(textView: TextView, rateAmount: Int?) {
+    rateAmount?.let { textView.text = StylishApplication.instance.getString(R.string.rate_amount, it) }
+}

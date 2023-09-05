@@ -5,6 +5,7 @@ import app.appworks.school.stylish.data.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -47,9 +48,14 @@ private val client = OkHttpClient.Builder()
     .addInterceptor(
         HttpLoggingInterceptor().apply {
             level = when (BuildConfig.LOGGER_VISIABLE) {
-                true -> HttpLoggingInterceptor.Level.BODY
+                true -> HttpLoggingInterceptor.Level.HEADERS
                 false -> HttpLoggingInterceptor.Level.NONE
             }
+        }
+    ).addInterceptor(
+        Interceptor { chain ->
+            val request = chain.request()
+            chain.proceed(request.newBuilder().header("Connection", "close").build())
         }
     )
     .build()
@@ -122,6 +128,14 @@ interface StylishApiService {
      */
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
+
+    //get detail review
+    @GET("products/details")
+    suspend fun getDetailReview(
+//        @Path("catalogType") type: String,
+        @Query("id") productId: Long
+    ): ReviewSubmit
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method
@@ -185,11 +199,11 @@ interface StylishApiService {
 //        @Field("version") version: String
 //    )
 
-    @Headers("Content-type: application/json")
-    @POST("user/tracking")
-    suspend fun userTracking(
-        @Body request: UserTrackingRequestBody,
-    ): UserTracking
+//    @Headers("Content-type: application/json")
+//    @POST("user/tracking")
+//    suspend fun userTracking(
+//        @Body request: UserTrackingRequestBody,
+//    ): UserTracking
 
 
 

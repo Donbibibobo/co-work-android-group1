@@ -34,10 +34,10 @@ object ABtest {
         val job = Job()
         val scope = CoroutineScope(Dispatchers.IO + job)
         scope.launch {
-            val request = UserTrackingRequestBody(userId, "view_item", "$productId", getCurrentDateTime(), version)
-            val response = UserStylishApi.retrofitService.userTracking(request)
-            Log.i("userTracking", "[view_item]: ${response.message}")
-            Log.i("userTracking", "[view_item_content]: $request")
+//            val request = UserTrackingRequestBody(userId, "view_item", "$productId", getCurrentDateTime(), version)
+//            val response = UserStylishApi.retrofitService.userTracking(request)
+//            Log.i("userTracking", "[view_item]: ${response.message}")
+//            Log.i("userTracking", "[view_item_content]: $request")
         }
     }
 }

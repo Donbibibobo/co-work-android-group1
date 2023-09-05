@@ -40,6 +40,8 @@ data class Product(
     //message
     @ColumnInfo(name = "reviews")
     val reviews: List<String>,
+    @ColumnInfo(name = "ratings")
+    val ratings: String,
     @ColumnInfo(name = "product_colors")
     val colors: List<Color>,
     @ColumnInfo(name = "product_sizes")

@@ -10,17 +10,25 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
+import app.appworks.school.stylish.data.HomeItem
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.ProductList
+import app.appworks.school.stylish.data.ProductListResult
+import app.appworks.school.stylish.data.Result
+import app.appworks.school.stylish.data.ReviewSubmit
 import app.appworks.school.stylish.data.ReviewSubmitRequestBody
 import app.appworks.school.stylish.data.UserTrackingRequestBody
 import app.appworks.school.stylish.data.source.StylishRepository
+import app.appworks.school.stylish.network.DataStylishApi
+import app.appworks.school.stylish.network.LoadApiStatus
 import app.appworks.school.stylish.network.ReviewStylishApi
 import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.network.adapterWishList
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
 import app.appworks.school.stylish.util.Logger
+import app.appworks.school.stylish.util.ServiceLocator
+import app.appworks.school.stylish.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,7 +47,7 @@ class DetailViewModel(
     private val application: Application
 ) : AndroidViewModel(application) {
     /*----------------add Detail Message fun------------------*/
-    private val _message = MutableLiveData<List<String?>>()
+    val _message = MutableLiveData<List<String?>>()
     val message: LiveData<List<String?>>
         get() = _message
     /*----------------add Detail Message fun------------------*/
@@ -121,6 +129,7 @@ class DetailViewModel(
         Logger.i("------------------------------------")
         _message.value = arguments.reviews
         Log.i("asdfasdf", "${_message.value}")
+//        getMarketingHotsResult(true)
     }
 
     /**
@@ -202,9 +211,9 @@ class DetailViewModel(
 
 
             val request = UserTrackingRequestBody(ABtest.userId, "collect", eventDetail.toString(), ABtest.getCurrentDateTime(), ABtest.version)
-            val response = UserStylishApi.retrofitService.userTracking(request)
-            Log.i("userTracking", "[collect]: ${response.message}")
-            Log.i("userTracking", "[collect_content]: $request")
+//            val response = UserStylishApi.retrofitService.userTracking(request)
+//            Log.i("userTracking", "[collect]: ${response.message}")
+//            Log.i("userTracking", "[collect_content]: $request")
         }
     }
 
@@ -228,5 +237,28 @@ class DetailViewModel(
             Log.i("sadsdaa" , "${editMessage}")
         }
     }
+
+//    fun getMarketingHotsResult(isInitial: Boolean = false) {
+//        var dataList = mutableListOf<ReviewSubmit>()
+//
+//        Log.i("REVIEW ORDER3","test")
+//        viewModelScope.launch {
+//            try {
+//                val result2 = ReviewStylishApi.retrofitService.getDetailReview(arguments.id)
+//                Log.i("REVIEW ORDER2","$result2")
+//                _message.value = result2.data.reviews
+//                Log.i("Jimmy","${_message.value}")
+////                dataList.add(result2)
+//
+////                _product.value
+//            }catch (e:Exception){
+//                Log.i("REVIEW ORDER","${e.message}")
+//
+//            }
+//        }
+//    }
+
+
+
     /*---------------- Review Submit POST API fun------------------*/
 }

@@ -137,9 +137,9 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
         viewModelScope.launch {
             // TODO login
             val request = UserTrackingRequestBody(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
-            val response = UserStylishApi.retrofitService.userTracking(request)
-            Log.i("userTracking", "[login]: ${response.message}")
-            Log.i("userTracking", "[login_content]: $request")
+//            val response = UserStylishApi.retrofitService.userTracking(request)
+//            Log.i("userTracking", "[login]: ${response.message}")
+//            Log.i("userTracking", "[login_content]: $request")
         }
     }
 
