@@ -2,6 +2,8 @@ package app.appworks.school.stylish.network
 
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
+import app.appworks.school.stylish.history.History
+import app.appworks.school.stylish.payment.OrderDataClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -50,6 +52,11 @@ private val client = OkHttpClient.Builder()
     .build()
 
 
+//<<<<<<< HEAD
+//data class ProductList(val productList: List<Product>)
+//
+//=======
+//>>>>>>> pull
 val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
@@ -110,6 +117,14 @@ interface StylishApiService {
      */
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
+
+
+    //get order history from server
+    @GET("user/order")
+    suspend fun getOrderHistory(
+        @Query("userID") userId: String
+    ): List<History>
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method
@@ -146,6 +161,19 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
 
+//<<<<<<< HEAD
+//    // user tracking api
+//    @POST("user/tracking")
+//    @FormUrlEncoded
+//    suspend fun userTracking(
+//        @Field("userID") userId: String,
+//        @Field("event_type") eventType: String,
+//        @Field("event_detail") eventDetail: String,
+//        @Field("timestamp") timestamp: String,
+//        @Field("version") version: String
+//    ): Unit
+//
+//=======
 
 
 
@@ -165,8 +193,26 @@ interface StylishApiService {
     suspend fun userTracking(
         @Body request: UserTrackingRequestBody,
     ): UserTracking
+//>>>>>>> pull
 
+    // user order api
+//    @POST("user/order")
+//    @FormUrlEncoded
+//    suspend fun insertOrderHistory(
+//        @Field("userID") userId: String,
+//        @Field("checkout_date") checkoutDate: String,
+//        @Field("order_number") orderNumber: String,
+//        @Field("total_price") totalPrice: String,
+//        @Field("version") version: String,
+//        @Field("checkout_item") checkoutItem: List<String>,
+//        @Field("comment") comment: String
+//    ): History
 
+    @Headers("Content-type: application/json")
+    @POST("user/order")
+    suspend fun insertOrderHistory(
+        @Body request: OrderDataClass
+    )
 
 
 }

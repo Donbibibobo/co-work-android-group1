@@ -152,7 +152,10 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
-    //set up star function
+
+
+
+    /*----------------set up star function------------------*/
     fun isStarred(product: Product): Boolean {
         return wishlist.any { it.id == product.id }
     }
@@ -161,14 +164,21 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
+//<<<<<<< HEAD
+//=======
             wishListFile()
+//>>>>>>> pull
         }
     }
-
 
     fun removeFromWishlist(product: Product) {
         if (isStarred(product)) {
             wishlist.remove(product)
+//<<<<<<< HEAD
+//        }
+//    }
+//    /*----------------set up star function------------------*/
+//=======
             wishListFile()
         }
     }
@@ -207,6 +217,7 @@ class DetailViewModel(
             Log.i("userTracking", "[collect_content]: $request")
         }
     }
+//>>>>>>> pull
 
 
     /*----------------add Detail Message fun------------------*/

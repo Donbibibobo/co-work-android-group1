@@ -37,6 +37,9 @@ class ProfileFragment : Fragment() {
         binding.buttonProfileStarred.setOnClickListener {
             findNavController().navigate(R.id.navigate_to_wishlist_fragment)
         }
+        binding.buttonHistory.setOnClickListener {
+            findNavController().navigate(R.id.navigate_to_history_fragment)
+        }
         if (viewModel.user.value == null) {
             // user info will be null if user already logged in, and it will get user info from server,
             // here will show you how to set user info to MainViewModel
