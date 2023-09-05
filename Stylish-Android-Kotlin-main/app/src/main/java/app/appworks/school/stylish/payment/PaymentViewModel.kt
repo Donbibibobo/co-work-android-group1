@@ -1,7 +1,6 @@
 package app.appworks.school.stylish.payment
 
 import android.util.Log
-import androidx.core.os.trace
 import androidx.lifecycle.*
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
@@ -9,6 +8,7 @@ import app.appworks.school.stylish.data.*
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.ext.toOrderProductList
 import app.appworks.school.stylish.login.UserManager
+import app.appworks.school.stylish.network.DataStylishApi
 import app.appworks.school.stylish.network.LoadApiStatus
 import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.util.ABtest
@@ -18,12 +18,17 @@ import app.appworks.school.stylish.util.Util.getColor
 import app.appworks.school.stylish.util.Util.getString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import tech.cherri.tpdirect.api.*
 import tech.cherri.tpdirect.callback.dto.TPDCardInfoDto
 import tech.cherri.tpdirect.callback.dto.TPDMerchantReferenceInfoDto
 import tech.cherri.tpdirect.model.TPDStatus
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.UUID
+import kotlin.reflect.typeOf
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -31,7 +36,6 @@ import tech.cherri.tpdirect.model.TPDStatus
  * The [ViewModel] that is attached to the [PaymentFragment].
  */
 class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewModel() {
-
 
 
     // get products in cart from Room database
@@ -168,12 +172,15 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
             phone.value.isNullOrEmpty() -> _invalidCheckout.value = INVALID_FORMAT_PHONE_EMPTY
             address.value.isNullOrEmpty() -> _invalidCheckout.value = INVALID_FORMAT_ADDRESS_EMPTY
             shippingTime.isEmpty() -> _invalidCheckout.value = INVALID_FORMAT_TIME_EMPTY
-            paymentMethod.value == PaymentMethod.CASH_ON_DELIVERY -> _invalidCheckout.value = NOT_SUPPORT_CASH_ON_DELIVERY
+            paymentMethod.value == PaymentMethod.CASH_ON_DELIVERY -> _invalidCheckout.value =
+                NOT_SUPPORT_CASH_ON_DELIVERY
+
             !isCanGetPrime -> _invalidCheckout.value = CREDIT_CART_FORMAT_INCORRECT
             isCanGetPrime -> {
                 _status.value = LoadApiStatus.LOADING
                 tpdCard?.getPrime()
             }
+
             else -> _invalidCheckout.value = NO_ONE_KNOWS
         }
     }
@@ -209,6 +216,7 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
                     )
                 }
             }
+
             else -> {
                 _navigateToLogin.value = true
                 _status.value = LoadApiStatus.DONE
@@ -246,17 +254,20 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
                     Log.i("aassddff", "open")
                     result.data
                 }
+
                 is Result.Fail -> {
                     _error.value = result.error
                     _status.value = LoadApiStatus.ERROR
                     _invalidCheckout.value = CHECKOUT_FAIL
                     null
                 }
+
                 is Result.Error -> {
                     _error.value = result.exception.toString()
                     _status.value = LoadApiStatus.ERROR
                     null
                 }
+
                 else -> {
                     _error.value = getString(R.string.you_know_nothing)
                     _status.value = LoadApiStatus.ERROR
@@ -311,10 +322,13 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
             when {
                 tpdStatus.cardNumberStatus == TPDStatus.STATUS_ERROR ->
                     tpdErrorMessage = getString(R.string.tpd_card_number_error)
+
                 tpdStatus.expirationDateStatus == TPDStatus.STATUS_ERROR ->
                     tpdErrorMessage = getString(R.string.tpd_expiration_date_error)
+
                 tpdStatus.ccvStatus == TPDStatus.STATUS_ERROR ->
                     tpdErrorMessage = getString(R.string.tpd_ccv_error)
+
                 !tpdStatus.isCanGetPrime ->
                     tpdErrorMessage = getString(R.string.tpd_general_error)
             }
@@ -324,7 +338,12 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
         tpdCard = TPDCard.setup(tpdForm)
             .onSuccessCallback(tpdTokenSuccessCallback)
             .onFailureCallback(tpdTokenFailureCallback)
+
+//        Log.i("TAPPAY", status.value.toString())
+//        Log.i("TAPPAY", tpdErrorMessage)
+
     }
+
 
     companion object {
 
@@ -343,5 +362,41 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
         const val NO_ONE_KNOWS = 0x21
 
         const val CHECKOUT_FAIL = 0x22
+    }
+
+
+    // user tracking: login
+    //define local date time & oder num by UUID
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val currentDateTime = LocalDateTime.now()
+    private val currentDate = currentDateTime.format(formatter)
+    private fun generateNewUUID(): String {
+        return UUID.randomUUID().toString().uppercase()
+    }
+
+    fun postOrderApi() {
+        val uuid = generateNewUUID()
+
+        GlobalScope.launch {
+            val checkoutItems = products.value?.let {
+                OrderDataClass(
+                    ABtest.userId,
+                    currentDate,
+                    uuid,
+                    totalOrderPrice.value!!.toInt(),
+                    it.map { it.id.toString() },
+                    "123"
+                )
+            }
+            checkoutItems?.let {
+                try {
+                    DataStylishApi.retrofitService.insertOrderHistory(it)
+//            val request = UserTrackingRequestBody("UUID", "login", eventDetail,"2023/09/02", "A")
+//            UserStylishApi.retrofitService.userTracking2(request)
+                } catch (e: Exception) {
+                    Log.i("TAPPAY8.1", "${e.message}")
+                }
+            }
+        }
     }
 }

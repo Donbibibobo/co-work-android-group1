@@ -2,6 +2,8 @@ package app.appworks.school.stylish.network
 
 import app.appworks.school.stylish.BuildConfig
 import app.appworks.school.stylish.data.*
+import app.appworks.school.stylish.history.History
+import app.appworks.school.stylish.payment.OrderDataClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -120,6 +122,14 @@ interface StylishApiService {
      */
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
+
+
+    //get order history from server
+    @GET("user/order")
+    suspend fun getOrderHistory(
+        @Query("userID") userId: String
+    ): List<History>
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method
@@ -156,7 +166,6 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
 
-    // user tracking
     @Headers("Content-type: application/json")
     @POST("user/tracking")
     suspend fun userTrackingPoly(
@@ -176,6 +185,14 @@ interface StylishApiService {
     suspend fun userTrackingChatImage(
         @Part image: MultipartBody.Part,
     ): ChatBoxBack
+
+    // order
+    @Headers("Content-type: application/json")
+    @POST("user/order")
+    suspend fun insertOrderHistory(
+        @Body request: OrderDataClass
+    )
+
 }
 
 /**

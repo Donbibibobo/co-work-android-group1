@@ -136,10 +136,15 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
     private fun userTrackingApiOpenApp(){
         viewModelScope.launch {
             // TODO login
-            val request = UserTrackingRequestBodyString(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
-            val response = UserStylishApi.retrofitService.userTrackingPoly(request)
-            Log.i("userTracking", "[login]: ${response.message}")
-            Log.i("userTracking", "[login_content]: $request")
+            try {
+                val request = UserTrackingRequestBodyString(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[login]: ${response.message}")
+                Log.i("userTracking", "[login_content]: $request")
+            } catch (e: Exception){
+                Log.i("userTracking", "[login fail]: $e")
+            }
+
         }
     }
 

@@ -37,10 +37,14 @@ object ABtest {
         val job = Job()
         val scope = CoroutineScope(Dispatchers.IO + job)
         scope.launch {
-            val request = UserTrackingRequestBodyString(userId, "view_item", "$productId", getCurrentDateTime(), version)
-            val response = UserStylishApi.retrofitService.userTrackingPoly(request)
-            Log.i("userTracking", "[view_item]: ${response.message}")
-            Log.i("userTracking", "[view_item_content]: $request")
+            try {
+                val request = UserTrackingRequestBodyString(userId, "view_item", "$productId", getCurrentDateTime(), version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[view_item]: ${response.message}")
+                Log.i("userTracking", "[view_item_content]: $request")
+            } catch (e: Exception) {
+                Log.i("userTracking", "[view_item fail]: $e")
+            }
         }
     }
 
@@ -49,19 +53,20 @@ object ABtest {
         val job = Job()
         val scope = CoroutineScope(Dispatchers.IO + job)
         scope.launch {
-
-            val productIdList = mutableListOf<String>()
-
-            products.forEach {
-                productIdList.add(it.id.toString())
+            try {
+                val productIdList = mutableListOf<String>()
+                products.forEach {
+                    productIdList.add(it.id.toString())
+                }
+                val eventDetail = UserTrackingCheckout(productIdList)
+                val request = UserTrackingRequestBodyCheckout(userId, "checkout", eventDetail, getCurrentDateTime(), version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[checkout]: ${response.message}")
+                Log.i("userTracking", "[checkout_content]: $request")
+            } catch (e: Exception) {
+                Log.i("userTracking", "[checkout fail]: $e")
             }
 
-            val eventDetail = UserTrackingCheckout(productIdList)
-
-            val request = UserTrackingRequestBodyCheckout(userId, "checkout", eventDetail, getCurrentDateTime(), version)
-            val response = UserStylishApi.retrofitService.userTrackingPoly(request)
-            Log.i("userTracking", "[checkout]: ${response.message}")
-            Log.i("userTracking", "[checkout_content]: $request")
         }
     }
 

@@ -135,10 +135,14 @@ class Add2cartViewModel(
                     }
 
                     // TODO add_to_car
-                    val request = UserTrackingRequestBodyString(ABtest.userId, "add_to_cart", it.id.toString(), ABtest.getCurrentDateTime(), ABtest.version)
-                    val response = UserStylishApi.retrofitService.userTrackingPoly(request)
-                    Log.i("userTracking", "[add_to_cart]: ${response.message}")
-                    Log.i("userTracking", "[add_to_cart_content]: $request")
+                    try {
+                        val request = UserTrackingRequestBodyString(ABtest.userId, "add_to_cart", it.id.toString(), ABtest.getCurrentDateTime(), ABtest.version)
+                        val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                        Log.i("userTracking", "[add_to_cart]: ${response.message}")
+                        Log.i("userTracking", "[add_to_cart_content]: $request")
+                    } catch (e: Exception){
+                        Log.i("userTracking", "[add_to_cart fail]: $e")
+                    }
                 }
             }
         }

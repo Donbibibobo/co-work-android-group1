@@ -17,7 +17,7 @@
             tools:context=".detail.DetailFragment">
 
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
                 android:id="@+id/recycler_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -70,6 +70,7 @@
                         android:src="@{viewModel.versionAB == 'B' ? @drawable/heart_fill : @drawable/star_fill}"
                         app:layout_constraintBottom_toBottomOf="@id/recycler_detail_gallery"
                         app:layout_constraintEnd_toEndOf="@id/recycler_detail_gallery" />
+
                 <ImageButton
                         android:id="@+id/button_unstarred"
                         android:layout_width="wrap_content"
@@ -120,6 +121,35 @@
                         app:layout_constraintTop_toTopOf="@+id/text_detail_title"
                         app:price="@{viewModel.product.price}"
                         tools:text="NT$9527" />
+
+                <ImageView
+                        android:id="@+id/rate_star_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/star_fill"
+                        app:layout_constraintStart_toStartOf="@id/text_detail_price"
+                        app:layout_constraintTop_toBottomOf="@id/text_detail_price" />
+
+                <TextView
+                        android:id="@+id/rate_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:text="@{}"
+                        app:layout_constraintStart_toEndOf="@id/rate_star_icon"
+                        app:layout_constraintTop_toTopOf="@id/rate_star_icon"
+                        app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
+                        tools:text="asda"/>
+
+                <TextView
+                        android:id="@+id/rate_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@{}"
+                        app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
+                        app:layout_constraintStart_toEndOf="@id/rate_number"
+                        app:layout_constraintTop_toTopOf="@id/rate_star_icon"
+                        tools:text="(8)" />
 
                 <TextView
                         android:id="@+id/text_detail_id"
@@ -399,20 +429,21 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="24dp"
                         android:layout_marginEnd="16dp"
-                        android:hint="請輸入留言"
-                        app:placeholderText="請輸入留言"
-                        android:textSize="20sp"
-                        android:padding="8dp"
                         android:background="@drawable/round_stroke_gray"
+                        android:hint="請輸入留言"
                         android:inputType="textEmailAddress"
+                        android:padding="8dp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_detail_note">
+                        app:layout_constraintTop_toBottomOf="@+id/text_detail_note"
+                        app:placeholderText="請輸入留言">
+
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/messageInput"
-                            android:inputType="text"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
@@ -421,9 +452,9 @@
                         android:layout_height="50dp"
                         android:layout_marginEnd="7dp"
                         android:background="@drawable/rounded_button"
-                        android:padding="6dp"
-                        android:elevation="4dp"
                         android:drawableLeft="@drawable/baseline_arrow_upward_24"
+                        android:elevation="4dp"
+                        android:padding="6dp"
                         app:layout_constraintBottom_toBottomOf="@+id/messageInputBox"
                         app:layout_constraintEnd_toEndOf="@+id/messageInputBox"
                         app:layout_constraintTop_toTopOf="@+id/messageInputBox" />
@@ -452,10 +483,9 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_detail_bottom"

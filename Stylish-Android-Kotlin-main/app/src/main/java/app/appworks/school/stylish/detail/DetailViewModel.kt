@@ -151,7 +151,10 @@ class DetailViewModel(
         _leaveDetail.value = true
     }
 
-    //set up star function
+
+
+
+    /*----------------set up star function------------------*/
     fun isStarred(product: Product): Boolean {
         return wishlist.any { it.id == product.id }
     }
@@ -160,16 +163,17 @@ class DetailViewModel(
 
         if (!isStarred(product)) {
             wishlist.add(product)
-            wishListFile()
 
+            wishListFile()
             userTrackingApiCollect("add",product.id.toString())
+
         }
     }
-
 
     fun removeFromWishlist(product: Product) {
         if (isStarred(product)) {
             wishlist.remove(product)
+
             wishListFile()
 
             userTrackingApiCollect("remove",product.id.toString())
@@ -194,14 +198,16 @@ class DetailViewModel(
     private fun userTrackingApiCollect(action: String, productId: String) {
         viewModelScope.launch {
             // TODO collect
-            val eventDetail = UserTrackingCollect(action,productId)
+            try {
+                val eventDetail = UserTrackingCollect(action,productId)
+                val request = UserTrackingRequestBodyCollect(ABtest.userId, "collect", eventDetail, ABtest.getCurrentDateTime(), ABtest.version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[collect]: ${response.message}")
+                Log.i("userTracking", "[collect_content]: $request")
+            } catch (e: Exception){
+                Log.i("userTracking", "[collect fail]: $e")
+            }
 
-            val request = UserTrackingRequestBodyCollect(ABtest.userId, "collect", eventDetail, ABtest.getCurrentDateTime(), ABtest.version)
-
-            val response = UserStylishApi.retrofitService.userTrackingPoly(request)
-
-            Log.i("userTracking", "[collect]: ${response.message}")
-            Log.i("userTracking", "[collect_content]: $request")
         }
     }
 
