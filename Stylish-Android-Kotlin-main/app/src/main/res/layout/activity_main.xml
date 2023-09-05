@@ -65,7 +65,7 @@
                         android:layout_marginTop="5dp"
                         android:background="@drawable/doc_text_magnifyingglass"
                         android:visibility="@{viewModel.currentFragmentType == CurrentFragmentType.HOME ? View.VISIBLE : View.GONE}"
-                        tools:visibility="gone"/>
+                        tools:visibility="visible"/>
 
 
 

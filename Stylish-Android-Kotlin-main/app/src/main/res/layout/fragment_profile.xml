@@ -156,13 +156,13 @@
                 style="@style/ProfileOrderButton"
                 android:drawableTop="@drawable/ic_shipped"
                 android:text="@string/shipped"
-                app:layout_constraintEnd_toStartOf="@+id/button_profile_awaiting_review"
+                app:layout_constraintEnd_toStartOf="@+id/button_history"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/button_profile_awaiting_shipment"
                 app:layout_constraintTop_toTopOf="@+id/button_profile_awaiting_shipment"/>
 
         <Button
-                android:id="@+id/button_profile_awaiting_review"
+                android:id="@+id/button_history"
                 style="@style/ProfileOrderButton"
                 android:drawableTop="@drawable/awaiting_review"
                 android:text="@string/awaiting_review"
@@ -179,8 +179,8 @@
                 android:text="@string/exchange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button_profile_awaiting_review"
-                app:layout_constraintTop_toTopOf="@+id/button_profile_awaiting_review"/>
+                app:layout_constraintStart_toEndOf="@+id/button_history"
+                app:layout_constraintTop_toTopOf="@+id/button_history"/>
 
         <TextView
                 android:id="@+id/text_profile_service_title"
