@@ -12,14 +12,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:layout_margin="8dp">
 
         <TextView
                 android:id="@+id/purchase_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@{history.date.toString()}"
+                android:text="@{history.checkoutDate.toString()}"
                 app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -27,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@{history.orderNumber}"
+                android:text="@{`訂單編號：`+history.orderNumber}"
                 app:layout_constraintTop_toBottomOf="@id/purchase_date" />
 
         <TextView
@@ -35,15 +37,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@{String.valueOf(history.amount)}"
-                app:layout_constraintTop_toBottomOf="@id/order_num" />
+                android:text="@{`消費金額：`+String.valueOf(history.totalPrice)}"
+                app:layout_constraintTop_toBottomOf="@id/order_num"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
-                android:id="@+id/remark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="@{history.remark}"
-                app:layout_constraintTop_toBottomOf="@+id/amount" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -116,6 +116,13 @@ interface StylishApiService {
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
 
+
+    //get order history from server
+    @GET("user/order")
+    suspend fun getOrderHistory(
+        @Query("userID") userId: String
+    ): List<History>
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method
