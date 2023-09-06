@@ -11,22 +11,13 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
-import app.appworks.school.stylish.R
-import app.appworks.school.stylish.data.Result
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
-import app.appworks.school.stylish.network.LoadApiStatus
-import app.appworks.school.stylish.network.ReviewStylishApi
 import app.appworks.school.stylish.util.ABtest
 import app.appworks.school.stylish.util.ABtest.wishlist
-import app.appworks.school.stylish.util.ServiceLocator.stylishRepository
-import app.appworks.school.stylish.util.Util
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Created by Wayne Chen in Jul. 2019.
@@ -63,9 +54,17 @@ class DetailFragment : Fragment() {
 //        viewModel.getMarketingHotsResult()
 
 
+//        setup keyword recycler view
 
-        //activate star button
-        if (ABtest.version == "A"){
+        val keywordAdapter = DetailKeyWordAdapter()
+        binding.keywordRecyclerView.adapter = keywordAdapter
+        keywordAdapter.submitList(viewModel.product.value?.keywords)
+        Log.i("KEYWORD", "KEYWORD:${viewModel.product.value?.keywords}")
+
+
+
+//        activate star button
+        if (ABtest.version == "A") {
             binding.buttonStarred
             binding.buttonUnstarred
         } else {
@@ -105,7 +104,7 @@ class DetailFragment : Fragment() {
 
         /*----------------add Detail Message Adapter------------------*/
         val detailMessageAdapter = DetailMessageAdapter()
-        var messageList:MutableList<String> = viewModel.message.value as MutableList<String>
+        var messageList: MutableList<String> = viewModel.message.value as MutableList<String>
 
         val editMessage = binding.messageInput.text
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
@@ -131,11 +130,9 @@ class DetailFragment : Fragment() {
 
 
         viewModel.message.observe(viewLifecycleOwner, Observer {
-                detailMessageAdapter.submitList(messageList)
+            detailMessageAdapter.submitList(messageList)
         })
         /*----------------add Detail Message Adapter------------------*/
-
-
 
 
         val linearSnapHelper = LinearSnapHelper().apply {

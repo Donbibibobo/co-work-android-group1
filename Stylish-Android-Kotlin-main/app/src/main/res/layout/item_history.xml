@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="s"
+                android:text="@{@string/order_number(history.orderNumber)}"
                 app:layout_constraintTop_toBottomOf="@id/purchase_date" />
 
         <TextView
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="s"
+                android:text="@{@string/total_price_title(String.valueOf(history.totalPrice))}"
                 app:layout_constraintTop_toBottomOf="@id/order_num"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

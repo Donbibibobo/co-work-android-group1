@@ -40,7 +40,7 @@ class ChatFragment : Fragment() {
 
         viewModel.gptResponse.observe(viewLifecycleOwner, Observer {
             chatList.add(ChatDataClass.Received(it))
-            chatList.add(ChatDataClass.Img("aa"))
+//            chatList.add(ChatDataClass.Img("aa"))
             adapter.submitList(chatList)
             Log.i("CHAT1",chatList.toString())
             Log.i("CHAT1",it)

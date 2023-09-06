@@ -26,32 +26,12 @@ class ChatViewModel : ViewModel() {
                 try {
                     val request = ChatBoxAPI(message)
                     val response = UserStylishApi.retrofitService.userTrackingChat(request)
-                    _gptResponse.value = response.chatResponse
+                    _gptResponse.value = response.chatResponse!!
                     Log.i("CHAT", "_gptResponse.value: ${_gptResponse.value}")
-
                 } catch (e: Exception) {
                     Log.i("CHAT", "${e.message}")
                 }
             }
-            _isAvailableToSend = false
         }
     }
-
-//    fun getChatGpt() {
-//        if (!_isAvailableToSend) {
-//            viewModelScope.launch {
-//                try {
-//                    val response = UserStylishApi.retrofitService.getGptResponse(
-//                        productId = "product_id",
-//                        chatResponse = "chat_response",
-//                        errorMessage = "error_message"
-//                    )
-//                    _gptResponse = listOf(response)
-//                } catch (e: Exception) {
-//                    Log.i("CHAT", "${e.message}")
-//                }
-//            }
-//            _isAvailableToSend = true
-//        }
-//    }
 }
