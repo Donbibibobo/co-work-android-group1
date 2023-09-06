@@ -64,21 +64,20 @@ class ChatViewModel : ViewModel() {
                     _gptResponse.value = response.chatResponse!!
 
                     Log.i("CHAT", "_gptResponse.value: ${_gptResponse.value}")
-
                 } catch (e: Exception) {
                     Log.i("CHAT", "${e.message}")
                 }
             }
-            _isAvailableToSend = false
         }
     }
 
 
-    fun getDetail(productId: String) {
-        viewModelScope.launch{
-            Log.i("getDetail", "called")
-            val detailProduct = UserStylishApi.retrofitService.getDetailProduct(productId.toLong())
-            Log.i("getDetail", "$detailProduct")
-        }
-    }
+//    fun getDetail(productId: String) {
+//        viewModelScope.launch{
+//            Log.i("getDetail", "called")
+//            val detailProduct = UserStylishApi.retrofitService.getDetailProduct(productId.toLong())
+//            Log.i("getDetail", "$detailProduct")
+//        }
+//    }
 }
+

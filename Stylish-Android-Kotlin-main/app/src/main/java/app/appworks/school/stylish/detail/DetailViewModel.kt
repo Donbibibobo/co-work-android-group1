@@ -3,6 +3,7 @@ package app.appworks.school.stylish.detail
 import android.app.Application
 import android.content.Context
 import android.graphics.Rect
+import android.support.v4.os.IResultReceiver2._Parcel
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
@@ -46,6 +47,7 @@ class DetailViewModel(
     val _message = MutableLiveData<List<String?>>()
     val message: LiveData<List<String?>>
         get() = _message
+
     /*----------------add Detail Message fun------------------*/
     // Detail has product data from arguments
     private val _product = MutableLiveData<Product>().apply {
@@ -84,6 +86,12 @@ class DetailViewModel(
 
     val leaveDetail: LiveData<Boolean>
         get() = _leaveDetail
+
+
+    private var _keyword = MutableLiveData<List<Product>>()
+    val keyword: LiveData<List<Product>>
+        get() = _keyword
+
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -158,8 +166,6 @@ class DetailViewModel(
     }
 
 
-
-
     /*----------------set up star function------------------*/
     fun isStarred(product: Product): Boolean {
         return wishlist.any { it.id == product.id }
@@ -171,7 +177,7 @@ class DetailViewModel(
             wishlist.add(product)
 
             wishListFile()
-            userTrackingApiCollect("add",product.id.toString())
+            userTrackingApiCollect("add", product.id.toString())
 
         }
     }
@@ -182,7 +188,7 @@ class DetailViewModel(
 
             wishListFile()
 
-            userTrackingApiCollect("remove",product.id.toString())
+            userTrackingApiCollect("remove", product.id.toString())
         }
     }
 
@@ -205,12 +211,18 @@ class DetailViewModel(
         viewModelScope.launch {
             // TODO collect
             try {
-                val eventDetail = UserTrackingCollect(action,productId)
-                val request = UserTrackingRequestBodyCollect(ABtest.userId, "collect", eventDetail, ABtest.getCurrentDateTime(), ABtest.version)
+                val eventDetail = UserTrackingCollect(action, productId)
+                val request = UserTrackingRequestBodyCollect(
+                    ABtest.userId,
+                    "collect",
+                    eventDetail,
+                    ABtest.getCurrentDateTime(),
+                    ABtest.version
+                )
                 val response = UserStylishApi.retrofitService.userTrackingPoly(request)
                 Log.i("userTracking", "[collect]: ${response.message}")
                 Log.i("userTracking", "[collect_content]: $request")
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Log.i("userTracking", "[collect fail]: $e")
             }
 
@@ -220,7 +232,7 @@ class DetailViewModel(
 
 
     /*---------------- Review Submit POST API fun------------------*/
-    fun reviewSubmit(editMessage: String){
+    fun reviewSubmit(editMessage: String) {
         viewModelScope.launch {
             try {
                 val messagePost = ReviewSubmitRequestBody(
@@ -230,12 +242,12 @@ class DetailViewModel(
                     ABtest.getCurrentDateTime(),
                     ABtest.version
                 )
-               ReviewStylishApi.retrofitService.reviewSubmit(messagePost)
-                Log.i("vvvvvv" , "$messagePost")
+                ReviewStylishApi.retrofitService.reviewSubmit(messagePost)
+                Log.i("vvvvvv", "$messagePost")
             } catch (e: Exception) {
                 println("error: ${e.message}")
             }
-            Log.i("sadsdaa" , "${editMessage}")
+            Log.i("sadsdaa", "${editMessage}")
         }
     }
 
@@ -258,7 +270,6 @@ class DetailViewModel(
 //            }
 //        }
 //    }
-
 
 
     /*---------------- Review Submit POST API fun------------------*/

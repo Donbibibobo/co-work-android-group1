@@ -64,8 +64,8 @@ class PaymentFragment : Fragment() {
         })
 
         viewModel.navigateToCheckoutSuccess.observe(viewLifecycleOwner, Observer { it ->
-            viewModel.postOrderApi()
             it?.let {
+                viewModel.postOrderApi()
                 findNavController().navigate(NavigationDirections.navigateToCheckoutSuccessFragment())
                 viewModel.onCheckoutSuccessNavigated()
             }
