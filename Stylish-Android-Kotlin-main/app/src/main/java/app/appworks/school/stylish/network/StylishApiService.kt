@@ -141,11 +141,6 @@ interface StylishApiService {
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
 
-    //get detail review
-    @GET("products/details")
-    suspend fun getDetailReview(
-        @Query("id") productId: Long
-    ): ReviewSubmit
 
     //get order history from server
     @GET("user/order")

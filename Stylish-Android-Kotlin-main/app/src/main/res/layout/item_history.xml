@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:textSize="17sp"
                 android:text="@{history.checkoutDate.toString()}"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="s"
+                android:textSize="17sp"
+                android:text="@{String.valueOf(@string/order_num+history.orderNumber)}"
                 app:layout_constraintTop_toBottomOf="@id/purchase_date" />
 
         <TextView
@@ -37,7 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="s"
+                android:textSize="17sp"
+                android:text="@{String.format(@string/amount, history.totalPrice)}"
                 app:layout_constraintTop_toBottomOf="@id/order_num"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
