@@ -27,13 +27,14 @@
                 app:shapeAppearanceOverlay="@style/circular" />
 
         <TextView
-                android:id="@+id/sent_message"
+                android:id="@+id/received_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/background_received_message"
                 android:padding="16dp"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:text=""
                 app:layout_constraintStart_toEndOf="@id/gpt_thumbnail"
                 app:layout_constraintTop_toTopOf="parent"

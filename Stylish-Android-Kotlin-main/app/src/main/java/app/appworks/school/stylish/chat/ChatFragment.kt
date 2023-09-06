@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.core.animateDpAsState
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.test.core.app.canTakeScreenshot
 import app.appworks.school.stylish.databinding.FragmentChatBinding
 
 class ChatFragment : Fragment() {
@@ -16,36 +20,32 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        return inflater.inflate(R.layout.fragment_chat_gpt, container, false)
         val binding = FragmentChatBinding.inflate(inflater)
+        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        binding.viewModel = viewModel
 
-        val input = binding.chatInputText.text!!.toString()
+        var input = binding.chatInputText.text
         val adapter = ChatAdapter()
-
         val chatList = mutableListOf<ChatDataClass>()
-
-        val sen1 = ChatDataClass.Sent(input)
-//        val received1 = ChatDataClass.Received("I'm chat!")
-//
-//        chatList.add(received1)
-
-
-
-
 
         binding.gptRecyclerView.adapter = adapter
 
         binding.sendButton.setOnClickListener {
-            Log.i("CHAT",input)
-            chatList.add(sen1)
-            Log.i("CHAT",chatList.toString())
+            chatList.add(ChatDataClass.Sent(input.toString()))
             adapter.submitList(chatList)
             adapter.notifyDataSetChanged()
-//            chatList.clear()
+            viewModel.sendToChatGpt(input.toString())
         }
 
 
-
+        viewModel.gptResponse.observe(viewLifecycleOwner, Observer {
+            chatList.add(ChatDataClass.Received(it))
+            chatList.add(ChatDataClass.Img("aa"))
+            adapter.submitList(chatList)
+            Log.i("CHAT1",chatList.toString())
+            Log.i("CHAT1",it)
+            adapter.notifyDataSetChanged()
+        })
 
         return binding.root
     }

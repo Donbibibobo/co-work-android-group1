@@ -39,6 +39,7 @@ class ChatAdapter : ListAdapter<ChatDataClass, RecyclerView.ViewHolder>(DiffCall
 
         fun bind(product: ChatDataClass.Received) {
             binding.viewModel = product
+            binding.receivedMessage.text = product.product
             binding.executePendingBindings()
         }
     }
