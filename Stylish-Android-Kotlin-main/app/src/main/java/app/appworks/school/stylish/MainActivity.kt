@@ -178,26 +178,22 @@ class MainActivity : BaseActivity() {
                 R.id.navigation_home -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
-                    binding.shipment.visibility = View.VISIBLE
                     return@setOnItemSelectedListener true
                 }
 
                 R.id.navigation_catalog -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCatalogFragment())
-                    binding.shipment.visibility = View.VISIBLE
                     return@setOnItemSelectedListener true
                 }
 
                 R.id.navigation_cart -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCartFragment())
-                    binding.shipment.visibility = View.VISIBLE
                     return@setOnItemSelectedListener true
                 }
 
                 R.id.navigation_profile -> {
-                    binding.shipment.visibility = View.GONE
                     when (viewModel.isLoggedIn) {
                         true -> {
                             findNavController(R.id.myNavHostFragment).navigate(
@@ -241,6 +237,7 @@ class MainActivity : BaseActivity() {
                 R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
                 R.id.wishlistFragment -> CurrentFragmentType.WISHLIST
                 R.id.historyFragment -> CurrentFragmentType.HISTORY
+                R.id.chatFragment -> CurrentFragmentType.CHATBOX
                 else -> viewModel.currentFragmentType.value
             }
             viewModel.version.observe(this) {
@@ -255,6 +252,21 @@ class MainActivity : BaseActivity() {
                         R.id.checkoutSuccessFragment -> binding.shipment.visibility = View.VISIBLE
                         R.id.wishlistFragment -> binding.shipment.visibility = View.GONE
                         R.id.historyFragment -> binding.shipment.visibility = View.GONE
+                        R.id.chatFragment -> binding.shipment.visibility = View.GONE
+                    }
+                }
+                else{
+                    when (navController.currentDestination?.id) {
+                        R.id.homeFragment -> binding.shipment.visibility = View.GONE
+                        R.id.catalogFragment -> binding.shipment.visibility = View.GONE
+                        R.id.cartFragment -> binding.shipment.visibility = View.GONE
+                        R.id.profileFragment -> binding.shipment.visibility = View.GONE
+                        R.id.detailFragment -> binding.shipment.visibility = View.GONE
+                        R.id.paymentFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.checkoutSuccessFragment -> binding.shipment.visibility = View.GONE
+                        R.id.wishlistFragment -> binding.shipment.visibility = View.GONE
+                        R.id.historyFragment -> binding.shipment.visibility = View.GONE
+                        R.id.chatFragment -> binding.shipment.visibility = View.GONE
                     }
                 }
             }
