@@ -135,21 +135,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:text="@{String.valueOf(viewModel.product.ratings)}"
+                        app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
                         app:layout_constraintStart_toEndOf="@id/rate_star_icon"
                         app:layout_constraintTop_toTopOf="@id/rate_star_icon"
-                        app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
-                        tools:text="asda"
-                        app:ratings="@{String.valueOf(viewModel.product.ratings)}"/>
+                        app:ratings="@{String.valueOf(viewModel.product.ratings)}"
+                        tools:text="asda" />
 
                 <TextView
                         android:id="@+id/rate_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_marginStart="5dp"
-                        app:rateAmount="@{viewModel.product.reviews.size()}"
                         app:layout_constraintBottom_toBottomOf="@id/rate_star_icon"
                         app:layout_constraintStart_toEndOf="@id/rate_number"
                         app:layout_constraintTop_toTopOf="@id/rate_star_icon"
+                        app:rateAmount="@{viewModel.product.reviews.size()}"
                         tools:text="(8)" />
 
                 <TextView
@@ -172,7 +172,40 @@
                         tools:text="3345678" />
 
                 <TextView
+                        android:id="@+id/tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/noto_sans"
+                        android:letterSpacing="0.15"
+                        android:lineSpacingExtra="12sp"
+                        android:text="@string/tag"
+                        android:textColor="@color/gray_646464"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_detail_id"
+                        tools:text="標籤" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/keyword_recycler_view"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/tag"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tag"
+                        app:layout_constraintTop_toTopOf="@+id/tag"
+                        tools:text="採用高級100%棉質素材的外套。輕盈保暖高質感的針織大衣！精緻做工升級，展現高質感氛圍。" />
+
+                <TextView
                         android:id="@+id/text_detail_story"
+                        style="@style/DetailTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -186,8 +219,9 @@
                         android:textSize="15sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_detail_id"
+                        app:layout_constraintTop_toBottomOf="@+id/tag"
                         tools:text="採用高級100%棉質素材的外套。輕盈保暖高質感的針織大衣！精緻做工升級，展現高質感氛圍。" />
+
 
                 <!-- color -->
                 <TextView

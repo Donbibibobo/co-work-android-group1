@@ -132,6 +132,8 @@
 
     <!-- Chat Box -->
     <string name="chat">個人化推薦</string>
+    <string name="tag">標籤</string>
+
     <string name="order_num">訂單編號:\n</string>
     <string name="amount">消費金額: %d</string>
 </resources>
