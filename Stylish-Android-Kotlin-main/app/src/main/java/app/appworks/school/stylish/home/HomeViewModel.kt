@@ -122,12 +122,13 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
     }
 
     fun refresh() {
-        try {
-            if (status.value != LoadApiStatus.LOADING) {
-                getMarketingHotsResult()
-            }
-        } catch (e: Exception) {
-            println("errorHome: ${e.message}")
+//        try {
+        if (status.value != LoadApiStatus.LOADING) {
+            getMarketingHotsResult()
+//            }
+//        } catch (e: Exception) {
+//            println("errorHome: ${e.message}")
+//        }
         }
     }
 
@@ -139,3 +140,4 @@ class HomeViewModel(private val stylishRepository: StylishRepository) : ViewMode
         _navigateToDetail.value = null
     }
 }
+

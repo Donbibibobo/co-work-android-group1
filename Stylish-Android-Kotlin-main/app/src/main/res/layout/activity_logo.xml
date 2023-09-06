@@ -15,13 +15,13 @@
                 android:id="@+id/image_logo"
                 android:layout_width="@dimen/width_logo"
                 android:layout_height="@dimen/height_logo"
+                android:layout_marginTop="45dp"
                 android:background="@drawable/splash_logo"
                 android:visibility="gone"
-                android:layout_marginTop="45dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         <app.appworks.school.stylish.component.ParticleView
                 android:id="@+id/particle_logo"
@@ -31,7 +31,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
