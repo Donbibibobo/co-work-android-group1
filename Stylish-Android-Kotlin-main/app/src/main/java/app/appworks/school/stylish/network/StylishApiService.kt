@@ -5,8 +5,11 @@ import app.appworks.school.stylish.data.*
 import app.appworks.school.stylish.history.History
 import app.appworks.school.stylish.payment.OrderDataClass
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
+import okhttp3.Interceptor
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -27,36 +30,49 @@ private const val DATA_HOST_NAME = "54.66.20.75:8080"
 private const val DATA_API_VERSION = "1.0"
 private const val DATA_BASE_URL = "http://$DATA_HOST_NAME/api/$DATA_API_VERSION/"
 
-// user tracking api
+// user tracking api & chat box
 private const val USER_HOST_NAME = "54.66.20.75:8080"
 private const val USER_API_VERSION = "1.0"
 private const val USER_BASE_URL = "http://$USER_HOST_NAME/api/$USER_API_VERSION/"
+
+// data api
+private const val REVIEW_HOST_NAME = "54.66.20.75:8080"
+private const val REVIEW_API_VERSION = "1.0"
+private const val REVIEW_BASE_URL = "http://$REVIEW_HOST_NAME/api/$REVIEW_API_VERSION/"
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
  * full Kotlin compatibility.
  */
+// normal moshi
 internal val moshi = Moshi.Builder()
     .addLast(KotlinJsonAdapterFactory())
+    .add(
+        PolymorphicJsonAdapterFactory.of(IUserTracking::class.java, "eventType")
+            .withSubtype(UserTrackingRequestBodyString::class.java,"login")
+            .withSubtype(UserTrackingRequestBodyString::class.java,"viewItem")
+            .withSubtype(UserTrackingRequestBodyString::class.java,"addToCart")
+            .withSubtype(UserTrackingRequestBodyCollect::class.java,"collect")
+            .withSubtype(UserTrackingRequestBodyCheckout::class.java,"checkout")
+    )
     .build()
 
 private val client = OkHttpClient.Builder()
     .addInterceptor(
         HttpLoggingInterceptor().apply {
             level = when (BuildConfig.LOGGER_VISIABLE) {
-                true -> HttpLoggingInterceptor.Level.BODY
+                true -> HttpLoggingInterceptor.Level.HEADERS
                 false -> HttpLoggingInterceptor.Level.NONE
             }
+        }
+    ).addInterceptor(
+        Interceptor { chain ->
+            val request = chain.request()
+            chain.proceed(request.newBuilder().header("Connection", "close").build())
         }
     )
     .build()
 
-
-//<<<<<<< HEAD
-//data class ProductList(val productList: List<Product>)
-//
-//=======
-//>>>>>>> pull
 val adapterWishList = moshi.adapter(ProductList::class.java)
 
 /**
@@ -79,10 +95,17 @@ private val dataRetrofit = Retrofit.Builder()
     .build()
 
 
-// user tracking api
+// user tracking api & chat box
 private val userRetrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(USER_BASE_URL)
+    .client(client)
+    .build()
+
+// review api
+private val reviewRetrofit = Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(REVIEW_BASE_URL)
     .client(client)
     .build()
 
@@ -118,6 +141,11 @@ interface StylishApiService {
     @GET("user/profile")
     suspend fun getUserProfile(@Header("Authorization") token: String): UserProfileResult
 
+    //get detail review
+    @GET("products/details")
+    suspend fun getDetailReview(
+        @Query("id") productId: Long
+    ): ReviewSubmit
 
     //get order history from server
     @GET("user/order")
@@ -131,6 +159,7 @@ interface StylishApiService {
      * The @Field annotation indicates that it will be added "provider", "access_token" key-pairs to the body of
      * the POST HTTP method, and it have to use @FormUrlEncoded to support @Field
      */
+
     @FormUrlEncoded
     @POST("user/signin")
     suspend fun userSignIn(
@@ -161,59 +190,42 @@ interface StylishApiService {
     ): CheckoutOrderResult
 
 
-//<<<<<<< HEAD
-//    // user tracking api
-//    @POST("user/tracking")
-//    @FormUrlEncoded
-//    suspend fun userTracking(
-//        @Field("userID") userId: String,
-//        @Field("event_type") eventType: String,
-//        @Field("event_detail") eventDetail: String,
-//        @Field("timestamp") timestamp: String,
-//        @Field("version") version: String
-//    ): Unit
-//
-//=======
 
 
+    @Headers("Content-Type: application/json")
+    @POST("review/submit")
+    suspend fun reviewSubmit(
+        @Body request: ReviewSubmitRequestBody,
+    )
 
-//    // user tracking api
-//    @POST("user/tracking")
-//    @FormUrlEncoded
-//    suspend fun userTracking(
-//        @Field("userID") userId: String,
-//        @Field("event_type") eventType: String,
-//        @Field("event_detail") eventDetail: String,
-//        @Field("timestamp") timestamp: String,
-//        @Field("version") version: String
-//    )
 
     @Headers("Content-type: application/json")
     @POST("user/tracking")
-    suspend fun userTracking(
-        @Body request: UserTrackingRequestBody,
+    suspend fun userTrackingPoly(
+        @Body request: IUserTracking,
     ): UserTracking
-//>>>>>>> pull
 
-    // user order api
-//    @POST("user/order")
-//    @FormUrlEncoded
-//    suspend fun insertOrderHistory(
-//        @Field("userID") userId: String,
-//        @Field("checkout_date") checkoutDate: String,
-//        @Field("order_number") orderNumber: String,
-//        @Field("total_price") totalPrice: String,
-//        @Field("version") version: String,
-//        @Field("checkout_item") checkoutItem: List<String>,
-//        @Field("comment") comment: String
-//    ): History
 
+    // chat box
+    @Headers("Content-type: application/json")
+    @POST("recommendation/chatbox")
+    suspend fun userTrackingChat(
+        @Body request: ChatBoxAPI,
+    ): ChatBoxBack
+
+    // chat box image
+    @Multipart
+    @POST("recommendation/smart_image")
+    suspend fun userTrackingChatImage(
+        @Part image: MultipartBody.Part,
+    ): ChatBoxBack
+
+    // order
     @Headers("Content-type: application/json")
     @POST("user/order")
     suspend fun insertOrderHistory(
         @Body request: OrderDataClass
     )
-
 
 }
 
@@ -230,7 +242,12 @@ object DataStylishApi {
     val retrofitService: StylishApiService by lazy { dataRetrofit.create(StylishApiService::class.java) }
 }
 
-// user tracking
+// user tracking & chat box
 object UserStylishApi {
     val retrofitService: StylishApiService by lazy { userRetrofit.create(StylishApiService::class.java) }
+}
+
+// review submit
+object ReviewStylishApi {
+    val retrofitService: StylishApiService by lazy { reviewRetrofit.create(StylishApiService::class.java) }
 }

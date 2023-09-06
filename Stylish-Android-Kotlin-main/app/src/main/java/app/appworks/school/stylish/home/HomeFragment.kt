@@ -1,6 +1,7 @@
 package app.appworks.school.stylish.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 //        init()
+
+        viewModel.refresh()
+        Log.i("asdfasdf", "onCreateView called")
+
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

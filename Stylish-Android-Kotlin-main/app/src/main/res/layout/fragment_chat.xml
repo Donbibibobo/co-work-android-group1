@@ -4,6 +4,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+                name="viewModel"
+                type="app.appworks.school.stylish.chat.ChatViewModel" />
 
     </data>
 
@@ -12,42 +15,67 @@
             android:layout_height="match_parent"
             tools:context=".chat.ChatFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/gpt_recycler_view"
+        <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@id/dividing_line"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/dividing_line">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/gpt_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent" />
+        </ScrollView>
 
         <View
                 android:id="@+id/dividing_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_margin="5dp"
                 android:background="@color/gray_cccccc"
-                android:layout_margin="3dp"
-                app:layout_constraintBottom_toTopOf="@id/gpt_input_text" />
-
+                app:layout_constraintBottom_toTopOf="@id/chat_input_text" />
+        <View
+                android:id="@+id/bottom_background"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/dividing_line"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         <EditText
-                android:id="@+id/gpt_input_text"
+                android:id="@+id/chat_input_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="請輸入想要的穿衣風格"
                 android:layout_margin="3dp"
+                android:hint="請輸入想要的穿衣風格"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/send_button"
+                app:layout_constraintEnd_toStartOf="@id/chat_input_img"
                 app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+                android:id="@+id/chat_input_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:background="@color/transparent"
+                android:src="@drawable/baseline_photo_camera_24"
+                app:layout_constraintBottom_toBottomOf="@id/chat_input_text"
+                app:layout_constraintEnd_toStartOf="@id/send_button"
+                app:layout_constraintTop_toTopOf="@id/chat_input_text" />
+
 
         <Button
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send"
                 android:layout_margin="3dp"
-                app:layout_constraintBottom_toBottomOf="@id/gpt_input_text"
+                android:text="Send"
+                app:layout_constraintTop_toTopOf="@id/chat_input_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/gpt_input_text" />
+                app:layout_constraintBottom_toBottomOf="@id/chat_input_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

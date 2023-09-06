@@ -129,13 +129,4 @@ class HomeAdapter(private val onClickListener: OnClickListener) :
         }
     }
 
-    // user tracking: login
-//    private fun userTrackOpenApp(){
-//        viewModelScope.launch {
-//            // TODO
-//            val request = UserTrackingRequestBody(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
-//            val response = UserStylishApi.retrofitService.userTracking(request)
-//            Log.i("userTracking", "[login]: ${response.message}")
-//        }
-//    }
 }

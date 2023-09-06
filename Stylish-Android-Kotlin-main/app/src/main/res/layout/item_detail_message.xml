@@ -6,7 +6,7 @@
     <data>
         <variable
                 name="message"
-                type="app.appworks.school.stylish.data.DetailMessage"/>
+                type="String"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,7 @@
                 android:letterSpacing="0.15"
                 android:maxLines="1"
                 android:padding="12dp"
-                android:text="@{message.message}"
+                android:text="@{message.toString()}"
                 android:textColor="@color/black_3f3a3a"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"

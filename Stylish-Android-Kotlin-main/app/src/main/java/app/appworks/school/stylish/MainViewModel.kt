@@ -13,7 +13,7 @@ import app.appworks.school.stylish.component.ProfileAvatarOutlineProvider
 import app.appworks.school.stylish.data.Product
 import app.appworks.school.stylish.data.Result
 import app.appworks.school.stylish.data.User
-import app.appworks.school.stylish.data.UserTrackingRequestBody
+import app.appworks.school.stylish.data.UserTrackingRequestBodyString
 import app.appworks.school.stylish.data.source.StylishRepository
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.LoadApiStatus
@@ -132,14 +132,18 @@ class MainViewModel(private val stylishRepository: StylishRepository, private va
     }
 
 
-    // user tracking: login
+    // user tracking: login ====================================
     private fun userTrackingApiOpenApp(){
         viewModelScope.launch {
             // TODO login
-            val request = UserTrackingRequestBody(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
-            val response = UserStylishApi.retrofitService.userTracking(request)
-            Log.i("userTracking", "[login]: ${response.message}")
-            Log.i("userTracking", "[login_content]: $request")
+            try {
+                val request = UserTrackingRequestBodyString(ABtest.userId, "login", "None", ABtest.getCurrentDateTime(), ABtest.version)
+                val response = UserStylishApi.retrofitService.userTrackingPoly(request)
+                Log.i("userTracking", "[login]: ${response.message}")
+                Log.i("userTracking", "[login_content]: $request")
+            } catch (e: Exception){
+                Log.i("userTracking", "[login fail]: $e")
+            }
         }
     }
 

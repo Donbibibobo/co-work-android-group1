@@ -1,7 +1,6 @@
 package app.appworks.school.stylish.payment
 
 import android.util.Log
-import androidx.compose.ui.text.toUpperCase
 import androidx.lifecycle.*
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.StylishApplication
@@ -11,7 +10,9 @@ import app.appworks.school.stylish.ext.toOrderProductList
 import app.appworks.school.stylish.login.UserManager
 import app.appworks.school.stylish.network.DataStylishApi
 import app.appworks.school.stylish.network.LoadApiStatus
+import app.appworks.school.stylish.network.UserStylishApi
 import app.appworks.school.stylish.util.ABtest
+import app.appworks.school.stylish.util.ABtest.userTrackingApiCheckoutScope
 import app.appworks.school.stylish.util.Logger
 import app.appworks.school.stylish.util.Util.getColor
 import app.appworks.school.stylish.util.Util.getString
@@ -219,6 +220,7 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
             else -> {
                 _navigateToLogin.value = true
                 _status.value = LoadApiStatus.DONE
+                Log.i("aassddff", "open")
             }
         }
     }
@@ -242,9 +244,14 @@ class PaymentViewModel(private val stylishRepository: StylishRepository) : ViewM
 
             _checkoutSuccess.value = when (result) {
                 is Result.Success -> {
+
+                    //TODO checkout
+                    userTrackingApiCheckoutScope(products.value!!)
+
                     stylishRepository.clearProductInCart()
                     _error.value = null
                     _status.value = LoadApiStatus.DONE
+                    Log.i("aassddff", "open")
                     result.data
                 }
 
