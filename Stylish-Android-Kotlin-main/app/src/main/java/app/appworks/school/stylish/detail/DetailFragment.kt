@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
 import app.appworks.school.stylish.R
 import app.appworks.school.stylish.data.Result
+import app.appworks.school.stylish.databinding.ActivityMainBinding
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
 import app.appworks.school.stylish.network.LoadApiStatus
@@ -53,16 +54,12 @@ class DetailFragment : Fragment() {
     ): View? {
 //        init()
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val mainBinding = ActivityMainBinding.inflate(inflater,container,false)
         binding.buttonDetailMessage.isEnabled = false
         binding.buttonDetailMessage.alpha = 0.3f
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
-
-//        viewModel.getMarketingHotsResult()
-
-
 
         //activate star button
         if (ABtest.version == "A"){
