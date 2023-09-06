@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import app.appworks.school.stylish.MainActivity
 import androidx.compose.animation.core.animateDpAsState
+import androidx.core.widget.doAfterTextChanged
 import androidx.test.core.app.canTakeScreenshot
 import app.appworks.school.stylish.databinding.FragmentChatBinding
 import app.appworks.school.stylish.util.RealPathUtil
@@ -45,22 +46,37 @@ class ChatFragment : Fragment() {
 
 
         var input = binding.chatInputText.text
+
         val adapter = ChatAdapter()
         val chatList = mutableListOf<ChatDataClass>()
 
         binding.gptRecyclerView.adapter = adapter
 
-        binding.sendButton.setOnClickListener {
-            chatList.add(ChatDataClass.Sent(input.toString()))
-            adapter.submitList(chatList)
-
-            // POST sent
-            adapter.notifyDataSetChanged()
-            viewModel.sendToChatGpt(input.toString())
+        binding.chatInputText.doAfterTextChanged {
+            if(it.toString() == ""){
+                Log.i("chatboxtest", "doAfter called")
+                binding.sendButton.isEnabled = false
+                binding.sendButton.alpha = 0.6f
+            } else {
+                binding.sendButton.isEnabled = true
+                binding.sendButton.alpha = 1f
+            }
         }
 
+        binding.sendButton.setOnClickListener {
+            binding.loadingMessage.visibility = View.VISIBLE
+
+            binding.chatInputText.setText("")
+            chatList.add(ChatDataClass.Sent(input.toString()))
+            adapter.submitList(chatList)
+            adapter.notifyDataSetChanged()
+            viewModel.sendToChatGpt(input.toString())
+
+        }
+
+        // select Image
+
         binding.imageButton.setOnClickListener{
-            // select Image
             if (ContextCompat.checkSelfPermission(this.requireContext(),
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                 val intent = Intent()
@@ -74,24 +90,41 @@ class ChatFragment : Fragment() {
 
 
         viewModel.bitmap.observe(viewLifecycleOwner, Observer {
-            binding.testImage.setImageBitmap(it)
+            binding.loadingMessage.visibility = View.VISIBLE
+
+            // bind
+            chatList.add(ChatDataClass.Img(it))
+            adapter.submitList(chatList)
+            adapter.notifyDataSetChanged()
+
         })
 
-        binding.sendButton2.setOnClickListener{
-            // API vuttom
-            viewModel.addImage()
-        }
 
+        viewModel.path.observe(viewLifecycleOwner, Observer {
+            // POST img
+            viewModel.addImage(it)
+        })
+
+
+
+        viewModel.chatImgResponse.observe(viewLifecycleOwner, Observer {
+            binding.loadingMessage.visibility = View.GONE
+
+            chatList.add(ChatDataClass.Received(it!!))
+            adapter.submitList(chatList)
+            adapter.notifyDataSetChanged()
+
+
+        })
 
 
 
 
         viewModel.gptResponse.observe(viewLifecycleOwner, Observer {
+            binding.loadingMessage.visibility = View.GONE
+
             chatList.add(ChatDataClass.Received(it))
-            chatList.add(ChatDataClass.Img("aa"))
             adapter.submitList(chatList)
-            Log.i("CHAT1",chatList.toString())
-            Log.i("CHAT1",it)
             adapter.notifyDataSetChanged()
         })
 
@@ -110,7 +143,7 @@ class ChatFragment : Fragment() {
             viewModel.bitmap.value = BitmapFactory.decodeFile(path)
             Log.i("ttrryy", "bitmap: $viewModel.bitmap.valu")
 
-            viewModel.path = path
+            viewModel.path.value = path
 
         }
     }

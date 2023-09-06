@@ -7,34 +7,41 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.appworks.school.stylish.data.UserTrackingRequestBodyString
 import app.appworks.school.stylish.network.UserStylishApi
-import app.appworks.school.stylish.util.ABtest
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import app.appworks.school.stylish.data.ChatBoxBack
-import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
 
     var bitmap = MutableLiveData<Bitmap>()
 
-    var path: String = ""
+    var path = MutableLiveData<String>()
 
-    fun addImage() {
-        val file = File(path)
+    var chatImgResponse = MutableLiveData<String?>()
+
+
+    fun addImage(pathOK: String) {
+        val file = File(pathOK)
         val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
 
         viewModelScope.launch {
-            val response = UserStylishApi.retrofitService.userTrackingChatImage(body)
+            try {
+                val response = UserStylishApi.retrofitService.userTrackingChatImage(body)
+                chatImgResponse.value = response.chatResponse
 
-            Log.i("userTracking", "[login]: ${response.chatResponse}")
-            Log.i("userTracking", "[login]: ${response.errorMessage}")
-            Log.i("userTracking", "[login_content]: $response")
+                Log.i("chatImgResponse", "[chatImgResponse]: ${response.chatResponse}")
+                Log.i("chatImgResponse", "[chatImgResponse]: ${response.errorMessage}")
+                Log.i("chatImgResponse", "[chatImgResponse]: $response")
+
+            }catch (e: Exception) {
+                Log.i("chatImgResponse", "[chatImgResponse]: $e")
+                chatImgResponse.value = "Please upload the image again!"
+            }
+
         }
     }
 
@@ -45,6 +52,8 @@ class ChatViewModel : ViewModel() {
     val gptResponse: LiveData<String>
         get() = _gptResponse
 
+
+
     fun sendToChatGpt(message: String) {
 
         if (_isAvailableToSend) {
@@ -53,6 +62,7 @@ class ChatViewModel : ViewModel() {
                     val request = ChatBoxAPI(message)
                     val response = UserStylishApi.retrofitService.userTrackingChat(request)
                     _gptResponse.value = response.chatResponse!!
+
                     Log.i("CHAT", "_gptResponse.value: ${_gptResponse.value}")
 
                 } catch (e: Exception) {
@@ -60,6 +70,15 @@ class ChatViewModel : ViewModel() {
                 }
             }
             _isAvailableToSend = false
+        }
+    }
+
+
+    fun getDetail(productId: String) {
+        viewModelScope.launch{
+            Log.i("getDetail", "called")
+            val detailProduct = UserStylishApi.retrofitService.getDetailProduct(productId.toLong())
+            Log.i("getDetail", "$detailProduct")
         }
     }
 }

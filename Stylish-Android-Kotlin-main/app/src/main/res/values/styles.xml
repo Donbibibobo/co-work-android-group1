@@ -80,8 +80,12 @@
         <item name="colorAccent">@color/black_3f3a3a</item>
     </style>
 
-    <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">
+    <style name="ProgressTheme2" parent="Widget.AppCompat.ProgressBar">
         <item name="colorAccent">@color/white</item>
+    </style>
+
+    <style name="ProgressThemeDark" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/gray_f5f5f5</item>
     </style>
 
     <style name="MessageDialog">

@@ -129,6 +129,7 @@
 
     <!-- Chat Box -->
     <string name="chat">個人化推薦</string>
+    <string name="loading">Loading</string>
 
 
 

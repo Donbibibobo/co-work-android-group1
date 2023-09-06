@@ -26,21 +26,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:shapeAppearanceOverlay="@style/circular" />
 
+
+
         <TextView
                 android:id="@+id/received_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@drawable/background_received_message"
                 android:padding="16dp"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:text=""
-                app:layout_constraintStart_toEndOf="@id/gpt_thumbnail"
+                android:background="@drawable/background_received_message"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.8"
-                tools:text="hi" />
+                app:layout_constraintStart_toEndOf="@+id/gpt_thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="hi">
+        </TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

@@ -148,6 +148,12 @@ interface StylishApiService {
         @Query("userID") userId: String
     ): List<History>
 
+    // detail page
+    @GET("products/details")
+    suspend fun getDetailProduct(
+        @Query("id") id: Long
+    ): ProductListResult
+
     /**
      * Returns a Coroutine [Deferred] [UserSignInResult] which can be fetched with await() if in a Coroutine scope.
      * The @POST annotation indicates that the "user/signin" endpoint will be requested with the POST HTTP method

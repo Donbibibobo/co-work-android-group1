@@ -49,6 +49,7 @@ class ChatAdapter : ListAdapter<ChatDataClass, RecyclerView.ViewHolder>(DiffCall
 
         fun bind(product: ChatDataClass.Img) {
             binding.viewModel = product
+            binding.sentImg.setImageBitmap(product.bitmap)
             binding.executePendingBindings()
         }
     }

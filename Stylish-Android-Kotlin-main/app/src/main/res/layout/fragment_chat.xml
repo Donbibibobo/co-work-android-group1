@@ -8,6 +8,9 @@
                 name="viewModel"
                 type="app.appworks.school.stylish.chat.ChatViewModel" />
 
+        <variable name="roll" type="app.appworks.school.stylish.home.HomeViewModel"/>
+
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,14 +18,60 @@
             android:layout_height="match_parent"
             tools:context=".chat.ChatFragment">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/loading_message"
+                        android:elevation="10dp"
+                        android:layout_width="@dimen/size_message"
+                        android:layout_height="@dimen/size_message"
+                        android:background="@drawable/bg_message"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:alpha="0.8">
 
-        <ImageView
-                android:id="@+id/testImage"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/doc_text_magnifyingglass"/>
+                    <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:elevation="3dp"
+                            android:theme="@style/ProgressTheme2"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0"
+                            app:setupApiStatus="@{roll.status.LOADING}" />
+
+                    <TextView
+                            android:id="@+id/text_message_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:fontFamily="@font/noto_sans"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:text="@string/loading"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
 
         <ScrollView
                 android:layout_width="match_parent"
@@ -74,18 +123,9 @@
                 android:layout_margin="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                android:enabled="false"
+                android:alpha="0.6"/>
 
-        <Button
-                android:id="@+id/send_button2"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:text="API"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="100dp"/>
 
         <ImageButton
                 android:id="@+id/image_button"

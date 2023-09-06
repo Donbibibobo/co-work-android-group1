@@ -13,3 +13,8 @@ data class ProductListResult(
     @Json(name = "data") val products: List<Product>? = null,
     @Json(name = "next_paging") val paging: String? = null
 ) : Parcelable
+
+@Parcelize
+data class ProductListResultDetail(
+    @Json(name = "data") val products: Product? = null,
+) : Parcelable
