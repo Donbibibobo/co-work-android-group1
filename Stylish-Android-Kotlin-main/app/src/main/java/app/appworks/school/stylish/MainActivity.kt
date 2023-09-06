@@ -233,6 +233,7 @@ class MainActivity : BaseActivity() {
                 R.id.checkoutSuccessFragment -> CurrentFragmentType.CHECKOUT_SUCCESS
                 R.id.wishlistFragment -> CurrentFragmentType.WISHLIST
                 R.id.historyFragment -> CurrentFragmentType.HISTORY
+                R.id.chatFragment -> CurrentFragmentType.CHATBOX
                 else -> viewModel.currentFragmentType.value
             }
         }

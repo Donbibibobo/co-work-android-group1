@@ -16,7 +16,8 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.App.Starting"
             tools:ignore="AllowBackup"
-            android:requestLegacyExternalStorage="true">
+            android:requestLegacyExternalStorage="true"
+            android:windowSoftInputMode="adjustPan">
         <activity
                 android:name=".MainActivity"
                 android:screenOrientation="sensorPortrait"

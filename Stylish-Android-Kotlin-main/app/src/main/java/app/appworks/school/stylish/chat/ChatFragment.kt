@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import app.appworks.school.stylish.MainActivity
+import androidx.compose.animation.core.animateDpAsState
+import androidx.test.core.app.canTakeScreenshot
 import app.appworks.school.stylish.databinding.FragmentChatBinding
 import app.appworks.school.stylish.util.RealPathUtil
 import okhttp3.MediaType
@@ -38,26 +40,23 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentChatBinding.inflate(inflater)
+        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+        binding.viewModel = viewModel
 
-        viewModel = ViewModelProvider(this)[ChatViewModel::class.java]
 
-        val input = listOf(binding.gptInputText.text.toString())
+        var input = binding.chatInputText.text
         val adapter = ChatAdapter()
-
         val chatList = mutableListOf<ChatDataClass>()
-
-        val sen1 = ChatDataClass.Sent("Who are you?")
-        val received1 = ChatDataClass.Received("I'm chat!")
-
-        chatList.add(sen1)
-        chatList.add(received1)
 
         binding.gptRecyclerView.adapter = adapter
 
         binding.sendButton.setOnClickListener {
+            chatList.add(ChatDataClass.Sent(input.toString()))
             adapter.submitList(chatList)
 
             // POST sent
+            adapter.notifyDataSetChanged()
+            viewModel.sendToChatGpt(input.toString())
         }
 
         binding.imageButton.setOnClickListener{
@@ -87,22 +86,14 @@ class ChatFragment : Fragment() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        viewModel.gptResponse.observe(viewLifecycleOwner, Observer {
+            chatList.add(ChatDataClass.Received(it))
+            chatList.add(ChatDataClass.Img("aa"))
+            adapter.submitList(chatList)
+            Log.i("CHAT1",chatList.toString())
+            Log.i("CHAT1",it)
+            adapter.notifyDataSetChanged()
+        })
 
         return binding.root
     }
