@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearSnapHelper
 import app.appworks.school.stylish.NavigationDirections
+import app.appworks.school.stylish.databinding.ActivityMainBinding
 import app.appworks.school.stylish.databinding.FragmentDetailBinding
 import app.appworks.school.stylish.ext.getVmFactoryWithContext
 import app.appworks.school.stylish.util.ABtest
@@ -44,6 +45,7 @@ class DetailFragment : Fragment() {
     ): View? {
 //        init()
         val binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val mainBinding = ActivityMainBinding.inflate(inflater, container, false)
         binding.buttonDetailMessage.isEnabled = false
         binding.buttonDetailMessage.alpha = 0.3f
 
@@ -58,9 +60,14 @@ class DetailFragment : Fragment() {
 
         val keywordAdapter = DetailKeyWordAdapter()
         binding.keywordRecyclerView.adapter = keywordAdapter
-        keywordAdapter.submitList(viewModel.product.value?.keywords)
-        Log.i("KEYWORD", "KEYWORD:${viewModel.product.value?.keywords}")
+        binding.tag.visibility = GONE
 
+        if (
+            viewModel.product.value?.keywords != null) {
+            binding.tag.visibility = VISIBLE
+            keywordAdapter.submitList(viewModel.product.value?.keywords)
+            Log.i("KEYWORD", "KEYWORD:${viewModel.product.value?.keywords}")
+        }
 
 
 //        activate star button
@@ -110,6 +117,7 @@ class DetailFragment : Fragment() {
         binding.recyclerDetailMessage.adapter = detailMessageAdapter
 
 
+
         binding.messageInput.doAfterTextChanged {
             if (it.toString() != "") {
                 binding.buttonDetailMessage.isEnabled = true
@@ -126,6 +134,7 @@ class DetailFragment : Fragment() {
             viewModel.reviewSubmit(editMessage.toString())
             Log.i("teeee", "$messageList")
             detailMessageAdapter.notifyDataSetChanged()
+            binding.messageInput.text = null
         }
 
 

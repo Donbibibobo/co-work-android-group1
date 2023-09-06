@@ -105,6 +105,14 @@
                 app:price="@{product.price}"
                 tools:text="NT$9527" />
 
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:background="#CCCCCC"
+                app:layout_constraintTop_toBottomOf="@+id/image_payment_main"/>
+
 
 
 <!--        <TextView-->

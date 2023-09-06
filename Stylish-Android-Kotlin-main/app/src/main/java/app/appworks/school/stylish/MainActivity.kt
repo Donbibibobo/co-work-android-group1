@@ -26,6 +26,7 @@ import androidx.navigation.ui.NavigationUI
 import app.appworks.school.stylish.databinding.ActivityMainBinding
 import app.appworks.school.stylish.databinding.BadgeBottomBinding
 import app.appworks.school.stylish.databinding.NavHeaderDrawerBinding
+import app.appworks.school.stylish.detail.DetailFragment
 import app.appworks.school.stylish.dialog.MessageDialog
 import app.appworks.school.stylish.ext.getVmFactory2
 import app.appworks.school.stylish.login.UserManager
@@ -179,18 +180,20 @@ class MainActivity : BaseActivity() {
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToHomeFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.navigation_catalog -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCatalogFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.navigation_cart -> {
 
                     findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToCartFragment())
                     return@setOnItemSelectedListener true
                 }
-                R.id.navigation_profile -> {
 
+                R.id.navigation_profile -> {
                     when (viewModel.isLoggedIn) {
                         true -> {
                             findNavController(R.id.myNavHostFragment).navigate(
@@ -199,6 +202,7 @@ class MainActivity : BaseActivity() {
                                 )
                             )
                         }
+
                         false -> {
                             findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLoginDialog())
                             return@setOnItemSelectedListener false
@@ -236,6 +240,36 @@ class MainActivity : BaseActivity() {
                 R.id.chatFragment -> CurrentFragmentType.CHATBOX
                 else -> viewModel.currentFragmentType.value
             }
+            viewModel.version.observe(this) {
+                if (it == "A") {
+                    when (navController.currentDestination?.id) {
+                        R.id.homeFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.catalogFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.cartFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.profileFragment -> binding.shipment.visibility = View.GONE
+                        R.id.detailFragment -> binding.shipment.visibility = View.GONE
+                        R.id.paymentFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.checkoutSuccessFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.wishlistFragment -> binding.shipment.visibility = View.GONE
+                        R.id.historyFragment -> binding.shipment.visibility = View.GONE
+                        R.id.chatFragment -> binding.shipment.visibility = View.GONE
+                    }
+                }
+                else{
+                    when (navController.currentDestination?.id) {
+                        R.id.homeFragment -> binding.shipment.visibility = View.GONE
+                        R.id.catalogFragment -> binding.shipment.visibility = View.GONE
+                        R.id.cartFragment -> binding.shipment.visibility = View.GONE
+                        R.id.profileFragment -> binding.shipment.visibility = View.GONE
+                        R.id.detailFragment -> binding.shipment.visibility = View.GONE
+                        R.id.paymentFragment -> binding.shipment.visibility = View.VISIBLE
+                        R.id.checkoutSuccessFragment -> binding.shipment.visibility = View.GONE
+                        R.id.wishlistFragment -> binding.shipment.visibility = View.GONE
+                        R.id.historyFragment -> binding.shipment.visibility = View.GONE
+                        R.id.chatFragment -> binding.shipment.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 
@@ -261,15 +295,24 @@ class MainActivity : BaseActivity() {
                 cutoutHeight > 0 -> {
                     Logger.i("cutoutHeight: ${cutoutHeight}px/${cutoutHeight / dpiMultiple}dp")
 
-                    val oriStatusBarHeight = resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
+                    val oriStatusBarHeight =
+                        resources.getDimensionPixelSize(R.dimen.height_status_bar_origin)
 
                     binding.toolbar.setPadding(0, oriStatusBarHeight, 0, 0)
-                    val layoutParams = Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT)
+                    val layoutParams = Toolbar.LayoutParams(
+                        Toolbar.LayoutParams.WRAP_CONTENT,
+                        Toolbar.LayoutParams.WRAP_CONTENT
+                    )
                     layoutParams.gravity = Gravity.CENTER
 
                     when (Build.MODEL) {
-                        "Pixel 5" -> { Logger.i("Build.MODEL is ${Build.MODEL}") }
-                        else -> { layoutParams.topMargin = statusBarHeight - oriStatusBarHeight }
+                        "Pixel 5" -> {
+                            Logger.i("Build.MODEL is ${Build.MODEL}")
+                        }
+
+                        else -> {
+                            layoutParams.topMargin = statusBarHeight - oriStatusBarHeight
+                        }
                     }
                     binding.imageToolbarLogo.layoutParams = layoutParams
                     binding.textToolbarTitle.layoutParams = layoutParams
@@ -296,7 +339,11 @@ class MainActivity : BaseActivity() {
         binding.drawerLayout.clipToPadding = false
 
         actionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this, binding.drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this,
+            binding.drawerLayout,
+            binding.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         ) {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
@@ -305,6 +352,7 @@ class MainActivity : BaseActivity() {
                     true -> {
                         viewModel.checkUser()
                     }
+
                     else -> {
                         findNavController(R.id.myNavHostFragment).navigate(NavigationDirections.navigateToLoginDialog())
                         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
